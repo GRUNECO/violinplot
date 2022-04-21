@@ -3,7 +3,7 @@ import seaborn as sns
 import pandas as pd
 from datasets import BIOMARCADORES
 from datasets import SRM
-from Graphics.graphicsViolin import get_dataframe_wica
+from Graphics.graphicsViolin import get_dataframe_reject
 import numpy as np
 import itertools
 from pprint import pprint
