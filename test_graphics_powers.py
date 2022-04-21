@@ -9,6 +9,8 @@ import itertools
 from pprint import pprint
 
 # CHBMP, LEMON
+from matplotlib.gridspec import GridSpec
+
 Studies=[BIOMARCADORES,SRM]
 #Studies_test=[BIOMARCADORES_test,SRM_test]
 
@@ -122,7 +124,7 @@ def filter_1S_1G_1B(data,name_study,name_band,name_group):
     return filter 
 
 def compare_nS_1G_nB(data,dict_info,plot=False):
-    fig,axs=plt.subplots(len(dict_info.keys()),7,constrained_layout=True)
+    fig,axs=plt.subplots(len(dict_info.keys()),7,sharex=True)
     #fig=plt.figure(figsize=(30,60), dpi=30)
     bands=data['Bands'].unique()
     for j,band in enumerate(bands):     
@@ -143,7 +145,6 @@ def compare_nS_1G_nB(data,dict_info,plot=False):
         plt.show()
     return fig 
 
-
 #POTENCIAS POR VISITA 
 
 def compare_1S_1V_nB(data,name_study,name_session,plot=False):
@@ -160,16 +161,38 @@ def compare_1S_1V_nB(data,name_study,name_session,plot=False):
         plt.show()
     return fig 
 
-def filter_1S_1V_1B(data,name_study,name_session,name_band):
-    b=np.logical_and(data["Bands"]==name_band, data["Study"]==name_study,data["Session"]==name_session)
+def filter_1S_1V_1B(data,name_study,name_band):
+    b=np.logical_and(data["Bands"]==name_band, data["Study"]==name_study)
     filter=data[b]
     return filter
 
+def compare_1S_nV_nB(data,name_study,plot=False): 
+    sessions=data['Session'].unique()
+    rows=3
+    cols=3
+    fig,axs=plt.subplots(rows,cols,figsize=(6,12))
+    #fig = plt.figure(figsize=(6, 6))
+    #grid = plt.GridSpec(4, 4, hspace=0.2, wspace=0.2)
+    bands=data['Bands'].unique()
+    rows=np.arange(rows).repeat(3)
+    columnas=np.concatenate((np.array([np.arange(3)]*3)))
+    for row,col,band in zip(rows,columnas,bands):
+    #for num,band in enumerate(band):
+        filter_group=filter_1S_1V_1B(data,name_study,band)
+        sns.violinplot(x='Session',y="Powers",data=filter_group,ax=axs[row,col])
+        #axs[row,col].set_title(band)
+    plt.tight_layout()     
+    if plot:
+        plt.show()
+    return fig  
 
-compare_nS_nB_power(datosPowers,name_channel='FPZ',plot=True)
-compare_nS_nB_power(datosPowers,name_channel="None",plot=True)
 
 #def compare_nS_1V_nB(data,dict_info,plot=False)
+
+info={
+    'BIOMARCADORES':['V1','V2','V3','V4'],
+}
+compare_1S_nV_nB(datosPowers,'BIOMARCADORES',True)
 
 '''
 

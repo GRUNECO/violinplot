@@ -1,5 +1,4 @@
-
-from backend.Graphics.graphicsViolin import get_dataframe_prep
+from Graphics.graphicsViolin import get_dataframe_prep
 
 import matplotlib.pyplot as plt 
 import seaborn as sns
