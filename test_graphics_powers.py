@@ -2,15 +2,15 @@ from tokenize import group
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from datasets import BIOMARCADORES_test, SRM_test,BIOMARCADORES,SRM
+from datasets import CHBMP, LEMON,BIOMARCADORES,SRM
 from Graphics.graphicsViolin import get_dataframe_powers
 import numpy as np
 import itertools
 from pprint import pprint
 
-
+# CHBMP, LEMON
 Studies=[BIOMARCADORES,SRM]
-Studies_test=[BIOMARCADORES_test,SRM_test]
+#Studies_test=[BIOMARCADORES_test,SRM_test]
 
 datosPowers=get_dataframe_powers(Studies)
 
@@ -166,6 +166,9 @@ def filter_1S_1V_1B(data,name_study,name_session,name_band):
     return filter
 
 
+compare_nS_nB_power(datosPowers,name_channel='FPZ',plot=True)
+compare_nS_nB_power(datosPowers,name_channel="None",plot=True)
+
 #def compare_nS_1V_nB(data,dict_info,plot=False)
 
 '''
@@ -184,15 +187,16 @@ compare_nS_nB_power(datosPowers,name_channel="None",plot=True)
 
 # 1  grupo
 
+'''
 # n grupos
 info={
-    'BIOMARCADORES':'G1',
+    'BIOMARCADORES':'CTR',
     'SRM':''
 }
 compare_nS_1G_nB(datosPowers,info,True)
 
-
+'''
 # sessions
 compare_1S_1V_nB(datosPowers,'SRM','t1',plot=True)
-
 '''
+
