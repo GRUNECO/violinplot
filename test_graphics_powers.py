@@ -187,6 +187,7 @@ def compare_1S_nV_nB(data,name_study):
         plt.xticks(fontsize=40)
         plt.yticks(fontsize=40) 
         figures.append(fig)
+        
 
     createCollage(figures,800,3)    
     return   
