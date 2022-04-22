@@ -2,17 +2,19 @@ from tokenize import group
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from datasets import BIOMARCADORES_test, SRM_test,BIOMARCADORES,SRM
+from datasets import CHBMP, LEMON,BIOMARCADORES,SRM
 from Graphics.graphicsViolin import get_dataframe_powers
 import numpy as np
 import itertools
 from pprint import pprint
+
+# CHBMP, LEMON
 from matplotlib.gridspec import GridSpec
 
 Studies=[BIOMARCADORES,SRM]
-Studies_test=[BIOMARCADORES_test,SRM_test]
+#Studies_test=[BIOMARCADORES_test,SRM_test]
 
-datosPowers=get_dataframe_powers(Studies_test)
+datosPowers=get_dataframe_powers(Studies)
 
 # POTENCIAS ENTRE ESTUDIOS 
 
@@ -185,6 +187,8 @@ def compare_1S_nV_nB(data,name_study,plot=False):
     return fig  
 
 
+#def compare_nS_1V_nB(data,dict_info,plot=False)
+
 info={
     'BIOMARCADORES':['V1','V2','V3','V4'],
 }
@@ -206,15 +210,16 @@ compare_nS_nB_power(datosPowers,name_channel="None",plot=True)
 
 # 1  grupo
 
+'''
 # n grupos
 info={
-    'BIOMARCADORES':'G1',
+    'BIOMARCADORES':'CTR',
     'SRM':''
 }
 compare_nS_1G_nB(datosPowers,info,True)
 
-
+'''
 # sessions
 compare_1S_1V_nB(datosPowers,'SRM','t1',plot=True)
-
 '''
+
