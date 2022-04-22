@@ -74,7 +74,7 @@ def compare_1S_nV_nM_prep(data,name_study,title):
         fig, ax = plt.subplots(figsize=(15,10))
         filt_study=data["Study"]==name_study
         filter=data[filt_study]
-        ax=sns.violinplot(x='Session',y=metric,data=filter,ax=ax)
+        ax=sns.violinplot(x='Session',y=metric,data=filter,ax=ax,hue='Study')
         plt.title(metric +' '+ title,fontsize=40)
         plt.xticks(fontsize=40)
         plt.yticks(fontsize=40) 
@@ -84,9 +84,7 @@ def compare_1S_nV_nM_prep(data,name_study,title):
     return
 
 
-compare_1S_nV_nM_prep(dataPrepOriginal,'BIOMARCADORES','ORIGINAL')
-compare_1S_nV_nM_prep(dataPrepBefore,'BIOMARCADORES','BEFORE')
-compare_1S_nV_nM_prep(dataPrepAfter,'BIOMARCADORES','AFTER')
+
 '''
 # 1 estudio
 compare_1S_nM_prep(dataPrepOriginal,'BIOMARCADORES','ORIGINAL')
@@ -114,4 +112,9 @@ compare_nS_nG_nB_prep(dataPrepAfter,group_dict,'AFTER')
 compare_nS_nG_nB_prep(dataPrepOriginal,group_dict2,'ORIGINAL')
 compare_nS_nG_nB_prep(dataPrepBefore,group_dict2,'BEFORE')
 compare_nS_nG_nB_prep(dataPrepAfter,group_dict2,'AFTER')
+
+# n visitas 
+compare_1S_nV_nM_prep(dataPrepOriginal,'BIOMARCADORES','ORIGINAL')
+compare_1S_nV_nM_prep(dataPrepBefore,'BIOMARCADORES','BEFORE')
+compare_1S_nV_nM_prep(dataPrepAfter,'BIOMARCADORES','AFTER')
 '''
