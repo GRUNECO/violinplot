@@ -367,7 +367,7 @@ def get_dataframe_prep(Studies):
     if group_regex:
       list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
     else:
-      list_groups=list_subjects
+      list_groups=list_studies
     list_sessions=[info['session'] for info in list_info]
     list_Prep=indicesPrep(stats_prep,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions)
     dataframesPrepOriginal.append(list_Prep[0])
@@ -380,4 +380,20 @@ def get_dataframe_prep(Studies):
 
 
 # FILTROS
+def filter_nS_nG_1M(superdata,group_dict):
+    """
+    group_dict={
+        'BIOMARCADORES':[CTR,DCL],
+        'SRM':['SRM'] # assume datasets with no groups have Group=Study
+    }
+    
+    """
+    fil=superdata
+    list_df=[]
 
+    for dataset,group_list in group_dict.items():
+        for group in group_list:
+            auxfil = fil[fil['Group']==group]
+            list_df.append(auxfil)
+    df=pd.concat((list_df))
+    return df

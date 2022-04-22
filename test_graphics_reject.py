@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test
-from Graphics.graphicsViolin import get_dataframe_reject,create_collage,createCollage
+from Graphics.graphicsViolin import get_dataframe_reject,create_collage,createCollage,filter_nS_nG_1M
 import numpy as np
 from pprint import pprint
 
@@ -74,23 +74,6 @@ def compare_nS_0C_nM_reject(data):
     return 
 
 # GRUPO
-def filter_nS_nG_1M_reject(superdata,group_dict):
-    """
-    group_dict={
-        'BIOMARCADORES':[CTR,DCL],
-        'SRM':['SRM'] # assume datasets with no groups have Group=Study
-    }
-    
-    """
-    fil=superdata
-    list_df=[]
-
-    for dataset,group_list in group_dict.items():
-        for group in group_list:
-            auxfil = fil[fil['Group']==group]
-            list_df.append(auxfil)
-    df=pd.concat((list_df))
-    return df
 
 def compare_nS_nG_nB_reject(data,dict_info):
     figures_i=[]
@@ -99,7 +82,7 @@ def compare_nS_nG_nB_reject(data,dict_info):
     metrics=filter_study.keys()
     for i,metric in enumerate(metrics[0:5]):
         fig, ax = plt.subplots(figsize=(15,10))
-        filter_group=filter_nS_nG_1M_reject(data,dict_info)
+        filter_group=filter_nS_nG_1M(data,dict_info)
         #filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
         ax=sns.violinplot(x='Group',y=metric,data=filter_group,ax=ax,hue='Study')
         #ax.get_legend().remove()
@@ -109,7 +92,7 @@ def compare_nS_nG_nB_reject(data,dict_info):
         figures_i.append(fig)
     for i,metric in enumerate(metrics[5:]):
         fig, ax = plt.subplots(figsize=(15,10))
-        filter_group=filter_nS_nG_1M_reject(data,dict_info)
+        filter_group=filter_nS_nG_1M(data,dict_info)
         #filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
         ax=sns.violinplot(x='Group',y=metric,data=filter_group,ax=ax,hue='Study')
         #ax.get_legend().remove()
