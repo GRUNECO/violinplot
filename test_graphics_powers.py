@@ -2,8 +2,8 @@ from tokenize import group
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from datasets import CHBMP, LEMON,BIOMARCADORES,SRM
-from Graphics.graphicsViolin import get_dataframe_powers
+from datasets import CHBMP, LEMON,BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test
+from Graphics.graphicsViolin import get_dataframe_powers,create_collage,createCollage
 import numpy as np
 import itertools
 from pprint import pprint
@@ -12,10 +12,10 @@ from pprint import pprint
 from matplotlib.gridspec import GridSpec
 
 Studies=[BIOMARCADORES,SRM]
-#Studies_test=[BIOMARCADORES_test,SRM_test]
+Studies_test=[BIOMARCADORES_test,SRM_test]
 
 datosPowers=get_dataframe_powers(Studies)
-
+#print(datosPowers['Session'].unique())
 # POTENCIAS ENTRE ESTUDIOS 
 
 def compare_1S_nB_0C_power(data,name_study,plot=False):
@@ -80,6 +80,7 @@ def compare_nS_nB_power(data,name_channel="None",plot=False):
     #en un canal especifico
     if name_channel != "None":
         for col,band in zip(range(cols),bandas):
+            fig, ax = plt.subplots()
             filter= filter_nS_1B_1C_power(data,band,name_channel) 
             sns.violinplot(x='Study',y="Powers",data=filter,ax=axs[col],scale_hue=True,scale='width')
             axs[col].set_title(band+' '+name_channel)
@@ -89,9 +90,10 @@ def compare_nS_nB_power(data,name_channel="None",plot=False):
     
     else: 
         #sin distinguir el canal
-        for col,band in zip(range(cols),bandas):
+        for band in zip(range(cols),bandas):
+            fig, ax = plt.subplots()
             filter= filter_nS_nB_0C_power(data,band)
-            sns.violinplot(x='Study',y="Powers",data=filter,ax=axs[col])
+            sns.violinplot(x='Study',y="Powers",data=filter,ax=axs)
             axs[col].set_title(band)
         plt.tight_layout(pad=0.4, w_pad=0.0001, h_pad=0.8)
         if plot:
@@ -114,36 +116,44 @@ def compare_1S_1G_nB_0C_power(data,name_study,name_group,plot=False):
     fig, ax = plt.subplots(1,1)
     fig.set_size_inches(len(bandas)*2,10)
     sns.violinplot(x='Bands',y="Powers",data=filter)
+    plt.title(name_study +' '+name_group)
     if plot:
         plt.show()
     return fig 
 
-def filter_1S_1G_1B(data,name_study,name_band,name_group):
-    fil=np.logical_and(data["Bands"]==name_band, data["Study"]==name_study,data["Group"]==name_group)
-    filter=data[fil]
-    return filter 
+def filter_nS_nG_1B(superdata,group_dict,name_band):
+    """
+    group_dict={
+        'BIOMARCADORES':[CTR,DCL],
+        'SRM':['SRM'] # assume datasets with no groups have Group=Study
+    }
+    
+    """
+    fil=superdata[superdata["Bands"]==name_band]
+    list_df=[]
 
-def compare_nS_1G_nB(data,dict_info,plot=False):
-    fig,axs=plt.subplots(len(dict_info.keys()),7,sharex=True)
-    #fig=plt.figure(figsize=(30,60), dpi=30)
+    for dataset,group_list in group_dict.items():
+        for group in group_list:
+            auxfil = fil[fil['Group']==group]
+            list_df.append(auxfil)
+    df=pd.concat((list_df))
+    return df
+
+def compare_nS_nG_nB(data,dict_info):
+    figures=[]
     bands=data['Bands'].unique()
-    for j,band in enumerate(bands):     
-        for i,key in enumerate(dict_info):
-            if dict_info[key]==list: 
-                for value in dict_info[key]:
-                    filter_group=filter_1S_1G_1B(data,key,band,value)
-                    sns.violinplot(x='Study',y="Powers",data=filter_group,ax=axs[i,j])
-                    axs[i,j].set_title(band)
-            else:
-                filter_group=filter_1S_1G_1B(data,key,band,dict_info[key])
-                sns.violinplot(x='Study',y="Powers",data=filter_group,ax=axs[i,j])
-                if dict_info[key]=='':
-                  axs[i,j].set_title(band +' CTR')      
-                axs[i,j].set_title(band +dict_info[key])            
-    plt.tight_layout()     
-    if plot:
-        plt.show()
-    return fig 
+    for j,band in enumerate(bands):
+        fig, ax = plt.subplots()
+        filter_group=filter_nS_nG_1B(data,dict_info,band)
+        filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
+        ax=sns.violinplot(x='Group',y="Powers",data=filter_group,ax=ax,hue='Study')
+
+        ax.get_legend().remove()
+        plt.title(band)   
+        #plt.legend(bbox_to_anchor=(1, 2), loc=2, borderaxespad=0.5)
+        figures.append(fig)
+    createCollage(figures,800,3)      
+    return 
 
 #POTENCIAS POR VISITA 
 
@@ -166,60 +176,47 @@ def filter_1S_1V_1B(data,name_study,name_band):
     filter=data[b]
     return filter
 
-def compare_1S_nV_nB(data,name_study,plot=False): 
+def compare_1S_nV_nB(data,name_study): 
     sessions=data['Session'].unique()
     rows=3
     cols=3
-    fig,axs=plt.subplots(rows,cols,figsize=(6,12))
-    #fig = plt.figure(figsize=(6, 6))
-    #grid = plt.GridSpec(4, 4, hspace=0.2, wspace=0.2)
     bands=data['Bands'].unique()
     rows=np.arange(rows).repeat(3)
     columnas=np.concatenate((np.array([np.arange(3)]*3)))
-    for row,col,band in zip(rows,columnas,bands):
-    #for num,band in enumerate(band):
+    figures=[]
+    for num,band in enumerate(bands):
+        fig, ax = plt.subplots()
         filter_group=filter_1S_1V_1B(data,name_study,band)
-        sns.violinplot(x='Session',y="Powers",data=filter_group,ax=axs[row,col])
-        #axs[row,col].set_title(band)
-    plt.tight_layout()     
-    if plot:
-        plt.show()
-    return fig  
+        ax=sns.violinplot(x='Session',y="Powers",data=filter_group,ax=ax)
+        plt.title(band)
+        figures.append(fig)
 
+    createCollage(figures,800,3)    
+    return   
 
-#def compare_nS_1V_nB(data,dict_info,plot=False)
-
-info={
-    'BIOMARCADORES':['V1','V2','V3','V4'],
-}
-compare_1S_nV_nB(datosPowers,'BIOMARCADORES',True)
 
 '''
 
 # 1 estudio
 compare_1S_nB_0C_power(datosPowers,'SRM',plot=True)
 compare_1S_1B_nC_power(datosPowers,'SRM','delta',plot=True)
-# n estudios 
-create_collage(3,3,1200, 1000, compare_nS_7B_power(datosPowers,'FPZ'),'FPZ')
-create_collage(3,3,1200, 1000, compare_nS_7B_power(datosPowers))
-para evitar guardar imágenes usar estas funciones
 
-#NOTA: ORGANIZAR PARA QUE SALGAN POR ROWS Y COLS
+# n estudios 
+#NOTA: ORGANIZAR PARA QUE SALGAN POR ROWS Y COLS PREGUNTAR
 compare_nS_nB_power(datosPowers,name_channel='FPZ',plot=True)
 compare_nS_nB_power(datosPowers,name_channel="None",plot=True)
 
 # 1  grupo
-
-'''
-# n grupos
+compare_1S_1G_nB_0C_power(datosPowers,'BIOMARCADORES','G1',plot=True)
+# n grupos 
 info={
-    'BIOMARCADORES':'CTR',
-    'SRM':''
+    'SRM':['SRM'],
+    'BIOMARCADORES':['G1','CTR']
 }
-compare_nS_1G_nB(datosPowers,info,True)
+compare_nS_nG_nB(datosPowers,info)
 
+# 1 sessions
+compare_1S_1V_nB(datosPowers,'BIOMARCADORES','G1',True)
+# n sessions 
+compare_1S_nV_nB(datosPowers,'BIOMARCADORES')
 '''
-# sessions
-compare_1S_1V_nB(datosPowers,'SRM','t1',plot=True)
-'''
-

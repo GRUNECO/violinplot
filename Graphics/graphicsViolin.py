@@ -11,6 +11,7 @@ from PIL import Image
 from bids import BIDSLayout
 from bids.layout import parse_file_entities
 import re
+from numpy import ceil 
 
 def load_txt(file):
   '''
@@ -189,16 +190,62 @@ def rejectGraphic(files,list_studies=None,list_subjects=None,list_groups=None,li
   dataReject=pd.concat((dataframesReject))
   return dataReject
 
-def create_collage(cols,rows,width, height, listofimages,channel="None"):
+def fig2img(fig):
+  """Convert a Matplotlib figure to a PIL Image and return it"""
+  import io
+  buf = io.BytesIO()
+  fig.savefig(buf)
+  buf.seek(0)
+  img = Image.open(buf)
+  return img
+def getSize(imageList):
+    for image in imageList:
+        img_width, img_height = image.size
+    return img_width, img_height
+
+def createCollage(imageList, frame_width, images_per_row):
+    imageList=[fig2img(x) for x in imageList] 
+    img_width, img_height = getSize(imageList)
+    #scaling factor
+    sf = (frame_width-(images_per_row-1))/(images_per_row*img_width)
+
+    scaled_img_width =int(ceil(img_width*sf))
+    scaled_img_height =int(ceil(img_height*sf))
+
+    number_of_rows = int(ceil(len(imageList)/images_per_row))
+    frame_height = int(ceil(sf*img_height*number_of_rows))
+
+    new_im = Image.new('RGB', (frame_width, frame_height),'white')
+
+    i,j=0,0
+    for num, im in enumerate(imageList):
+        if num%images_per_row==0:
+            i=0
+        
+        #resizing opened image
+        im.thumbnail((scaled_img_width,scaled_img_height))
+        #Iterate through a 3 x 3 grid
+        y_cord = (j//images_per_row)*scaled_img_height
+        y_cord=int(y_cord)
+        new_im.paste(im, (i,y_cord))
+        # print(i, y_cord)
+        i=(i+scaled_img_width)
+        j+=1
+    new_im.show()
+    #new_im.save("collage.png", "PNG")
+    
+
+def create_collage(cols,rows,width, height, listofimages):
   thumbnail_width = width//cols
   thumbnail_height = height//rows
   size = thumbnail_width, thumbnail_height
   new_im = Image.new('RGB', (width, height), 'white')
   ims = []
   for p in listofimages:
-      im = Image.open(p)
-      im.thumbnail(size)
-      ims.append(im)
+    #im = Image.open(p)
+    #im.thumbnail(size)
+    #ims.append(im)
+    ims.append(fig2img(p).thumbnail(size))
   i = 0
   x = 0
   y = 0
@@ -212,10 +259,7 @@ def create_collage(cols,rows,width, height, listofimages,channel="None"):
             x += thumbnail_width
       y += thumbnail_height 
       x = 0
-  if channel != "None":
-    new_im.save("Images/Collage"+'_'+channel+'.jpg')
-  else:
-    new_im.save("Images/Collage.jpg")
+  plt.imshow(new_im)
   return 
 
 def final_rejection_percentages(listIn,data,keyInput):
@@ -262,7 +306,7 @@ def get_dataframe_powers(Studies):
     if group_regex:
       list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
     else:
-      list_groups=list_subjects
+      list_groups=list_studies
     list_sessions=[info['session'] for info in list_info]
     dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
             
@@ -281,7 +325,7 @@ def get_dataframe_reject(Studies):
     if group_regex:
       list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
     else:
-      list_groups=list_subjects
+      list_groups=list_studies
     list_sessions=[info['session'] for info in list_info]
     dataframesReject.append(rejectGraphic(stats_reject,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
         
@@ -301,7 +345,7 @@ def get_dataframe_wica(Studies):
     if group_regex:
       list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
     else:
-      list_groups=list_subjects
+      list_groups=list_studies
     list_sessions=[info['session'] for info in list_info]
     dataframesWica.append(indicesWica(stats_wica,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
         
