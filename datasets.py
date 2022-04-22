@@ -1,7 +1,7 @@
 BIOMARCADORES = {
     'name':'BIOMARCADORES',
-    'input_path':r'D:\WEB\backend\filesSaved\BIOMARCADORES',
-    #'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\BIOMARCADORES_BIDS',
+    #'input_path':r'D:\WEB\backend\filesSaved\BIOMARCADORES',
+    'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\BIOMARCADORES_BIDS',
     'layout':{'extension':'.vhdr', 'task':'OE','suffix':'eeg', 'return_type':'filename'},
     'args':{'line_freqs':[60]},
     'group_regex':'(.+).{3}',
@@ -33,8 +33,8 @@ SRM_test = {
 
 SRM= {
     'name':'SRM',
-    'input_path':r'D:\WEB\backend\filesSaved\SRM',
-    #'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\SRM',
+    #'input_path':r'D:\WEB\backend\filesSaved\SRM',
+    'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\SRM',
     'layout':{'extension':'.edf', 'task':'resteyesc','suffix':'eeg', 'return_type':'filename'},
     'args':{'line_freqs':[50]},
     'group_regex':None,
@@ -48,7 +48,8 @@ CHBMP = {
     'args':{'line_freqs':[60],},
     'group_regex':None,
     'events_to_keep':[65],
-    'run-label':'restEC'
+    'run-label':'restEC',
+    'session':None
 }
 
 LEMON = {
@@ -58,5 +59,6 @@ LEMON = {
     'args':{'resample':1000,'line_freqs':[50],},
     'group_regex':None,
     'events_to_keep':[5],
-    'run-label':'restEC'
+    'run-label':'restEC',
+    'session':None
 }

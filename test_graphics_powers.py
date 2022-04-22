@@ -11,8 +11,9 @@ from pprint import pprint
 # CHBMP, LEMON
 from matplotlib.gridspec import GridSpec
 
-Studies=[BIOMARCADORES,SRM]
-Studies_test=[BIOMARCADORES_test,SRM_test]
+#Studies=[CHBMP,LEMON,BIOMARCADORES,SRM]
+Studies=[LEMON]
+#Studies_test=[BIOMARCADORES_test,SRM_test]
 
 datosPowers=get_dataframe_powers(Studies)
 
@@ -207,13 +208,13 @@ def compare_1S_nV_nB(data,name_study):
     createCollage(figures,800,3)    
     return   
 
-'''
+
 # TOTAL
 compare_nD(datosPowers,plot=True)
 
 # 1 estudio
-compare_1S_nB_0C_power(datosPowers,'SRM',plot=True)
-compare_1S_1B_nC_power(datosPowers,'SRM','delta',plot=True)
+compare_1S_nB_0C_power(datosPowers,'LEMON',plot=True)
+compare_1S_1B_nC_power(datosPowers,'LEMON','delta',plot=True)
 
 # n estudios 
 #NOTA: ORGANIZAR PARA QUE SALGAN POR ROWS Y COLS PREGUNTAR
@@ -233,4 +234,3 @@ compare_nS_nG_nB(datosPowers,info)
 compare_1S_1V_nB(datosPowers,'BIOMARCADORES','G1',True)
 # n sessions 
 compare_1S_nV_nB(datosPowers,'BIOMARCADORES')
-'''

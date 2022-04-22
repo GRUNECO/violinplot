@@ -1,3 +1,4 @@
+from requests import session
 import seaborn as sns
 import json
 from matplotlib import pyplot as plt
@@ -288,15 +289,16 @@ def get_information_data(THE_DATASET):
   group_regex = THE_DATASET.get('group_regex',None)
   name = THE_DATASET.get('name',None)
   runlabel = THE_DATASET.get('run-label','')
+  session_set = THE_DATASET.get('session',None)
   data_path = input_path
   layout = BIDSLayout(data_path,derivatives=True)
   layout.get(scope='derivatives', return_type='file')
-  return layout,task,runlabel,name,group_regex
+  return layout,task,runlabel,name,group_regex,session_set
    
 def get_dataframe_powers(Studies):
   dataframesPowers=[]
   for THE_DATASET in Studies:
-    layout,task,runlabel,name,group_regex=get_information_data(THE_DATASET)
+    layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
     eegs_powers= layout.get(extension='.txt', task=task,suffix='powers', return_type='filename')
     eegs_powers = [x for x in eegs_powers if f'desc-channel[{runlabel}]' in x]
     #cpowers_studies+=eegs_powers
@@ -307,7 +309,10 @@ def get_dataframe_powers(Studies):
       list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
     else:
       list_groups=list_studies
-    list_sessions=[info['session'] for info in list_info]
+    if session_set:
+      list_sessions=[info['session'] for info in list_info]
+    else:
+      list_sessions=list_studies
     dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
             
   dataPowers=pd.concat((dataframesPowers)) 
@@ -316,7 +321,7 @@ def get_dataframe_powers(Studies):
 def get_dataframe_reject(Studies):
   dataframesReject=[]
   for THE_DATASET in Studies:
-    layout,task,runlabel,name,group_regex=get_information_data(THE_DATASET)
+    layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
     stats_reject = layout.get(extension='.txt', task=task,suffix='stats', return_type='filename')
     stats_reject = [x for x in stats_reject if f'desc-reject[{runlabel}]' in x]        #rej_stats_studies+=stats_reject
     list_studies=[name]*len(stats_reject)
@@ -326,7 +331,10 @@ def get_dataframe_reject(Studies):
       list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
     else:
       list_groups=list_studies
-    list_sessions=[info['session'] for info in list_info]
+    if session_set:
+      list_sessions=[info['session'] for info in list_info]
+    else:
+      list_sessions=list_studies
     dataframesReject.append(rejectGraphic(stats_reject,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
         
   dataReject=pd.concat((dataframesReject))
@@ -335,7 +343,7 @@ def get_dataframe_reject(Studies):
 def get_dataframe_wica(Studies):
   dataframesWica=[]
   for THE_DATASET in Studies:
-    layout,task,runlabel,name,group_regex=get_information_data(THE_DATASET)
+    layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
     stats_wica = layout.get(extension='.txt', task=task,suffix='stats', return_type='filename')
     stats_wica = [x for x in stats_wica if f'desc-wica' in x]
     #wica_stats_studies+=stats_wica
@@ -346,7 +354,10 @@ def get_dataframe_wica(Studies):
       list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
     else:
       list_groups=list_studies
-    list_sessions=[info['session'] for info in list_info]
+    if session_set:
+      list_sessions=[info['session'] for info in list_info]
+    else:
+      list_sessions=list_studies
     dataframesWica.append(indicesWica(stats_wica,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
         
   dataWica=pd.concat((dataframesWica))
@@ -357,7 +368,7 @@ def get_dataframe_prep(Studies):
   dataframesPrepBefore=[]
   dataframesPrepAfter=[]
   for THE_DATASET in Studies:
-    layout,task,runlabel,name,group_regex=get_information_data(THE_DATASET)
+    layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
     stats_prep = layout.get(extension='.txt', task=task,suffix='stats', return_type='filename')
     stats_prep = [x for x in stats_prep if f'desc-prep' in x]
     #prep_stats_studies+=stats_prep
@@ -368,7 +379,10 @@ def get_dataframe_prep(Studies):
       list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
     else:
       list_groups=list_studies
-    list_sessions=[info['session'] for info in list_info]
+    if session_set:
+      list_sessions=[info['session'] for info in list_info]
+    else:
+      list_sessions=list_studies
     list_Prep=indicesPrep(stats_prep,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions)
     dataframesPrepOriginal.append(list_Prep[0])
     dataframesPrepBefore.append(list_Prep[1])
