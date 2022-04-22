@@ -1,71 +1,167 @@
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from datasets import BIOMARCADORES
-from datasets import SRM
-from Graphics.graphicsViolin import get_dataframe_reject
+from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test
+from Graphics.graphicsViolin import get_dataframe_reject,create_collage,createCollage
 import numpy as np
-import itertools
 from pprint import pprint
 
-
 Studies=[BIOMARCADORES,SRM]
+Studies_test=[BIOMARCADORES_test,SRM_test]
 
 datosReject=get_dataframe_reject(Studies)
 
-# REJECT ESTUDIO 
+# ESTUDIO 
 
-# Preguntar: si es importante hacerlo por canal 
-def compare_1S_0C_reject(data,name_study,plot=False):
+def compare_1S_0C_nM_reject(data,name_study):
     """
     todos sujetos, 1 estudio todas las bandas sin distinguir el canal
     """ 
     s=data["Study"]==name_study
     filter=data[s]
-    filter_study=data.drop(["Study"],axis=1,inplace=False)
+    filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
     metrics=filter_study.keys()
-    initial_metrics=metrics[0:5]
-    final_metrics=metrics[5:]
-    figure1=plt.figure(figsize=(30,60), dpi=30) 
-    #plt.subplots_adjust(hspace=0.5,wspace=7) 
-        
+    figures_i=[]
     for i,metric in enumerate(metrics[0:5]):
-        plt.subplot(len(metrics[0:5]),1,i+1)
-        f=sns.violinplot(y=metric,x="Study",data= filter,fontsize=70)
-        f.set_ylabel(metric,fontsize=70)
-        plt.xticks(fontsize=70)
-        plt.yticks(fontsize=70)
+        fig,ax=plt.subplots(figsize=(10,5))
+        ax=sns.violinplot(y=metric,x="Study",data= filter,fontsize=70,ax=ax)
+        plt.title(metric,fontsize=15)
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        figures_i.append(fig)
 
-    figure1.tight_layout()
-    plt.savefig('Images/Reject/'+'initialMetrics_'+name_study+'.png')
-    plt.show()
-
-    figure2=plt.figure(figsize=(30,60), dpi=30) 
+    plt.tight_layout()
+    figures_f=[]
     for i,metric in enumerate(metrics[5:]):
-        plt.subplot(len(metrics[5:]),1,i+1)
-        f=sns.violinplot(y=metric,x="Study",data= filter,fontsize=70)
-        f.set_ylabel(metric,fontsize=70)
-        plt.xticks(fontsize=70)
-        plt.yticks(fontsize=70)
-    figure2.tight_layout()
-    plt.savefig('Images/Reject/'+'finalMetrics_'+name_study+'.png')
-    plt.show()
-    listofimages_i='Images/Reject/'+'initialMetrics_'+name_study+'.png'
-    listofimages_f='Images/Reject/'+'finalMetrics_'+name_study+'.png'
-    return listofimages_i,listofimages_f
+        fig,ax=plt.subplots(figsize=(15,10))
+        ax=sns.violinplot(y=metric,x="Study",data= filter,fontsize=70,ax=ax)
+        plt.title(metric,fontsize=35)
+        plt.xticks(fontsize=35)
+        plt.yticks(fontsize=35)
+        figures_f.append(fig)
+    plt.tight_layout()
+    createCollage(figures_i,3000,3) 
+    createCollage(figures_f,3000,4) 
+    return 
 
-def compare_nS_0C_reject(data):   
-    studies=data["Study"].unique()
-    listImages_i=[]
-    listImages_f=[]
-    for study in studies:
-        listofimages_i,listofimages_f =compare_1S_0C_reject(data,study,plot=False)
-        listImages_i.append(listofimages_i)
-        listImages_f.append(listofimages_f)
-    listImages_i.extend(listImages_f)
-    return listImages_i
-        
+def compare_nS_0C_nM_reject(data):
+    """
+    todos sujetos, 1 estudio todas las bandas sin distinguir el canal
+    """ 
+    filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
+    metrics=filter_study.keys()
+    figures_i=[]
+    for i,metric in enumerate(metrics[0:5]):
+        fig,ax=plt.subplots(figsize=(10,5))
+        ax=sns.violinplot(y=metric,x="Study",data= data,fontsize=70,ax=ax)
+        plt.title(metric,fontsize=15)
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        figures_i.append(fig)
+
+    plt.tight_layout()
+    figures_f=[]
+    for i,metric in enumerate(metrics[5:]):
+        fig,ax=plt.subplots(figsize=(15,10))
+        ax=sns.violinplot(y=metric,x="Study",data= data,fontsize=70,ax=ax)
+        plt.title(metric,fontsize=35)
+        plt.xticks(fontsize=35)
+        plt.yticks(fontsize=35)
+        figures_f.append(fig)
+    plt.tight_layout()
+    createCollage(figures_i,3000,3) 
+    createCollage(figures_f,3000,4) 
+    return 
+
+# GRUPO
+def filter_nS_nG_1M_reject(superdata,group_dict):
+    """
+    group_dict={
+        'BIOMARCADORES':[CTR,DCL],
+        'SRM':['SRM'] # assume datasets with no groups have Group=Study
+    }
+    
+    """
+    fil=superdata
+    list_df=[]
+
+    for dataset,group_list in group_dict.items():
+        for group in group_list:
+            auxfil = fil[fil['Group']==group]
+            list_df.append(auxfil)
+    df=pd.concat((list_df))
+    return df
+
+def compare_nS_nG_nB_reject(data,dict_info):
+    figures_i=[]
+    figures_f=[]
+    filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
+    metrics=filter_study.keys()
+    for i,metric in enumerate(metrics[0:5]):
+        fig, ax = plt.subplots(figsize=(15,10))
+        filter_group=filter_nS_nG_1M_reject(data,dict_info)
+        #filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
+        ax=sns.violinplot(x='Group',y=metric,data=filter_group,ax=ax,hue='Study')
+        #ax.get_legend().remove()
+        plt.title(metric,fontsize=35)
+        plt.xticks(fontsize=35)
+        plt.yticks(fontsize=35)   
+        figures_i.append(fig)
+    for i,metric in enumerate(metrics[5:]):
+        fig, ax = plt.subplots(figsize=(15,10))
+        filter_group=filter_nS_nG_1M_reject(data,dict_info)
+        #filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
+        ax=sns.violinplot(x='Group',y=metric,data=filter_group,ax=ax,hue='Study')
+        #ax.get_legend().remove()
+        plt.title(metric,fontsize=35) 
+        plt.xticks(fontsize=35)
+        plt.yticks(fontsize=35)  
+        figures_f.append(fig)
+    createCollage(figures_i,3000,3) 
+    createCollage(figures_f,3000,4)       
+    return 
+
+# VISITAS
+    
+def compare_1S_nV_nM_reject(data,name_study):
+    filter_metrics=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
+    metrics=filter_metrics.keys() 
+    figures_i=[]
+    figures_f=[]
+    for i,metric in enumerate(metrics[0:5]):
+        fig, ax = plt.subplots(figsize=(15,10))
+        filt_study=data["Study"]==name_study
+        filter=data[filt_study]
+        ax=sns.violinplot(x='Session',y=metric,data=filter,ax=ax)
+        plt.title(metric,fontsize=40)
+        plt.xticks(fontsize=40)
+        plt.yticks(fontsize=40) 
+        figures_i.append(fig)
+
+    for i,metric in enumerate(metrics[5:]):
+        fig, ax = plt.subplots(figsize=(15,10))
+        filt_study=data["Study"]==name_study
+        filter=data[filt_study]
+        ax=sns.violinplot(x='Session',y=metric,data=filter,ax=ax)
+        plt.title(metric,fontsize=40)
+        plt.xticks(fontsize=40)
+        plt.yticks(fontsize=40) 
+        figures_f.append(fig)
+    createCollage(figures_i,3000,3) 
+    createCollage(figures_f,3000,4)     
+    return   
+
 '''
-# Reject
-create_collage(4,1,1800, 1000,compare_nS_0C_reject(datosReject))
+# 1 estudio
+compare_1S_0C_reject(datosReject,'BIOMARCADORES') 
+#  n estudios 
+compare_nS_0C_nM_reject(datosReject)
+# n group 
+group_dict={
+    'BIOMARCADORES':['CTR','G1','G2','DCL'],
+    'SRM':['SRM'] # assume datasets with no groups have Group=Study
+}
+compare_nS_nG_nB_reject(datosReject,group_dict)
+#n visit
+compare_1S_nV_nM_reject(datosReject,'BIOMARCADORES') 
 '''

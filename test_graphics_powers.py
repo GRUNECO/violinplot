@@ -120,7 +120,6 @@ def compare_1S_1G_nB_0C_power(data,name_study,name_group,plot=False):
     if plot:
         plt.show()
     return fig 
-
 def filter_nS_nG_1B(superdata,group_dict,name_band):
     """
     group_dict={
@@ -143,13 +142,14 @@ def compare_nS_nG_nB(data,dict_info):
     figures=[]
     bands=data['Bands'].unique()
     for j,band in enumerate(bands):
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(15,10))
         filter_group=filter_nS_nG_1B(data,dict_info,band)
-        filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
+        #filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
         ax=sns.violinplot(x='Group',y="Powers",data=filter_group,ax=ax,hue='Study')
-
-        ax.get_legend().remove()
-        plt.title(band)   
+        #ax.get_legend().remove()
+        plt.title(band,fontsize=40) 
+        plt.xticks(fontsize=40)
+        plt.yticks(fontsize=40)   
         #plt.legend(bbox_to_anchor=(1, 2), loc=2, borderaxespad=0.5)
         figures.append(fig)
     createCollage(figures,800,3)      
@@ -177,24 +177,27 @@ def filter_1S_1V_1B(data,name_study,name_band):
     return filter
 
 def compare_1S_nV_nB(data,name_study): 
-    sessions=data['Session'].unique()
-    rows=3
-    cols=3
     bands=data['Bands'].unique()
-    rows=np.arange(rows).repeat(3)
-    columnas=np.concatenate((np.array([np.arange(3)]*3)))
     figures=[]
     for num,band in enumerate(bands):
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(15,10))
         filter_group=filter_1S_1V_1B(data,name_study,band)
         ax=sns.violinplot(x='Session',y="Powers",data=filter_group,ax=ax)
-        plt.title(band)
+        plt.title(band,fontsize=40)
+        plt.xticks(fontsize=40)
+        plt.yticks(fontsize=40) 
         figures.append(fig)
 
     createCollage(figures,800,3)    
     return   
 
 
+info={
+    'SRM':['SRM'],
+    'BIOMARCADORES':['G1','CTR']
+}
+compare_nS_nG_nB(datosPowers,info)
+compare_1S_nV_nB(datosPowers,'BIOMARCADORES')
 '''
 
 # 1 estudio

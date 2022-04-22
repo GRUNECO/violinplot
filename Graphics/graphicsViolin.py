@@ -377,3 +377,7 @@ def get_dataframe_prep(Studies):
   dataPrepBefore=pd.concat((dataframesPrepBefore))
   dataPrepAfter=pd.concat((dataframesPrepAfter))
   return dataPrepOriginal,dataPrepBefore,dataPrepAfter
+
+
+# FILTROS
+
