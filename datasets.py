@@ -34,7 +34,7 @@ SRM_test = {
 SRM= {
     'name':'SRM',
     #'input_path':r'D:\WEB\backend\filesSaved\SRM',
-    'inpunt_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\SRM',
+    'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\SRM',
     'layout':{'extension':'.edf', 'task':'resteyesc','suffix':'eeg', 'return_type':'filename'},
     'args':{'line_freqs':[50]},
     'group_regex':None,
