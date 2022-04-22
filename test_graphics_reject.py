@@ -11,6 +11,33 @@ Studies_test=[BIOMARCADORES_test,SRM_test]
 
 datosReject=get_dataframe_reject(Studies)
 
+
+# TOTAL
+
+def compare_nD(data):
+    filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
+    metrics=filter_study.keys()
+    figures_i=[]
+    for i,metric in enumerate(metrics[0:5]):
+        fig,ax=plt.subplots()
+        ax=sns.violinplot(y=metric,data= data,fontsize=70,ax=ax)
+        plt.title(metric,fontsize=35)
+        plt.xticks(fontsize=35)
+        plt.yticks(fontsize=35)
+        fig.set_size_inches(15, 15)
+        figures_i.append(fig)
+    figures_f=[]
+    for i,metric in enumerate(metrics[5:]):
+        fig,ax=plt.subplots()
+        ax=sns.violinplot(y=metric,data= data,fontsize=70,ax=ax)
+        plt.title(metric,fontsize=35)
+        plt.xticks(fontsize=35)
+        plt.yticks(fontsize=35)
+        fig.set_size_inches(15, 15)
+        figures_f.append(fig)
+    createCollage(figures_i,3000,3) 
+    createCollage(figures_f,3000,4)  
+
 # ESTUDIO 
 
 def compare_1S_0C_nM_reject(data,name_study):
@@ -23,23 +50,22 @@ def compare_1S_0C_nM_reject(data,name_study):
     metrics=filter_study.keys()
     figures_i=[]
     for i,metric in enumerate(metrics[0:5]):
-        fig,ax=plt.subplots(figsize=(10,5))
+        fig,ax=plt.subplots()
         ax=sns.violinplot(y=metric,x="Study",data= filter,fontsize=70,ax=ax)
         plt.title(metric,fontsize=15)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
+        fig.set_size_inches(15, 15)
         figures_i.append(fig)
-
-    plt.tight_layout()
     figures_f=[]
     for i,metric in enumerate(metrics[5:]):
-        fig,ax=plt.subplots(figsize=(15,10))
+        fig,ax=plt.subplots()
         ax=sns.violinplot(y=metric,x="Study",data= filter,fontsize=70,ax=ax)
         plt.title(metric,fontsize=35)
         plt.xticks(fontsize=35)
         plt.yticks(fontsize=35)
+        fig.set_size_inches(15, 15)
         figures_f.append(fig)
-    plt.tight_layout()
     createCollage(figures_i,3000,3) 
     createCollage(figures_f,3000,4) 
     return 
@@ -52,23 +78,22 @@ def compare_nS_0C_nM_reject(data):
     metrics=filter_study.keys()
     figures_i=[]
     for i,metric in enumerate(metrics[0:5]):
-        fig,ax=plt.subplots(figsize=(10,5))
+        fig,ax=plt.subplots()
         ax=sns.violinplot(y=metric,x="Study",data= data,fontsize=70,ax=ax)
         plt.title(metric,fontsize=15)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
+        fig.set_size_inches(15, 15)
         figures_i.append(fig)
-
-    plt.tight_layout()
     figures_f=[]
     for i,metric in enumerate(metrics[5:]):
-        fig,ax=plt.subplots(figsize=(15,10))
+        fig,ax=plt.subplots()
         ax=sns.violinplot(y=metric,x="Study",data= data,fontsize=70,ax=ax)
         plt.title(metric,fontsize=35)
         plt.xticks(fontsize=35)
         plt.yticks(fontsize=35)
+        fig.set_size_inches(15, 15)
         figures_f.append(fig)
-    plt.tight_layout()
     createCollage(figures_i,3000,3) 
     createCollage(figures_f,3000,4) 
     return 
@@ -81,24 +106,26 @@ def compare_nS_nG_nB_reject(data,dict_info):
     filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
     metrics=filter_study.keys()
     for i,metric in enumerate(metrics[0:5]):
-        fig, ax = plt.subplots(figsize=(15,10))
+        fig, ax = plt.subplots()
         filter_group=filter_nS_nG_1M(data,dict_info)
         #filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
         ax=sns.violinplot(x='Group',y=metric,data=filter_group,ax=ax,hue='Study')
         #ax.get_legend().remove()
         plt.title(metric,fontsize=35)
         plt.xticks(fontsize=35)
-        plt.yticks(fontsize=35)   
+        plt.yticks(fontsize=35)
+        fig.set_size_inches(15, 15)   
         figures_i.append(fig)
     for i,metric in enumerate(metrics[5:]):
-        fig, ax = plt.subplots(figsize=(15,10))
+        fig, ax = plt.subplots()
         filter_group=filter_nS_nG_1M(data,dict_info)
         #filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
         ax=sns.violinplot(x='Group',y=metric,data=filter_group,ax=ax,hue='Study')
         #ax.get_legend().remove()
         plt.title(metric,fontsize=35) 
         plt.xticks(fontsize=35)
-        plt.yticks(fontsize=35)  
+        plt.yticks(fontsize=35)
+        fig.set_size_inches(15, 15)  
         figures_f.append(fig)
     createCollage(figures_i,3000,3) 
     createCollage(figures_f,3000,4)       
@@ -112,29 +139,33 @@ def compare_1S_nV_nM_reject(data,name_study):
     figures_i=[]
     figures_f=[]
     for i,metric in enumerate(metrics[0:5]):
-        fig, ax = plt.subplots(figsize=(15,10))
+        fig, ax = plt.subplots()
         filt_study=data["Study"]==name_study
         filter=data[filt_study]
         ax=sns.violinplot(x='Session',y=metric,data=filter,ax=ax)
         plt.title(metric,fontsize=40)
         plt.xticks(fontsize=40)
-        plt.yticks(fontsize=40) 
+        plt.yticks(fontsize=40)
+        fig.set_size_inches(15, 15) 
         figures_i.append(fig)
 
     for i,metric in enumerate(metrics[5:]):
-        fig, ax = plt.subplots(figsize=(15,10))
+        fig, ax = plt.subplots()
         filt_study=data["Study"]==name_study
         filter=data[filt_study]
         ax=sns.violinplot(x='Session',y=metric,data=filter,ax=ax)
         plt.title(metric,fontsize=40)
         plt.xticks(fontsize=40)
         plt.yticks(fontsize=40) 
+        fig.set_size_inches(15, 15)
         figures_f.append(fig)
     createCollage(figures_i,3000,3) 
     createCollage(figures_f,3000,4)     
     return   
 
 '''
+# TOTAL
+compare_nD(datosReject)
 # 1 estudio
 compare_1S_0C_reject(datosReject,'BIOMARCADORES') 
 #  n estudios 

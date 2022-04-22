@@ -15,8 +15,24 @@ Studies=[BIOMARCADORES,SRM]
 Studies_test=[BIOMARCADORES_test,SRM_test]
 
 datosPowers=get_dataframe_powers(Studies)
-#print(datosPowers['Session'].unique())
-# POTENCIAS ENTRE ESTUDIOS 
+
+# TOTAL
+def compare_nD(data,plot=False):
+    """
+    todos sujetos -1 estudio- 1 grupo -todas las bandas sin distinguir el canal
+    """ 
+    data=data.drop(["Channels"],axis=1,inplace=False)
+    bandas=data["Bands"].unique()
+
+    fig, ax = plt.subplots(1,1)
+    fig.set_size_inches(len(bandas)*2,10)
+    sns.violinplot(x='Bands',y="Powers",data=data)
+    ax.set_title('Bands powers')
+    if plot:
+        plt.show()
+    return fig 
+
+# ESTUDIOS 
 
 def compare_1S_nB_0C_power(data,name_study,plot=False):
     """
@@ -142,7 +158,7 @@ def compare_nS_nG_nB(data,dict_info):
     figures=[]
     bands=data['Bands'].unique()
     for j,band in enumerate(bands):
-        fig, ax = plt.subplots(figsize=(15,10))
+        fig, ax = plt.subplots()
         filter_group=filter_nS_nG_1B(data,dict_info,band)
         #filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
         ax=sns.violinplot(x='Group',y="Powers",data=filter_group,ax=ax,hue='Study')
@@ -150,7 +166,7 @@ def compare_nS_nG_nB(data,dict_info):
         plt.title(band,fontsize=40) 
         plt.xticks(fontsize=40)
         plt.yticks(fontsize=40)   
-        #plt.legend(bbox_to_anchor=(1, 2), loc=2, borderaxespad=0.5)
+        fig.set_size_inches(15, 15) 
         figures.append(fig)
     createCollage(figures,800,3)      
     return 
@@ -180,26 +196,20 @@ def compare_1S_nV_nB(data,name_study):
     bands=data['Bands'].unique()
     figures=[]
     for num,band in enumerate(bands):
-        fig, ax = plt.subplots(figsize=(15,10))
+        fig, ax = plt.subplots()
         filter_group=filter_1S_1V_1B(data,name_study,band)
         ax=sns.violinplot(x='Session',y="Powers",data=filter_group,ax=ax)
         plt.title(band,fontsize=40)
         plt.xticks(fontsize=40)
-        plt.yticks(fontsize=40) 
+        plt.yticks(fontsize=40)
+        fig.set_size_inches(15, 15) 
         figures.append(fig)
-        
-
     createCollage(figures,800,3)    
     return   
 
-
-info={
-    'SRM':['SRM'],
-    'BIOMARCADORES':['G1','CTR']
-}
-compare_nS_nG_nB(datosPowers,info)
-compare_1S_nV_nB(datosPowers,'BIOMARCADORES')
 '''
+# TOTAL
+compare_nD(datosPowers,plot=True)
 
 # 1 estudio
 compare_1S_nB_0C_power(datosPowers,'SRM',plot=True)

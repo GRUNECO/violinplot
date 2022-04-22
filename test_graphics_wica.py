@@ -12,13 +12,25 @@ Studies=[BIOMARCADORES,SRM]
 Studies_test=[BIOMARCADORES_test,SRM_test]
 datosWica=get_dataframe_wica(Studies)
 
-# WICA  ESTUDIO
+#TOTAL
+def compare_nD_wica(data,plot=False):
+    figure1=plt.figure(figsize=(30,60), dpi=30)
+    sns.violinplot(y='Components',data=data)
+    plt.xticks(fontsize=40)
+    plt.yticks(fontsize=40)
+    figure1.tight_layout()
+    if plot:
+        plt.show()
+    return figure1
+
+compare_nD_wica(datosWica,True)
+# ESTUDIO
 
 def compare_1S_wica(data,name_study,plot=False):
     s=data["Study"]==name_study
     filter_study=data[s]
     figure1=plt.figure(figsize=(30,60), dpi=30)
-    sns.violinplot(x='Study',y='componentes',data=filter_study)
+    sns.violinplot(x='Study',y='Components',data=filter_study)
     plt.xticks(fontsize=70)
     plt.yticks(fontsize=70)
     figure1.tight_layout()
@@ -72,6 +84,21 @@ def compare_nS_nG_wica(data,dict_info):
     plt.show()        
     return 
 
+
+'''
+#TOTAL
+
+# 1 estudio
+compare_1S_wica(datosWica,'SRM',True)
+# n estudios 
+compare_nS_wica(datosWica)
+# n grupos
+
+# n visitas
+compare_1S_nV_wica(datosWica,'BIOMARCADORES')
+
+
+#N GRUPOS
 group_dict1={
     'BIOMARCADORES':['CTR','DCL','G1','G2'],
     'SRM':['SRM'] # assume datasets with no groups have Group=Study
@@ -82,13 +109,4 @@ group_dict2={
     'BIOMARCADORES':['CTR','DCL','G1','G2'],
 }
 compare_nS_nG_wica(datosWica,group_dict2)
-'''
-# 1 estudio
-compare_1S_wica(datosWica,'SRM',True)
-# n estudios 
-compare_nS_wica(datosWica)
-# n grupos
-
-# n visitas
-compare_1S_nV_wica(datosWica,'BIOMARCADORES')
 '''
