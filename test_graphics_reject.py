@@ -2,9 +2,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test
-from Graphics.graphicsViolin import get_dataframe_reject,create_collage,createCollage,filter_nS_nG_1M
+from Graphics.FunctionsGraphics import create_collage,createCollage
+from Graphics.graphicsViolin filter_nS_nG_1M
 import numpy as np
 from pprint import pprint
+from Graphics.GetDataframes import get_dataframe_reject
 
 Studies=[BIOMARCADORES,SRM]
 Studies_test=[BIOMARCADORES_test,SRM_test]

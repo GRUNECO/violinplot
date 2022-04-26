@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from datasets import CHBMP, LEMON,BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test
-from Graphics.graphicsViolin import get_dataframe_powers,create_collage,createCollage
+from Graphics.FunctionsGraphics import create_collage,createCollage
+from Graphics.GetDataframes import get_dataframe_powers
 import numpy as np
 import itertools
 from pprint import pprint
@@ -12,7 +13,7 @@ from pprint import pprint
 from matplotlib.gridspec import GridSpec
 
 #Studies=[CHBMP,LEMON,BIOMARCADORES,SRM]
-Studies=[LEMON]
+Studies=[BIOMARCADORES]
 #Studies_test=[BIOMARCADORES_test,SRM_test]
 
 datosPowers=get_dataframe_powers(Studies)
@@ -37,7 +38,7 @@ def compare_nD(data,plot=False):
 
 def compare_1S_nB_0C_power(data,name_study,plot=False):
     """
-    todos sujetos -1 estudio- 1 grupo -todas las bandas sin distinguir el canal
+    todos sujetos -1 estudio-todas las bandas sin distinguir el canal
     """ 
     data=data.drop(["Channels"],axis=1,inplace=False)
     s=data["Study"]==name_study

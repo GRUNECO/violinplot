@@ -1,7 +1,7 @@
 BIOMARCADORES = {
     'name':'BIOMARCADORES',
-    #'input_path':r'D:\WEB\backend\filesSaved\BIOMARCADORES',
-    'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\BIOMARCADORES_BIDS',
+    'input_path':r'D:\WEB\backend\filesSaved\BIOMARCADORES',
+    #'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\BIOMARCADORES_BIDS',
     'layout':{'extension':'.vhdr', 'task':'OE','suffix':'eeg', 'return_type':'filename'},
     'args':{'line_freqs':[60]},
     'group_regex':'(.+).{3}',

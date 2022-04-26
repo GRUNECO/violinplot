@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test
-from Graphics.graphicsViolin import get_dataframe_wica,createCollage
+from Graphics.FunctionsGraphics import createCollage
+from Graphics.GetDataframes import get_dataframe_wica
 import numpy as np
 import itertools
 from pprint import pprint
