@@ -9,28 +9,6 @@ BIOMARCADORES = {
     'run-label':'restEC'
 }
 
-
-BIOMARCADORES_test = {
-    'name':'BIOMARCADORES',
-    'input_path':r'D:\WEB\backend\filesSaved\PRUEBA',
-    'layout':{'extension':'.vhdr', 'task':'OE','suffix':'eeg', 'return_type':'filename'},
-    'args':{'line_freqs':[60]},
-    'group_regex':'(.+).{3}',
-    'events_to_keep':None,
-    'run-label':'restEC'
-}
-
-SRM_test = {
-    'name':'SRM',
-    'input_path':r'D:\WEB\backend\filesSaved\SRMPrueba',
-    'layout':{'extension':'.edf', 'task':'resteyesc','suffix':'eeg', 'return_type':'filename'},
-    'args':{'line_freqs':[50]},
-    'group_regex':None,
-    'events_to_keep':None,
-    'run-label':'restEC'
-}
-
-
 SRM= {
     'name':'SRM',
     #'input_path':r'D:\WEB\backend\filesSaved\SRM',
@@ -61,4 +39,25 @@ LEMON = {
     'events_to_keep':[5],
     'run-label':'restEC',
     'session':None
+}
+
+
+BIOMARCADORES_test = {
+    'name':'BIOMARCADORES',
+    'input_path':r'D:\WEB\backend\filesSaved\PRUEBA',
+    'layout':{'extension':'.vhdr', 'task':'OE','suffix':'eeg', 'return_type':'filename'},
+    'args':{'line_freqs':[60]},
+    'group_regex':'(.+).{3}',
+    'events_to_keep':None,
+    'run-label':'restEC'
+}
+
+SRM_test = {
+    'name':'SRM',
+    'input_path':r'D:\WEB\backend\filesSaved\SRMPrueba',
+    'layout':{'extension':'.edf', 'task':'resteyesc','suffix':'eeg', 'return_type':'filename'},
+    'args':{'line_freqs':[50]},
+    'group_regex':None,
+    'events_to_keep':None,
+    'run-label':'restEC'
 }
