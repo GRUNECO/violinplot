@@ -6,18 +6,20 @@ BIOMARCADORES = {
     'args':{'line_freqs':[60]},
     'group_regex':'(.+).{3}',
     'events_to_keep':None,
-    'run-label':'restEC'
+    'run-label':'restEC',
+    'session':'V'
 }
 
 SRM= {
     'name':'SRM',
-    #'input_path':r'D:\WEB\backend\filesSaved\SRM',
-    'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\SRM',
+    'input_path':r'D:\WEB\backend\filesSaved\SRM',
+    #'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\SRM',
     'layout':{'extension':'.edf', 'task':'resteyesc','suffix':'eeg', 'return_type':'filename'},
     'args':{'line_freqs':[50]},
     'group_regex':None,
     'events_to_keep':None,
-    'run-label':'restEC'
+    'run-label':'restEC',
+    'session':'V'
 }
 CHBMP = {
     'name':'CHBMP',
@@ -49,7 +51,8 @@ BIOMARCADORES_test = {
     'args':{'line_freqs':[60]},
     'group_regex':'(.+).{3}',
     'events_to_keep':None,
-    'run-label':'restEC'
+    'run-label':'restEC',
+    'session':'V'
 }
 
 SRM_test = {
@@ -59,5 +62,6 @@ SRM_test = {
     'args':{'line_freqs':[50]},
     'group_regex':None,
     'events_to_keep':None,
-    'run-label':'restEC'
+    'run-label':'restEC',
+    'session':'V'
 }

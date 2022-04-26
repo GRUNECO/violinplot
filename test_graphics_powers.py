@@ -12,12 +12,12 @@ from pprint import pprint
 # CHBMP, LEMON
 from matplotlib.gridspec import GridSpec
 
-Studies=[CHBMP,BIOMARCADORES,SRM]
+Studies=[BIOMARCADORES_test,SRM_test]
 #Studies=[LEMON]
 #Studies_test=[BIOMARCADORES_test,SRM_test]
 
 datosPowers=get_dataframe_powers(Studies)
-
+datosPowers.to_csv('dataframe.csv',index=False)
 # TOTAL
 def compare_nD(data,plot=False):
     """
