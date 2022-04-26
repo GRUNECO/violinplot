@@ -3,12 +3,11 @@ import seaborn as sns
 import pandas as pd
 from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test
 from Graphics.FunctionsGraphics import createCollage
-from Graphics.graphicsViolin filter_nS_nG_1M
+from Graphics.graphicsViolin import filter_nS_nG_1M
 from Graphics.GetDataframes import get_dataframe_prep
 import numpy as np
 import itertools
 from pprint import pprint
-
 
 Studies=[BIOMARCADORES,SRM]
 Studies_test=[BIOMARCADORES_test,SRM_test]
