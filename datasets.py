@@ -1,27 +1,28 @@
 BIOMARCADORES = {
     'name':'BIOMARCADORES',
-    'input_path':r'D:\WEB\backend\filesSaved\BIOMARCADORES',
-    #'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\BIOMARCADORES_BIDS',
+    'input_path':r'D:\BASESDEDATOS\BIOMARCADORES_BIDS',
+   # 'input_path':r'D:\BASESDEDATOS\biomarcadoresprueba',
     'layout':{'extension':'.vhdr', 'task':'OE','suffix':'eeg', 'return_type':'filename'},
     'args':{'line_freqs':[60]},
     'group_regex':'(.+).{3}',
     'events_to_keep':None,
-    'run-label':'restEC'
+    'run-label':'restEC',
+    'session':'x'
 }
 
 SRM= {
     'name':'SRM',
-    #'input_path':r'D:\WEB\backend\filesSaved\SRM',
-    'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\SRM',
+    'input_path':r'D:\BASESDEDATOS\SRM',
     'layout':{'extension':'.edf', 'task':'resteyesc','suffix':'eeg', 'return_type':'filename'},
     'args':{'line_freqs':[50]},
     'group_regex':None,
     'events_to_keep':None,
-    'run-label':'restEC'
+    'run-label':'restEC',
+    'session':'x'
 }
 CHBMP = {
     'name':'CHBMP',
-    'input_path':r'E:\Academico\Universidad\Posgrado\Tesis\Datos\BASESDEDATOS\CHBMP',
+    'input_path':r'D:\BASESDEDATOS\CHBMP',
     'layout':{'extension':'.edf', 'task':'protmap','suffix':'eeg', 'return_type':'filename'},
     'args':{'line_freqs':[60],},
     'group_regex':None,
@@ -41,23 +42,3 @@ LEMON = {
     'session':None
 }
 
-
-BIOMARCADORES_test = {
-    'name':'BIOMARCADORES',
-    'input_path':r'D:\WEB\backend\filesSaved\PRUEBA',
-    'layout':{'extension':'.vhdr', 'task':'OE','suffix':'eeg', 'return_type':'filename'},
-    'args':{'line_freqs':[60]},
-    'group_regex':'(.+).{3}',
-    'events_to_keep':None,
-    'run-label':'restEC'
-}
-
-SRM_test = {
-    'name':'SRM',
-    'input_path':r'D:\WEB\backend\filesSaved\SRMPrueba',
-    'layout':{'extension':'.edf', 'task':'resteyesc','suffix':'eeg', 'return_type':'filename'},
-    'args':{'line_freqs':[50]},
-    'group_regex':None,
-    'events_to_keep':None,
-    'run-label':'restEC'
-}
