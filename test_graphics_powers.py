@@ -13,12 +13,21 @@ from pprint import pprint
 # CHBMP, LEMON
 from matplotlib.gridspec import GridSpec
 
+<<<<<<< HEAD
 Studies=[CHBMP,BIOMARCADORES,SRM]
 
 datosPowers=get_dataframe_powers(Studies)
 print(datosPowers)
 datosPowers.to_csv('datospotencias.csv', index=False)
 
+=======
+Studies=[BIOMARCADORES_test,SRM_test]
+#Studies=[LEMON]
+#Studies_test=[BIOMARCADORES_test,SRM_test]
+
+datosPowers=get_dataframe_powers(Studies)
+datosPowers.to_csv('dataframe.csv',index=False)
+>>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a
 # TOTAL
 def compare_nD(data,plot=False):
     """
@@ -90,32 +99,35 @@ def filter_nS_nB_0C_power(data,name_band):
     filter=data[fil_B]
     return filter 
 
-def compare_nS_nB_power(data,name_channel="None",plot=False):
+def compare_nS_nB_power(data,name_channel="None"):
     bandas=data["Bands"].unique()
     rows=1
     cols=7
-    fig,axs=plt.subplots(rows,cols,figsize=(12,3))
+    figures=[]
     #en un canal especifico
     if name_channel != "None":
-        for col,band in zip(range(cols),bandas):
+        for band in bandas:
             fig, ax = plt.subplots()
             filter= filter_nS_1B_1C_power(data,band,name_channel) 
-            sns.violinplot(x='Study',y="Powers",data=filter,ax=axs[col],scale_hue=True,scale='width')
-            axs[col].set_title(band+' '+name_channel)
-        plt.tight_layout(pad=0.4, w_pad=0.0001, h_pad=0.8)
-        if plot:
-            plt.show()
-    
+            ax=sns.violinplot(x='Study',y="Powers",data=filter)
+            plt.title(band+ ' '+ name_channel,fontsize=40) 
+            plt.xticks(fontsize=40)
+            plt.yticks(fontsize=40)  
+            fig.set_size_inches(15, 15) 
+            figures.append(fig)
+        createCollage(figures,800,3)      
     else: 
         #sin distinguir el canal
-        for band in zip(range(cols),bandas):
+        for band in bandas:
             fig, ax = plt.subplots()
             filter= filter_nS_nB_0C_power(data,band)
-            sns.violinplot(x='Study',y="Powers",data=filter,ax=axs)
-            axs[col].set_title(band)
-        plt.tight_layout(pad=0.4, w_pad=0.0001, h_pad=0.8)
-        if plot:
-            plt.show()
+            ax=sns.violinplot(x='Study',y="Powers",data=filter)
+            plt.title(band,fontsize=40) 
+            plt.xticks(fontsize=40)
+            plt.yticks(fontsize=40)  
+            fig.set_size_inches(15, 15) 
+            figures.append(fig)
+        createCollage(figures,800,3)      
     return 
     
 
@@ -130,7 +142,6 @@ def compare_1S_1G_nB_0C_power(data,name_study,name_group,plot=False):
     filter=data[s]
     #filter_group=filter_study[filter_study.Subject.str.contains(name_group)]
     bandas=filter["Bands"].unique()
-
     fig, ax = plt.subplots(1,1)
     fig.set_size_inches(len(bandas)*2,10)
     sns.violinplot(x='Bands',y="Powers",data=filter)
@@ -215,6 +226,7 @@ def compare_1S_nV_nB(data,name_study): #Solo sirve para biomarcadores y SRM
 #compare_nD(datosPowers,plot=True)
 
 # 1 estudio
+<<<<<<< HEAD
 #St=['CHBMP','BIOMARCADORES','SRM']
 St=['BIOMARCADORES','SRM']
 bands_1 = ['delta','theta','alpha-1','alpha-2','alpha','beta','gamma']
@@ -230,22 +242,60 @@ for Study in St:
         compare_1S_1V_nB(datosPowers,Study,V,True)        
     for band in bands_1:
         compare_1S_1B_nC_power(datosPowers,Study,band,plot=True)
+=======
+St=['BIOMARCADORES','SRM']
+bands_1 = ['delta','theta','alpha-1','alpha-2','alpha','beta','gamma']
+GB = ['G1','G2','CTR','DCL','DTA']
+
+for Study in St:
+    compare_1S_nB_0C_power(datosPowers,Study,plot=True)
+    # NOTA: Este gráfico por el momento no es representativo           
+    # for band in bands_1:
+    #     compare_1S_1B_nC_power(datosPowers,Study,band,plot=True)
+>>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a
 
 #n estudios 
-#NOTA: ORGANIZAR PARA QUE SALGAN POR ROWS Y COLS PREGUNTAR
-channels = ['FP1', 'FPZ', 'FP2', 'AF3', 'AF4', 'F7', 'F5', 'F3', 'F1', 'FZ', 'F2', 'F4', 'F6', 'F8', 'FC5', 'FC3', 'FC1', 'FCZ', 'FC2', 'FC4', 'FC6', 'T7', 'C5', 'C3', 'C1', 'CZ', 'C2', 'C4', 'C6', 'T8', 'TP7', 'CP5', 'CP3', 'CP1', 'CPZ', 'CP2', 'CP4', 'CP6', 'TP8', 'P7', 'P5', 'P3', 'P1', 'PZ', 'P2', 'P4', 'P6', 'P8', 'PO7', 'PO5', 'PO3', 'POZ', 'PO4', 'PO6', 'PO8', 'O1', 'OZ', 'O2']
+'''
+# NOTA: Esta función por el momento no es representativa
+channels = ['FP1', 'FPZ', 'FP2', 'AF3']
+#, 'AF4', 'F7', 'F5', 'F3', 'F1', 'FZ', 'F2', 'F4', 'F6', 'F8', 'FC5', 'FC3', 'FC1', 'FCZ', 'FC2', 'FC4', 'FC6', 'T7', 'C5', 'C3', 'C1', 'CZ', 'C2', 'C4', 'C6', 'T8', 'TP7', 'CP5', 'CP3', 'CP1', 'CPZ', 'CP2', 'CP4', 'CP6', 'TP8', 'P7', 'P5', 'P3', 'P1', 'PZ', 'P2', 'P4', 'P6', 'P8', 'PO7', 'PO5', 'PO3', 'POZ', 'PO4', 'PO6', 'PO8', 'O1', 'OZ', 'O2']
 for channel in channels:
-    compare_nS_nB_power(datosPowers,name_channel=channel,plot=True)
-compare_nS_nB_power(datosPowers,name_channel="None",plot=True)
+    compare_nS_nB_power(datosPowers,name_channel=channel)
+'''
+compare_nS_nB_power(datosPowers,name_channel="None")
 
+'''
+Nota: Solo es útil para cuando el usuario quiera un grupo en especifico, de lo contrario
+esta la función para n grupos
+
+GB= ['G1','G2','CTR','DCL','DTA']
 # 1  grupo
 for G in GB:
     compare_1S_1G_nB_0C_power(datosPowers,'BIOMARCADORES',G,plot=True)
+'''
+
 # n grupos 
 info={
    'SRM':['SRM'],
-   'BIOMARCADORES':['G1','G2','CTR','DCL','DTA'],
-   'CHBMP':['CHBMP']
+   'BIOMARCADORES':['G1','G2','CTR','DCL','DTA']
+   #'CHBMP':['CHBMP']
 }
 compare_nS_nG_nB(datosPowers,info)
 
+<<<<<<< HEAD
+=======
+'''
+# 1 sessions
+# Solo es útil si se quiere una gráfica en especifico , para ver todas es mejor usar para nV
+Vs = ['V0','V1','V2','V3','V4']
+Vs_SRM=['t1','t2']
+for V in Vs:
+    compare_1S_1V_nB(datosPowers,'BIOMARCADORES',V,True)
+for V in Vs_SRM:
+    compare_1S_1V_nB(datosPowers,'SRM',V,True)
+'''
+
+# n sessions
+compare_1S_nV_nB(datosPowers,'BIOMARCADORES')
+compare_1S_nV_nB(datosPowers,'SRM')
+>>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a

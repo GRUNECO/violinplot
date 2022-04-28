@@ -1,4 +1,5 @@
 import re
+import pandas as pd 
 from bids import BIDSLayout
 from bids.layout import parse_file_entities
 from Graphics.graphicsViolin import PowersGraphic,rejectGraphic,indicesWica,indicesPrep
@@ -26,14 +27,23 @@ def get_dataframe_powers(Studies):
     list_studies=[name]*len(eegs_powers)
     list_info=[parse_file_entities(eegs_powers[i]) for i in range(len(eegs_powers))]
     list_subjects=[info['subject'] for info in list_info]
+    # Grupos
     if group_regex:
       list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
     else:
       list_groups=list_studies
+<<<<<<< HEAD
+=======
+    # Visita 
+>>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a
     if session_set == None:
       list_sessions=list_studies
     else:
       list_sessions=[info['session'] for info in list_info]
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a
     dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
             
   dataPowers=pd.concat((dataframesPowers)) 
@@ -56,6 +66,10 @@ def get_dataframe_reject(Studies):
       list_sessions=list_studies
     else:
       list_sessions=[info['session'] for info in list_info]
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a
     dataframesReject.append(rejectGraphic(stats_reject,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
         
   dataReject=pd.concat((dataframesReject))
@@ -75,10 +89,18 @@ def get_dataframe_wica(Studies):
       list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
     else:
       list_groups=list_studies
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a
     if session_set == None:
       list_sessions=list_studies
     else:
       list_sessions=[info['session'] for info in list_info]
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a
     dataframesWica.append(indicesWica(stats_wica,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
         
   dataWica=pd.concat((dataframesWica))
