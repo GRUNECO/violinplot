@@ -2,7 +2,7 @@ from tokenize import group
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from datasets import CHBMP,BIOMARCADORES,SRM # LEMON
+from datasets import CHBMP,BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test # LEMON
 from Graphics.FunctionsGraphics import create_collage,createCollage
 from Graphics.GetDataframes import get_dataframe_powers
 import numpy as np
@@ -13,21 +13,12 @@ from pprint import pprint
 # CHBMP, LEMON
 from matplotlib.gridspec import GridSpec
 
-<<<<<<< HEAD
-Studies=[CHBMP,BIOMARCADORES,SRM]
-
-datosPowers=get_dataframe_powers(Studies)
-print(datosPowers)
-datosPowers.to_csv('datospotencias.csv', index=False)
-
-=======
 Studies=[BIOMARCADORES_test,SRM_test]
 #Studies=[LEMON]
 #Studies_test=[BIOMARCADORES_test,SRM_test]
 
 datosPowers=get_dataframe_powers(Studies)
 datosPowers.to_csv('dataframe.csv',index=False)
->>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a
 # TOTAL
 def compare_nD(data,plot=False):
     """
@@ -226,7 +217,6 @@ def compare_1S_nV_nB(data,name_study): #Solo sirve para biomarcadores y SRM
 #compare_nD(datosPowers,plot=True)
 
 # 1 estudio
-<<<<<<< HEAD
 #St=['CHBMP','BIOMARCADORES','SRM']
 St=['BIOMARCADORES','SRM']
 bands_1 = ['delta','theta','alpha-1','alpha-2','alpha','beta','gamma']
@@ -242,7 +232,6 @@ for Study in St:
         compare_1S_1V_nB(datosPowers,Study,V,True)        
     for band in bands_1:
         compare_1S_1B_nC_power(datosPowers,Study,band,plot=True)
-=======
 St=['BIOMARCADORES','SRM']
 bands_1 = ['delta','theta','alpha-1','alpha-2','alpha','beta','gamma']
 GB = ['G1','G2','CTR','DCL','DTA']
@@ -252,7 +241,6 @@ for Study in St:
     # NOTA: Este gráfico por el momento no es representativo           
     # for band in bands_1:
     #     compare_1S_1B_nC_power(datosPowers,Study,band,plot=True)
->>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a
 
 #n estudios 
 '''
@@ -282,8 +270,6 @@ info={
 }
 compare_nS_nG_nB(datosPowers,info)
 
-<<<<<<< HEAD
-=======
 '''
 # 1 sessions
 # Solo es útil si se quiere una gráfica en especifico , para ver todas es mejor usar para nV
@@ -298,4 +284,3 @@ for V in Vs_SRM:
 # n sessions
 compare_1S_nV_nB(datosPowers,'BIOMARCADORES')
 compare_1S_nV_nB(datosPowers,'SRM')
->>>>>>> 3731e34a24da39f34090feb8df58b1e833cf852a
