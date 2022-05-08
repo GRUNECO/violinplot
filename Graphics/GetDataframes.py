@@ -43,6 +43,35 @@ def get_dataframe_powers(Studies):
   dataPowers=pd.concat((dataframesPowers)) 
   return dataPowers
 
+
+def get_dataframe_powers_norm(Studies):
+  dataframesPowers=[]
+  for THE_DATASET in Studies:
+    layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
+    eegs_powers= layout.get(extension='.txt', task=task,suffix='powers', return_type='filename')
+    eegs_powers = [x for x in eegs_powers if f'desc-channel[{runlabel}]' in x]
+    #cpowers_studies+=eegs_powers
+    list_studies=[name]*len(eegs_powers)
+    list_info=[parse_file_entities(eegs_powers[i]) for i in range(len(eegs_powers))]
+    list_subjects=[info['subject'] for info in list_info]
+    # Grupos
+    if group_regex:
+      list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
+    else:
+      list_groups=list_studies
+    # Visita 
+    if session_set == None:
+      list_sessions=list_studies
+    else:
+      list_sessions=[info['session'] for info in list_info]
+      
+    dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
+            
+  dataPowers=pd.concat((dataframesPowers)) 
+  return dataPowers
+
+
+
 def get_dataframe_reject(Studies):
   dataframesReject=[]
   for THE_DATASET in Studies:
