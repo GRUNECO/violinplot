@@ -1,9 +1,10 @@
-from datasets import CHBMP,BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test # LEMON
+#from datasets import CHBMP,BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test # LEMON
 from Graphics.GetDataframes import get_dataframe_powers
 from Graphics.functions_postprocessing import compare_1S_nB_0C_power, compare_1S_1V_nB,compare_1S_1G_nB_0C_power,compare_1S_nV_nB,compare_1S_1B_nC_power, compare_nS_nB_power,compare_nS_nG_nB
-
-Studies=[BIOMARCADORES_test,SRM_test]
-datosPowers=get_dataframe_powers(Studies)
+import pandas as pd
+# Studies=[BIOMARCADORES_test,SRM_test]
+# datosPowers=get_dataframe_powers(Studies)
+datos=pd.read_csv(r'D:\WEB\paquetes\violinplot\datospotencias.csv',sep=",")
 #datosPowers.to_csv('dataframe.csv',index=False)
 
 # TOTAL
@@ -11,29 +12,29 @@ datosPowers=get_dataframe_powers(Studies)
 
 # 1 estudio
 #St=['CHBMP','BIOMARCADORES','SRM']
-St=['BIOMARCADORES','SRM']
-bands_1 = ['delta','theta','alpha-1','alpha-2','beta-1','beta-3','gamma']
-GB = ['G1','G2','CTR','DCL','DTA']
-Vs = ['V0','V1','V2','V3','V4']
+# St=['BIOMARCADORES','SRM']
+# bands_1 = ['delta','theta','alpha-1','alpha-2','beta-1','beta-3','gamma']
+# GB = ['G1','G2','CTR','DCL','DTA']
+# Vs = ['V0','V1','V2','V3','V4']
 
-for Study in St:
-    compare_1S_nB_0C_power(datosPowers,Study,plot=True)
-    compare_1S_nV_nB(datosPowers,Study)
-    for gr in GB:
-        compare_1S_1G_nB_0C_power(datosPowers,Study,gr,plot=True)
-    for V in Vs:
-        compare_1S_1V_nB(datosPowers,Study,V,True)        
-    for band in bands_1:
-        compare_1S_1B_nC_power(datosPowers,Study,band,plot=True)
-St=['BIOMARCADORES','SRM']
-bands_1 = ['delta','theta','alpha-1','alpha-2','alpha','beta','gamma']
-GB = ['G1','G2','CTR','DCL','DTA']
+# for Study in St:
+#     compare_1S_nB_0C_power(datosPowers,Study,plot=True)
+#     compare_1S_nV_nB(datosPowers,Study)
+#     for gr in GB:
+#         compare_1S_1G_nB_0C_power(datosPowers,Study,gr,plot=True)
+#     for V in Vs:
+#         compare_1S_1V_nB(datosPowers,Study,V,True)        
+#     for band in bands_1:
+#         compare_1S_1B_nC_power(datosPowers,Study,band,plot=True)
+# St=['BIOMARCADORES','SRM']
+# bands_1 = ['delta','theta','alpha-1','alpha-2','alpha','beta','gamma']
+# GB = ['G1','G2','CTR','DCL','DTA']
 
-for Study in St:
-    compare_1S_nB_0C_power(datosPowers,Study,plot=True)
-    # NOTA: Este gráfico por el momento no es representativo           
-    # for band in bands_1:
-    #     compare_1S_1B_nC_power(datosPowers,Study,band,plot=True)
+# for Study in St:
+#     compare_1S_nB_0C_power(datosPowers,Study,plot=True)
+#     # NOTA: Este gráfico por el momento no es representativo           
+#     # for band in bands_1:
+#     #     compare_1S_1B_nC_power(datosPowers,Study,band,plot=True)
 
 #n estudios 
 '''
@@ -43,7 +44,7 @@ channels = ['FP1', 'FPZ', 'FP2', 'AF3']
 for channel in channels:
     compare_nS_nB_power(datosPowers,name_channel=channel)
 '''
-compare_nS_nB_power(datosPowers,name_channel="None")
+#compare_nS_nB_power(datos,name_channel="None")
 
 '''
 Nota: Solo es útil para cuando el usuario quiera un grupo en especifico, de lo contrario
@@ -55,13 +56,13 @@ for G in GB:
     compare_1S_1G_nB_0C_power(datosPowers,'BIOMARCADORES',G,plot=True)
 '''
 
-# n grupos 
+#n grupos 
 info={
    'SRM':['SRM'],
    'BIOMARCADORES':['G1','G2','CTR','DCL','DTA']
    #'CHBMP':['CHBMP']
 }
-compare_nS_nG_nB(datosPowers,info)
+compare_nS_nG_nB(datos,info)
 
 '''
 # 1 sessions
@@ -75,5 +76,5 @@ for V in Vs_SRM:
 '''
 
 # n sessions
-compare_1S_nV_nB(datosPowers,'BIOMARCADORES')
-compare_1S_nV_nB(datosPowers,'SRM')
+# compare_1S_nV_nB(datosPowers,'BIOMARCADORES')
+# compare_1S_nV_nB(datosPowers,'SRM')

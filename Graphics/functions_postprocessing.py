@@ -2,7 +2,7 @@ from tokenize import group
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from functionsImages import create_collage,createCollage
+from Graphics.functionsImages import create_collage,createCollage
 import numpy as np
 import pandas as pd 
 
@@ -16,8 +16,8 @@ def compare_nD(data,plot=False):
 
     fig, ax = plt.subplots(1,1)
     fig.set_size_inches(len(bandas)*2,10)
-    sns.violinplot(x='Bands',y="Powers",data=data)
-    ax.set_title('Bands powers')
+    sns.violinplot(x='Bands',y="Powers",data=data,palette="bright")
+    ax.set_title('Relative band power all data')
     if plot:
         plt.show()
     return fig 
@@ -66,46 +66,35 @@ def compare_1S_1B_nC_power(data,name_study,name_band,plot=False):
         plt.show()
     return fig 
 
-def filter_nS_1B_1C_power(data,name_band,channel):
+def filter_nS_1B_1C_power(data,channel):
     "todos sujetos, n estudios 1 bandas por 1 canal"
-    fil_B_C=np.logical_and(data["Bands"]==name_band,data["Channels"]==channel)
+    fil_B_C=data["Channels"]==channel
     filter=data[fil_B_C]
     return filter
-
-def filter_nS_nB_0C_power(data,name_band):
-    fil_B=data["Bands"]==name_band
-    filter=data[fil_B]
-    return filter 
 
 def compare_nS_nB_power(data,name_channel="None"):
     bandas=data["Bands"].unique()
     rows=1
     cols=7
-    figures=[]
     #en un canal especifico
     if name_channel != "None":
-        for band in bandas:
-            fig, ax = plt.subplots()
-            filter= filter_nS_1B_1C_power(data,band,name_channel) 
-            ax=sns.violinplot(x='Study',y="Powers",data=filter)
-            plt.title(band+ ' '+ name_channel,fontsize=40) 
-            plt.xticks(fontsize=40)
-            plt.yticks(fontsize=40)  
-            fig.set_size_inches(15, 15) 
-            figures.append(fig)
-        createCollage(figures,800,3)      
+        fig, ax = plt.subplots()
+        filter= filter_nS_1B_1C_power(data,name_channel) 
+        ax=sns.violinplot(x='Bands',y="Powers",data=data,hue='Study',palette="bright")
+        plt.title('Relative band powers for study'+ ' '+ name_channel,fontsize=15) 
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        plt.show()
+ 
     else: 
         #sin distinguir el canal
-        for band in bandas:
-            fig, ax = plt.subplots()
-            filter= filter_nS_nB_0C_power(data,band)
-            ax=sns.violinplot(x='Study',y="Powers",data=filter)
-            plt.title(band,fontsize=40) 
-            plt.xticks(fontsize=40)
-            plt.yticks(fontsize=40)  
-            fig.set_size_inches(15, 15) 
-            figures.append(fig)
-        createCollage(figures,800,3)      
+        
+        sns.set_theme(style = "darkgrid")
+        sns.violinplot(x='Bands',y="Powers",data=data,hue='Study',palette="bright")
+        plt.title('Relative band powers for study',fontsize=15) 
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15) 
+        plt.show() 
     return 
     
 
@@ -152,14 +141,14 @@ def compare_nS_nG_nB(data,dict_info):
     for j,band in enumerate(bands):
         fig, ax = plt.subplots()
         filter_group=filter_nS_nG_1B(data,dict_info,band)
-        #filter_group['Group']=filter_group['Study']+'-'+filter_group['Group']
-        ax=sns.violinplot(x='Group',y="Powers",data=filter_group,ax=ax,hue='Study')
-        #ax.get_legend().remove()
+        ax=sns.catplot(x='Group',y="Powers",data=data,hue='Study', dodge=True, kind="violin",col='Bands'c,col_wrap=2,legend=False,sharex=False,sharey=False,height=5, aspect=0.8)
+        ax.get_legend().remove()
         plt.title(band,fontsize=40) 
         plt.xticks(fontsize=40)
         plt.yticks(fontsize=40)   
         fig.set_size_inches(15, 15) 
         figures.append(fig)
+    plt.legend(bbox_to_anchor=(1.6, 0.2), loc=4, borderaxespad=0.)
     createCollage(figures,800,3)      
     return 
 
