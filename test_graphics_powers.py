@@ -1,34 +1,38 @@
 from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test 
 from Graphics.GetDataframes import get_dataframe_powers
-from Graphics.functions_postprocessing import compare_1D_nB_0C_power, compare_1D_1V_nB_power,compare_1D_1G_nB_0C_power,compare_1D_nV_nB_power,compare_1D_1B_nC_power, compare_nD_nB_power,compare_nD_nG_nB_power,compare_nD_power
+from Graphics.functions_postprocessing import compare_1D_nB_0C_power, compare_1D_1V_nB_power,compare_1D_1G_nB_0C_power,compare_1D_nV_nB_power,compare_1D_1B_nC_power, compare_nD_nB_power,compare_nD_nG_nB_power,compare_nD_power,compare_norm_1D_1G_nB_power
 import pandas as pd
+import seaborn as sns
+import numpy as np
 
 
 Studies=[SRM_test]
-datos=get_dataframe_powers(Studies,mode="norm")
-datos1=get_dataframe_powers(Studies,mode=None)
-data=pd.concat((datos,datos1))
-data.to_csv('dataframe.csv',index=False)
-#datos=pd.read_csv(r'D:\WEB\paquetes\violinplot\datospotencias.csv',sep=",")
+datos=get_dataframe_powers(Studies,mode="norm") # normalized dataframe 
+datos1=get_dataframe_powers(Studies,mode=None) # whitout normalized dataframe 
+data=pd.concat((datos,datos1)) # concatenate dataframes 
+data.to_csv('dataframe.csv',index=False) # saved dataframe
+
+datos=pd.read_csv(r'D:\WEB\paquetes\violinplot\dataframe_norm.csv',sep=",")
+
+# TOTAL
+compare_nD_power(datos,plot=True)
+
+#n estudios 
+compare_nD_nB_power(datos,name_channel="None")
+
+#n grupos 
+info={
+   'SRM':['SRM'],
+   'BIOMARCADORES':['G1','G2','CTR','DCL','DTA']
+   #'CHBMP':['CHBMP']
+}
+compare_nD_nG_nB_power(datos,info)
+# n sessions
+#compare_1D_nV_nB_power(datos,'BIOMARCADORES')
+compare_1D_nV_nB_power(datos,'SRM')
 
 
-# # TOTAL
-# compare_nD_powers(datos,plot=True)
-
-# #n estudios 
-# compare_nD_nB_power(datos,name_channel="None")
-
-# #n grupos 
-# info={
-#    'SRM':['SRM'],
-#    'BIOMARCADORES':['G1','G2','CTR','DCL','DTA']
-#    #'CHBMP':['CHBMP']
-# }
-# compare_nD_nG_nB(datos,info)
-# # n sessions
-# compare_1D_nV_nB(datos,'BIOMARCADORES')
-# compare_1D_nV_nB(datos,'SRM')
-
+compare_norm_1D_1G_nB_power(datos,'SRM','SRM')
 
 ''' NO SE NECESITA AÚN
 # 1 estudio

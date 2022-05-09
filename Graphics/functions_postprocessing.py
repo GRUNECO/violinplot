@@ -21,7 +21,7 @@ def compare_nD_power(data,plot=False):
     bandas=data["Bands"].unique()
     fig, ax = plt.subplots(1,1)
     fig.set_size_inches(len(bandas)*2,10)
-    sns.violinplot(x='Bands',y="Powers",data=data, palette="Set2")
+    sns.violinplot(x='Bands',y="Powers",data=data, palette="winter_r")
     ax.set_title('Relative bands powers all data')
     ax.set_ylim(-0.1,1.0)
     if plot:
@@ -40,7 +40,7 @@ def compare_1D_nB_0C_power(data,name_study,plot=False):
     bandas=filter_study["Bands"].unique()
     fig, ax = plt.subplots(1,1)
     fig.set_size_inches(len(bandas)*2,10)
-    sns.violinplot(x='Bands',y="Powers",data=filter_study,palette="Set2")
+    sns.violinplot(x='Bands',y="Powers",data=filter_study,palette="winter_r")
     ax.set_title('Relative bands powers for the '+name_study)
     ax.set_ylim(-0.1,1.0)
     if plot:
@@ -57,7 +57,7 @@ def compare_1D_1B_nC_power(data,name_study,name_band,plot=False):
     channels=data["Channels"].unique()
     fig, ax = plt.subplots(1,1)
     fig.set_size_inches(len(channels)*2,10)
-    sns.violinplot(x='Channels',y="Powers",data=filter_band,palette="Set2")
+    sns.violinplot(x='Channels',y="Powers",data=filter_band,palette="winter_r")
     ax.set_title('Relative bands powers  '+name_study+'-'+name_band)
     ax.set_ylim(-0.1,1.0)
     fig.tight_layout()
@@ -82,7 +82,7 @@ def compare_nD_nB_power(data,name_channel="None"):
     cols=7
     #en un canal especifico
     if name_channel != "None":
-        sns.violinplot(x='Bands',y="Powers",data=data,hue='Study',palette="Set2")
+        sns.violinplot(x='Bands',y="Powers",data=data,hue='Study',palette="winter_r")
         plt.ylim(-0.1,1.0)
         plt.title('Relative band powers for study'+ ' '+ name_channel,fontsize=15) 
         plt.xticks(fontsize=15)
@@ -91,7 +91,7 @@ def compare_nD_nB_power(data,name_channel="None"):
  
     else: 
         #sin distinguir el canal
-        sns.violinplot(x='Bands',y="Powers",data=data,hue='Study',palette="Set2")
+        sns.violinplot(x='Bands',y="Powers",data=data,hue='Study',palette="winter_r")
         plt.title('Relative band powers for study',fontsize=15) 
         plt.ylim(-0.1,1.0)
         plt.xticks(fontsize=15)
@@ -113,7 +113,7 @@ def compare_1D_1G_nB_0C_power(data,name_study,name_group,plot=False):
     bandas=filter["Bands"].unique()
     fig, ax = plt.subplots(1,1)
     fig.set_size_inches(len(bandas)*2,10)
-    sns.violinplot(x='Bands',y="Powers",data=filter)
+    sns.violinplot(x='Bands',y="Powers",data=filter,palette='winter_r')
     plt.title(name_study +' '+name_group)
     if plot:
         plt.show()
@@ -143,7 +143,7 @@ def compare_nD_nG_nB_power(data,dict_info):
     n dataset- n groups - n bands
     '''
     bands=data['Bands'].unique()
-    sns.catplot(x='Group',y="Powers",data=data,hue='Study', dodge=True, kind="violin",col='Bands',col_wrap=2,legend=False,palette="Set2")
+    sns.catplot(x='Group',y="Powers",data=data,hue='Study', dodge=True, kind="violin",col='Bands',col_wrap=4,legend=False,palette="winter_r")
     plt.legend(bbox_to_anchor=(1.6, 0.2), loc=4, borderaxespad=0.)
     plt.show()
     return 
@@ -161,7 +161,7 @@ def compare_1D_1V_nB_power(data,name_study,name_session,plot=False):
 
     fig, ax = plt.subplots(1,1)
     fig.set_size_inches(len(bandas)*2,10)
-    sns.violinplot(x='Bands',y="Powers",data=filter)
+    sns.violinplot(x='Bands',y="Powers",data=filter,palette='winter_r')
     ax.set_title("Bandas de frecuencia en: "+name_study+'-'+name_session)
     if plot:
         plt.show()
@@ -172,8 +172,8 @@ def compare_1D_nV_nB_power(data,name_study): #Solo sirve para biomarcadores y SR
     1 dataset- n visits - n bands
     '''
     filter=data["Study"]==name_study
-    filter_group=data[filter]
-    sns.catplot(x='Session',y="Powers",data=filter_group,dodge=True, kind="violin",col='Bands',col_wrap=2,legend=False,palette="Set2")
+    filter_study=data[filter]
+    sns.catplot(x='Session',y="Powers",data=filter_study,dodge=True, kind="violin",col='Bands',col_wrap=4,legend=False,palette="winter_r")
     plt.ylim(-0.1,1.0)
     plt.show()
     return   
@@ -195,5 +195,10 @@ def compare_1D_nV_nB_power(data,name_study): #Solo sirve para biomarcadores y SR
 
 # **************************** COMPARISON WITHOUT NORMALIZING- NORMALIZING *******************************
 
-def compare_norm_1D_1G_nB(data,name_dataset,name_group):
-    data=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group) 
+def compare_norm_1D_1G_nB_power(data,name_dataset,name_group):
+    filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
+    filter_group_dataset=data[filter]
+    sns.catplot(x='Bands',y="Powers",data=filter_group_dataset,dodge=True, kind="box",hue="Normalize",palette='winter_r')
+    sns.set(rc={'figure.figsize':(11.7,8.27)})
+    plt.ylim(-0.1,1.0)
+    plt.show()

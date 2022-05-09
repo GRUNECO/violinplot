@@ -24,9 +24,11 @@ def get_dataframe_powers(Studies,mode=None):
     layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
     Mode=mode
     if Mode == 'norm':
+        # Data with stage of normalized 
         eegs_powers= layout.get(extension='.txt', task=task,suffix='norm', return_type='filename')
         eegs_powers = [x for x in eegs_powers if f'desc-channel[{runlabel}]' in x]
     else:
+      # Data without stage of normalized 
       eegs_powers= layout.get(extension='.txt', task=task,suffix='powers', return_type='filename')
       eegs_powers = [x for x in eegs_powers if f'desc-channel[{runlabel}]' in x]
     
@@ -43,7 +45,7 @@ def get_dataframe_powers(Studies,mode=None):
       list_sessions=list_studies
     else:
       list_sessions=[info['session'] for info in list_info]
-      
+
     list_norm=[1]*len(list_info)
     if  Mode == 'norm':
       dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=list_norm))
@@ -83,7 +85,6 @@ def get_dataframe_wica(Studies):
     layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
     stats_wica = layout.get(extension='.txt', task=task,suffix='stats', return_type='filename')
     stats_wica = [x for x in stats_wica if f'desc-wica' in x]
-    #wica_stats_studies+=stats_wica
     list_studies=[name]*len(stats_wica)
     list_info=[parse_file_entities(stats_wica[i]) for i in range(len(stats_wica))]
     list_subjects=[info['subject'] for info in list_info]
@@ -109,7 +110,6 @@ def get_dataframe_prep(Studies):
     layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
     stats_prep = layout.get(extension='.txt', task=task,suffix='stats', return_type='filename')
     stats_prep = [x for x in stats_prep if f'desc-prep' in x]
-    #prep_stats_studies+=stats_prep
     list_studies=[name]*len(stats_prep)
     list_info=[parse_file_entities(stats_prep[i]) for i in range(len(stats_prep))]
     list_subjects=[info['subject'] for info in list_info]
