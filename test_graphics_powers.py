@@ -14,6 +14,7 @@ data.to_csv('dataframe.csv',index=False) # saved dataframe
 
 datos=pd.read_csv(r'D:\WEB\paquetes\violinplot\dataframe_norm.csv',sep=",")
 
+#********************* WHITOUT NORMALIZIN *****************************************
 # TOTAL
 compare_nD_power(datos,plot=True)
 
@@ -31,6 +32,7 @@ compare_nD_nG_nB_power(datos,info)
 #compare_1D_nV_nB_power(datos,'BIOMARCADORES')
 compare_1D_nV_nB_power(datos,'SRM')
 
+#********************* NORMALIZING *****************************************
 
 compare_norm_1D_1G_nB_power(datos,'SRM','SRM')
 
