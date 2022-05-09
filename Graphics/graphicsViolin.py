@@ -86,7 +86,7 @@ def indicesWica(files,list_studies=None,list_subjects=None,list_groups=None,list
   dfstats_wica=pd.DataFrame({'Study':list_studies,'Subject':list_subjects,'Group':list_groups,'Session':list_sessions,'Components':sums})
   return dfstats_wica
 
-def channelsPowers(data,name_study="None",subject="None",group="None",session="None"):
+def channelsPowers(data,name_study="None",subject="None",group="None",session="None",norm="None"):
   '''
   Function to return the power bands
 
@@ -106,6 +106,7 @@ def channelsPowers(data,name_study="None",subject="None",group="None",session="N
   df_powers['Session']=[]
   df_powers['Subject']=[]
   df_powers['Group']=[]
+  df_powers['Normalize']=[]
 
   for i,key in enumerate(data['bands']):
     df_powers['Study']+=[name_study]*len(data['channels'])
@@ -115,10 +116,11 @@ def channelsPowers(data,name_study="None",subject="None",group="None",session="N
     df_powers['Powers']+=data['channel_power'][i]
     df_powers['Bands']+=[key]*len(data['channels'])
     df_powers['Channels']+=data['channels']
+    df_powers['Normalize']+=[norm]*len(data['channels'])
   powers=pd.DataFrame(df_powers)
   return powers 
 
-def PowersGraphic(powersFiles,list_studies=None,list_subjects=None,list_groups=None,list_sessions=None):
+def PowersGraphic(powersFiles,list_studies=None,list_subjects=None,list_groups=None,list_sessions=None,list_norm=None):
   dataframesPowers=[]
   if list_studies is None:
     list_studies=["None"]*len(powersFiles)
@@ -127,10 +129,12 @@ def PowersGraphic(powersFiles,list_studies=None,list_subjects=None,list_groups=N
   if list_groups is None:
     list_groups=["None"]*len(powersFiles)
   if list_sessions is None:
-    list_sessions=["None"]*len(powersFiles)  
-  for power,name_study,subject,group,session in zip(powersFiles,list_studies,list_subjects,list_groups,list_sessions):
+    list_sessions=["None"]*len(powersFiles) 
+  if list_norm is None:
+    list_norm=[0]*len(powersFiles)
+  for power,name_study,subject,group,session,norm in zip(powersFiles,list_studies,list_subjects,list_groups,list_sessions,list_norm):
     dataFile=load_txt(power)
-    statsPowers=channelsPowers(dataFile,name_study,subject,group,session)
+    statsPowers=channelsPowers(dataFile,name_study,subject,group,session,norm)
     dataframesPowers.append(statsPowers)
   datosPowers=pd.concat((dataframesPowers))
   return datosPowers 

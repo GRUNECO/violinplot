@@ -1,31 +1,33 @@
-#from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test 
+from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test 
 from Graphics.GetDataframes import get_dataframe_powers
 from Graphics.functions_postprocessing import compare_1D_nB_0C_power, compare_1D_1V_nB_power,compare_1D_1G_nB_0C_power,compare_1D_nV_nB_power,compare_1D_1B_nC_power, compare_nD_nB_power,compare_nD_nG_nB_power,compare_nD_power
 import pandas as pd
 
-from paquetes.violinplot.Graphics.functions_postprocessing import compare_nD_powers
 
-# Studies=[BIOMARCADORES_test,SRM_test]
-# datos=get_dataframe_powers(Studies)
-datos=pd.read_csv(r'D:\WEB\paquetes\violinplot\datospotencias.csv',sep=",")
-#datosPowers.to_csv('dataframe.csv',index=False)
+Studies=[SRM_test]
+datos=get_dataframe_powers(Studies,mode="norm")
+datos1=get_dataframe_powers(Studies,mode=None)
+data=pd.concat((datos,datos1))
+data.to_csv('dataframe.csv',index=False)
+#datos=pd.read_csv(r'D:\WEB\paquetes\violinplot\datospotencias.csv',sep=",")
 
-# TOTAL
-compare_nD_powers(datos,plot=True)
 
-#n estudios 
-compare_nD_nB_power(datos,name_channel="None")
+# # TOTAL
+# compare_nD_powers(datos,plot=True)
 
-#n grupos 
-info={
-   'SRM':['SRM'],
-   'BIOMARCADORES':['G1','G2','CTR','DCL','DTA']
-   #'CHBMP':['CHBMP']
-}
-compare_nD_nG_nB(datos,info)
-# n sessions
-compare_1D_nV_nB(datos,'BIOMARCADORES')
-compare_1D_nV_nB(datos,'SRM')
+# #n estudios 
+# compare_nD_nB_power(datos,name_channel="None")
+
+# #n grupos 
+# info={
+#    'SRM':['SRM'],
+#    'BIOMARCADORES':['G1','G2','CTR','DCL','DTA']
+#    #'CHBMP':['CHBMP']
+# }
+# compare_nD_nG_nB(datos,info)
+# # n sessions
+# compare_1D_nV_nB(datos,'BIOMARCADORES')
+# compare_1D_nV_nB(datos,'SRM')
 
 
 ''' NO SE NECESITA AÚN

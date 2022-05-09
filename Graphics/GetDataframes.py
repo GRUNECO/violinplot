@@ -2,6 +2,7 @@ import re
 import pandas as pd 
 from bids import BIDSLayout
 from bids.layout import parse_file_entities
+from pydantic import NoneBytes
 from Graphics.graphicsViolin import PowersGraphic,rejectGraphic,indicesWica,indicesPrep
 import pandas as pd 
 
@@ -17,13 +18,18 @@ def get_information_data(THE_DATASET):
   layout.get(scope='derivatives', return_type='file')
   return layout,task,runlabel,name,group_regex,session_set
    
-def get_dataframe_powers(Studies):
+def get_dataframe_powers(Studies,mode=None):
   dataframesPowers=[]
   for THE_DATASET in Studies:
     layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
-    eegs_powers= layout.get(extension='.txt', task=task,suffix='powers', return_type='filename')
-    eegs_powers = [x for x in eegs_powers if f'desc-channel[{runlabel}]' in x]
-    #cpowers_studies+=eegs_powers
+    Mode=mode
+    if Mode == 'norm':
+        eegs_powers= layout.get(extension='.txt', task=task,suffix='norm', return_type='filename')
+        eegs_powers = [x for x in eegs_powers if f'desc-channel[{runlabel}]' in x]
+    else:
+      eegs_powers= layout.get(extension='.txt', task=task,suffix='powers', return_type='filename')
+      eegs_powers = [x for x in eegs_powers if f'desc-channel[{runlabel}]' in x]
+    
     list_studies=[name]*len(eegs_powers)
     list_info=[parse_file_entities(eegs_powers[i]) for i in range(len(eegs_powers))]
     list_subjects=[info['subject'] for info in list_info]
@@ -38,38 +44,14 @@ def get_dataframe_powers(Studies):
     else:
       list_sessions=[info['session'] for info in list_info]
       
-    dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
+    list_norm=[1]*len(list_info)
+    if  Mode == 'norm':
+      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=list_norm))
+    else:
+      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=None))
             
   dataPowers=pd.concat((dataframesPowers)) 
   return dataPowers
-
-
-def get_dataframe_powers_norm(Studies):
-  dataframesPowers=[]
-  for THE_DATASET in Studies:
-    layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
-    eegs_powers= layout.get(extension='.txt', task=task,suffix='powers', return_type='filename')
-    eegs_powers = [x for x in eegs_powers if f'desc-channel[{runlabel}]' in x]
-    #cpowers_studies+=eegs_powers
-    list_studies=[name]*len(eegs_powers)
-    list_info=[parse_file_entities(eegs_powers[i]) for i in range(len(eegs_powers))]
-    list_subjects=[info['subject'] for info in list_info]
-    # Grupos
-    if group_regex:
-      list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
-    else:
-      list_groups=list_studies
-    # Visita 
-    if session_set == None:
-      list_sessions=list_studies
-    else:
-      list_sessions=[info['session'] for info in list_info]
-      
-    dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
-            
-  dataPowers=pd.concat((dataframesPowers)) 
-  return dataPowers
-
 
 
 def get_dataframe_reject(Studies):

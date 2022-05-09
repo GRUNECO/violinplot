@@ -5,7 +5,8 @@ BIOMARCADORES = {
     'args':{'line_freqs':[60]},
     'group_regex':'(.+).{3}',
     'events_to_keep':None,
-    'run-label':'restCE'
+    'run-label':'restCE',
+    'session':'V'
 }
 
 BIOMARCADORES_test = {
@@ -15,7 +16,8 @@ BIOMARCADORES_test = {
     'args':{'line_freqs':[60]},
     'group_regex':'(.+).{3}',
     'events_to_keep':None,
-    'run-label':'restCE'
+    'run-label':'restCE',
+    'session':'V'
 }
 
 SRM_test = {
@@ -25,7 +27,8 @@ SRM_test = {
     'args':{'line_freqs':[50]},
     'group_regex':None,
     'events_to_keep':None,
-    'run-label':'restCE'
+    'run-label':'restCE',
+    'session':'V'
 }
 
 SRM= {
@@ -35,7 +38,9 @@ SRM= {
     'args':{'line_freqs':[50]},
     'group_regex':None,
     'events_to_keep':None,
-    'run-label':'restCE'
+    'run-label':'restCE',
+    'session':'V'
+
 }
 # CHBMP = {
 #     'name':'CHBMP',
@@ -44,7 +49,8 @@ SRM= {
 #     'args':{'line_freqs':[60],},
 #     'group_regex':None,
 #     'events_to_keep':[65],
-#     'run-label':'restCE'
+#     'run-label':'restCE',
+#     'session':None
 # }
 
 # LEMON = {
@@ -54,5 +60,6 @@ SRM= {
 #     'args':{'resample':1000,'line_freqs':[50],},
 #     'group_regex':None,
 #     'events_to_keep':[5],
-#     'run-label':'restCE'
+#     'run-label':'restCE',
+#     'session':None
 # }
