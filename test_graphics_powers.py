@@ -1,40 +1,32 @@
-from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test 
+from datasets import BIOMARCADORES
 from Graphics.GetDataframes import get_dataframe_powers
-from Graphics.functions_postprocessing import compare_1D_nB_0C_power, compare_1D_1V_nB_power,compare_1D_1G_nB_0C_power,compare_1D_nV_nB_power,compare_1D_1B_nC_power, compare_nD_nB_power,compare_nD_nG_nB_power,compare_nD_power,compare_norm_1D_1G_nB_power
+from Graphics.functions_postprocessing import compare_1D_nB_0C_power, compare_1D_1V_nB_power,compare_1D_1G_nB_0C_power,compare_1D_nV_nB_power,compare_1D_1B_nC_power, compare_nD_nB_power,compare_nD_nG_nB_power,compare_nD_power,compare_norm_1D_1G_nB_power,compare_norm_1D_1G_nB_nV_power
 import pandas as pd
 import seaborn as sns
 import numpy as np
 
 
 Studies=[BIOMARCADORES]
-datos=get_dataframe_powers(Studies,mode="norm") # normalized dataframe 
-datos1=get_dataframe_powers(Studies,mode=None) # whitout normalized dataframe 
-data=pd.concat((datos,datos1)) # concatenate dataframes 
-data.to_csv('dataframe.csv',index=False) # saved dataframe
+# datos=get_dataframe_powers(Studies,mode="norm") # normalized dataframe 
+# datos1=get_dataframe_powers(Studies,mode=None) # whitout normalized dataframe 
+# data=pd.concat((datos,datos1)) # concatenate dataframes 
+# data.to_csv('dataframe_norm_biomarcadores.csv',index=False) # saved dataframe
 
-datos=pd.read_csv(r'D:\WEB\paquetes\violinplot\dataframe_norm.csv',sep=",")
-
-#********************* WHITOUT NORMALIZING *****************************************
-# TOTAL
-compare_nD_power(datos,plot=True)
-
-#n estudios 
-compare_nD_nB_power(datos,name_channel="None")
-
-#n grupos 
-info={
-   'SRM':['SRM'],
-   'BIOMARCADORES':['G1','G2','CTR','DCL','DTA']
-   #'CHBMP':['CHBMP']
-}
-compare_nD_nG_nB_power(datos,info)
-# n sessions
-#compare_1D_nV_nB_power(datos,'BIOMARCADORES')
-compare_1D_nV_nB_power(datos,'SRM')
+datos=pd.read_csv(r'C:\Users\valec\Documents\JI\Codigos\violinplot\dataframe_norm_biomarcadores.csv',sep=",")
+datos['Session']=datos['Session'].replace({'VO':'V0'})
+datos['Group']=datos['Group'].replace({'G2':'CTR'})
 
 #********************* NORMALIZING *****************************************
 
-compare_norm_1D_1G_nB_power(datos,'SRM','SRM')
+
+#Graficos por grupo de todas las bandas comparando potencias normalizadas y no normalizadas
+# GB = ['G1','CTR','DCL','DTA']
+# for i in GB:
+#     compare_norm_1D_1G_nB_power(datos,'BIOMARCADORES',i)
+
+GB = ['G1','CTR','DCL','DTA']
+for i in GB:
+    compare_norm_1D_1G_nB_nV_power(datos,'BIOMARCADORES',i)
 
 ''' NO SE NECESITA AÚN
 # 1 estudio
@@ -93,3 +85,24 @@ for V in Vs_SRM:
 
 
 '''
+
+#********************* WHITOUT NORMALIZING *****************************************
+
+
+# # TOTAL
+# compare_nD_power(datos,plot=True)
+
+# #n estudios 
+# compare_nD_nB_power(datos,name_channel="None")
+
+# #n grupos 
+# info={
+#    'SRM':['SRM'],
+#    'BIOMARCADORES':['G1','G2','CTR','DCL','DTA']
+#    #'CHBMP':['CHBMP']
+# }
+# compare_nD_nG_nB_power(datos,info)
+# # n sessions
+# #compare_1D_nV_nB_power(datos,'BIOMARCADORES')
+# compare_1D_nV_nB_power(datos,'SRM')
+

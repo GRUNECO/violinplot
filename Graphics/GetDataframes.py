@@ -2,7 +2,6 @@ import re
 import pandas as pd 
 from bids import BIDSLayout
 from bids.layout import parse_file_entities
-from pydantic import NoneBytes
 from Graphics.graphicsViolin import PowersGraphic,rejectGraphic,indicesWica,indicesPrep
 import pandas as pd 
 
@@ -46,11 +45,11 @@ def get_dataframe_powers(Studies,mode=None):
     else:
       list_sessions=[info['session'] for info in list_info]
 
-    list_norm=[1]*len(list_info)
+    list_stage=["Normalized data"]*len(list_info)
     if  Mode == 'norm':
-      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=list_norm))
+      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=list_stage))
     else:
-      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=None))
+      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=None))
             
   dataPowers=pd.concat((dataframesPowers)) 
   return dataPowers
