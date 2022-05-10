@@ -28,16 +28,19 @@ def compare_nD_nM_prep(data):
     metrics=filter_study['Metric'].unique()
     figures=[]
     for i,metric in enumerate(metrics):
-        fig,ax=plt.subplots()
+        fig,axs=plt.subplots()
         data_filter=data["Metric"]==metric
         filter=data[data_filter]
-        ax=sns.violinplot(y='Metric_value',x="State",data= filter,hue='Study',fontsize=70,ax=ax,palette="winter_r",height=5, aspect=.8,legend=False)
-        plt.title(metric+' ',fontsize=35)
-        plt.xticks(fontsize=35)
-        plt.yticks(fontsize=35)
+        parameters = {'axes.labelsize': 45,
+          'axes.titlesize': 45}
+        plt.rcParams.update(parameters)
+        ax=sns.violinplot(y='Metric_value',x="State",data= filter,hue='Study',fontsize=70,ax=axs,palette="winter_r",height=5, aspect=.8,legend=False)
+        ax.get_legend().remove()
+        plt.title(metric+' ',fontsize=45)
+        plt.xticks(fontsize=45)
+        plt.yticks(fontsize=45)
         fig.set_size_inches(30, 15)
         figures.append(fig)
-    plt.legend(bbox_to_anchor=(1.6, 0.2), loc=4, borderaxespad=0.)
     createCollage(figures,3000,3) 
     return
 

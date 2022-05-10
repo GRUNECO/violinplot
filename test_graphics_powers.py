@@ -6,7 +6,7 @@ import seaborn as sns
 import numpy as np
 
 
-Studies=[SRM_test]
+Studies=[BIOMARCADORES]
 datos=get_dataframe_powers(Studies,mode="norm") # normalized dataframe 
 datos1=get_dataframe_powers(Studies,mode=None) # whitout normalized dataframe 
 data=pd.concat((datos,datos1)) # concatenate dataframes 
