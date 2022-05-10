@@ -142,7 +142,6 @@ def compare_nD_nG_nB_power(data,dict_info):
     '''
     n dataset- n groups - n bands
     '''
-    bands=data['Bands'].unique()
     sns.catplot(x='Group',y="Powers",data=data,hue='Study', dodge=True, kind="violin",col='Bands',col_wrap=4,legend=False,palette="winter_r")
     plt.legend(bbox_to_anchor=(1.6, 0.2), loc=4, borderaxespad=0.)
     plt.show()

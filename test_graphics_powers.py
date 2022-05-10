@@ -14,7 +14,7 @@ data.to_csv('dataframe.csv',index=False) # saved dataframe
 
 datos=pd.read_csv(r'D:\WEB\paquetes\violinplot\dataframe_norm.csv',sep=",")
 
-#********************* WHITOUT NORMALIZIN *****************************************
+#********************* WHITOUT NORMALIZING *****************************************
 # TOTAL
 compare_nD_power(datos,plot=True)
 

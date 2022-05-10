@@ -34,28 +34,36 @@ def indicesPrep(files,list_studies=None,list_subjects=None,list_groups=None,list
     list_groups=["None"]*len(files)
   if list_sessions is None:
     list_sessions=["None"]*len(files)
+  metrics=3*9
+  df_prep={}
+  df_prep['Study']=list_studies*metrics
+  df_prep['Subject']=list_subjects*metrics
+  df_prep['Group']=list_groups*metrics
+  df_prep['Session']=list_sessions*metrics
+  df_prep['Metric']=[]
+  df_prep['Metric_value']=[]
+  df_prep['State']=[]
   
-  list_noisy_channels_original=[]
-  list_noisy_channels_before_interpolation=[]
-  list_noisy_channels_after_interpolation=[]
+
   for file in files:
     dataFile=load_txt(file)
     noisy_channels_original=dataFile['noisy_channels_original']
-    list_noisy_channels_original.append(pd.DataFrame({key:[len(val)] for key,val in noisy_channels_original.items()}))
+    df_prep['Metric']+=[key for key,val in noisy_channels_original.items()]
+    df_prep['Metric_value']+=[len(val) for key,val in noisy_channels_original.items()]
+    df_prep['State']+=['original']*len(dataFile['noisy_channels_original'])
+   
     noisy_channels_before_interpolation=dataFile['noisy_channels_before_interpolation']
-    list_noisy_channels_before_interpolation.append(pd.DataFrame({key:[len(val)] for key,val in noisy_channels_before_interpolation.items()}))
+    df_prep['Metric']+=[key for key,val in noisy_channels_before_interpolation.items()]
+    df_prep['Metric_value']+=[len(val) for key,val in noisy_channels_before_interpolation.items()]
+    df_prep['State']+=['before_interpolation']*len(dataFile['noisy_channels_before_interpolation'])
+    
     noisy_channels_after_interpolation= dataFile['noisy_channels_after_interpolation']
-    list_noisy_channels_after_interpolation.append(pd.DataFrame({key:[len(val)] for key,val in noisy_channels_after_interpolation.items()}))
-  
-  df_noisy_channels_original=pd.concat((list_noisy_channels_original))
-  df_noisy_channels_before_interpolation=pd.concat((list_noisy_channels_before_interpolation))
-  df_noisy_channels_after_interpolation=pd.concat((list_noisy_channels_after_interpolation))
+    df_prep['Metric']+=[key for key,val in noisy_channels_after_interpolation.items()]
+    df_prep['Metric_value']+=[len(val) for key,val in noisy_channels_after_interpolation.items()]
+    df_prep['State']+=['after_interpolation']*len(dataFile['noisy_channels_after_interpolation'])
 
-  df_noisy_channels_original=df_noisy_channels_original.assign(Study=list_studies,Subject=list_subjects,Group=list_groups,Session=list_sessions)
-  df_noisy_channels_before_interpolation=df_noisy_channels_before_interpolation.assign(Study=list_studies,Subject=list_subjects,Group=list_groups,Session=list_sessions)
-  df_noisy_channels_after_interpolation=df_noisy_channels_after_interpolation.assign(Study=list_studies,Subject=list_subjects,Group=list_groups,Session=list_sessions)
-
-  return df_noisy_channels_original,df_noisy_channels_before_interpolation,df_noisy_channels_after_interpolation
+  dataframe=pd.DataFrame((df_prep))
+  return dataframe
 
 def indicesWica(files,list_studies=None,list_subjects=None,list_groups=None,list_sessions=None):
   '''
