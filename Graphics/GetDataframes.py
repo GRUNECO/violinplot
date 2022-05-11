@@ -3,8 +3,8 @@ import pandas as pd
 from bids import BIDSLayout
 from bids.layout import parse_file_entities
 from pydantic import NoneBytes
-from Graphics.graphicsViolin import PowersGraphic,rejectGraphic,indicesWica,indicesPrep
-import pandas as pd 
+from Graphics.graphicsViolin import PowersGraphic,rejectGraphic,indicesWica,indicesPrep,PowersComponents
+import pandas as pd
 
 def get_information_data(THE_DATASET):
   input_path = THE_DATASET.get('input_path',None)
@@ -53,6 +53,44 @@ def get_dataframe_powers(Studies,mode=None):
       dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=None))
             
   dataPowers=pd.concat((dataframesPowers)) 
+  return dataPowers
+
+def get_dataframe_powers_components(Studies,mode=None):
+  dataframesPowers=[]
+  for THE_DATASET in Studies:
+    layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
+    Mode=mode
+    if Mode == 'norm':
+        # Data with stage of normalized 
+        eegs_powers= layout.get(extension='.txt', task=task,suffix='norm', return_type='filename')
+        eegs_powers = [x for x in eegs_powers if f'desc-component[{runlabel}]' in x]
+    else:
+      # Data without stage of normalized 
+      eegs_powers= layout.get(extension='.txt', task=task,suffix='powers', return_type='filename')
+      eegs_powers = [x for x in eegs_powers if f'desc-component[{runlabel}]' in x]
+    
+    list_studies=[name]*len(eegs_powers)
+    list_info=[parse_file_entities(eegs_powers[i]) for i in range(len(eegs_powers))]
+    list_subjects=[info['subject'] for info in list_info]
+    # Grupos
+    if group_regex:
+      list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
+    else:
+      list_groups=list_studies
+    # Visita 
+    if session_set == None:
+      list_sessions=list_studies
+    else:
+      list_sessions=[info['session'] for info in list_info]
+
+    list_norm=[1]*len(list_info)
+    if  Mode == 'norm':
+      dataframesPowers.append(PowersComponents(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=list_norm))
+    else:
+      dataframesPowers.append(PowersComponents(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=None))
+            
+  dataPowers=pd.concat((dataframesPowers)) 
+  dataPowers.to_excel(r'E:\Academico\Universidad\Posgrado\Tesis\Datos\longitudinal_data_icpowers_norm_long.xlsx')
   return dataPowers
 
 

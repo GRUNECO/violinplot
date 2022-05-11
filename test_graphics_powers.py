@@ -1,4 +1,4 @@
-from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test 
+from datasets import BIOMARCADORESMini
 from Graphics.GetDataframes import get_dataframe_powers
 from Graphics.functions_postprocessing import compare_1D_nB_0C_power, compare_1D_1V_nB_power,compare_1D_1G_nB_0C_power,compare_1D_nV_nB_power,compare_1D_1B_nC_power, compare_nD_nB_power,compare_nD_nG_nB_power,compare_nD_power,compare_norm_1D_1G_nB_power
 import pandas as pd
@@ -6,7 +6,7 @@ import seaborn as sns
 import numpy as np
 
 
-Studies=[SRM_test]
+Studies=[BIOMARCADORESMini]
 datos=get_dataframe_powers(Studies,mode="norm") # normalized dataframe 
 datos1=get_dataframe_powers(Studies,mode=None) # whitout normalized dataframe 
 data=pd.concat((datos,datos1)) # concatenate dataframes 
