@@ -6,7 +6,7 @@ from .functionsImages import create_collage,createCollage
 import numpy as np
 import pandas as pd 
 
-# **************************** WHITOUT NORMALIZING *********************************************
+# **************************** PROCESSING DATA WHITOUT NORMALIZING *********************************************
 # TOTAL
 def compare_nD_power(data,plot=False):
     """
@@ -192,7 +192,7 @@ def compare_1D_nV_nB_power(data,name_study): #Solo sirve para biomarcadores y SR
 #     figures.append(fig)
 # createCollage(figures,800,3)    
 
-# **************************** COMPARISON WITHOUT NORMALIZING- NORMALIZING *******************************
+# **************************** COMPARISON BETWEEN NORMALIZE DATA AND PROCESSING DATA *******************************
 
 def compare_norm_1D_1G_nB_power(data,name_dataset,name_group):
 
