@@ -234,7 +234,7 @@ def filter_nS_nG_1M(superdata,group_dict):
     df=pd.concat((list_df))
     return df
 
-def component_power(data,name_study="None",subject="None",group="None",session="None",norm="None"):
+def component_power(data,name_study="None",subject="None",group="None",session="None",stage="None"):
   df_powers={}
   df_powers['Powers']=[]
   df_powers['Bands']=[]
@@ -243,7 +243,7 @@ def component_power(data,name_study="None",subject="None",group="None",session="
   df_powers['Session']=[]
   df_powers['Subject']=[]
   df_powers['Group']=[]
-  df_powers['Normalize']=[]
+  df_powers['Stage']=[]
 
   for i,key in enumerate(data['bands']):
     ncomps = np.array(data['ics_power']).shape[1]
@@ -256,11 +256,11 @@ def component_power(data,name_study="None",subject="None",group="None",session="
     df_powers['Powers']+=data['ics_power'][i]
     df_powers['Bands']+=[key]*len(comp_labels)
     df_powers['Components']+= comp_labels
-    df_powers['Normalize']+=[norm]*len(comp_labels)
+    df_powers['Stage']+=[stage]*len(comp_labels)
   powers=pd.DataFrame(df_powers)
   return powers 
 
-def PowersComponents(powersFiles,list_studies=None,list_subjects=None,list_groups=None,list_sessions=None,list_norm=None):
+def PowersComponents(powersFiles,list_studies=None,list_subjects=None,list_groups=None,list_sessions=None,list_stage=None):
   dataframesPowers=[]
   if list_studies is None:
     list_studies=["None"]*len(powersFiles)
@@ -270,11 +270,11 @@ def PowersComponents(powersFiles,list_studies=None,list_subjects=None,list_group
     list_groups=["None"]*len(powersFiles)
   if list_sessions is None:
     list_sessions=["None"]*len(powersFiles) 
-  if list_norm is None:
-    list_norm=[0]*len(powersFiles)
-  for power,name_study,subject,group,session,norm in zip(powersFiles,list_studies,list_subjects,list_groups,list_sessions,list_norm):
+  if list_stage is None:
+    list_stage=['Preprocessed data']*len(powersFiles)
+  for power,name_study,subject,group,session,stage in zip(powersFiles,list_studies,list_subjects,list_groups,list_sessions,list_stage):
     dataFile=load_txt(power)
-    statsPowers=component_power(dataFile,name_study,subject,group,session,norm)
+    statsPowers=component_power(dataFile,name_study,subject,group,session,stage)
     dataframesPowers.append(statsPowers)
   datosPowers=pd.concat((dataframesPowers))
   return datosPowers 

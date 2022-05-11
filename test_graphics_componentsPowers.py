@@ -1,4 +1,4 @@
-from datasets import BIOMARCADORESMini
+from datasets import BIOMARCADORES
 from Graphics.GetDataframes import get_dataframe_powers_components
 
-get_dataframe_powers_components([BIOMARCADORESMini], mode='norm')
+get_dataframe_powers_components([BIOMARCADORES], mode=None)

@@ -83,14 +83,14 @@ def get_dataframe_powers_components(Studies,mode=None):
     else:
       list_sessions=[info['session'] for info in list_info]
 
-    list_norm=[1]*len(list_info)
+    list_stage=["Normalized data"]*len(list_info)
     if  Mode == 'norm':
-      dataframesPowers.append(PowersComponents(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=list_norm))
+      dataframesPowers.append(PowersComponents(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=list_stage))
     else:
-      dataframesPowers.append(PowersComponents(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=None))
+      dataframesPowers.append(PowersComponents(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=None))
             
   dataPowers=pd.concat((dataframesPowers)) 
-  dataPowers.to_excel(r'E:\Academico\Universidad\Posgrado\Tesis\Datos\longitudinal_data_icpowers_norm_long.xlsx')
+  dataPowers.to_excel(r'E:\Academico\Universidad\Posgrado\Tesis\Datos\longitudinal_data_icpowers_long.xlsx')
   return dataPowers
 
 
