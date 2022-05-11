@@ -16,6 +16,28 @@ datos=pd.read_csv(r'C:\Users\valec\Documents\JI\Codigos\violinplot\dataframe_nor
 datos['Session']=datos['Session'].replace({'VO':'V0'})
 datos['Group']=datos['Group'].replace({'G2':'CTR'})
 
+
+#********************* WHITOUT NORMALIZING *****************************************
+
+
+# # TOTAL
+# compare_nD_power(datos,plot=True)
+
+# #n estudios 
+# compare_nD_nB_power(datos,name_channel="None")
+
+# #n grupos 
+# info={
+#    'SRM':['SRM'],
+#    'BIOMARCADORES':['G1','G2','CTR','DCL','DTA']
+#    #'CHBMP':['CHBMP']
+# }
+# compare_nD_nG_nB_power(datos,info)
+# # n sessions
+# #compare_1D_nV_nB_power(datos,'BIOMARCADORES')
+# compare_1D_nV_nB_power(datos,'SRM')
+
+
 #********************* NORMALIZING *****************************************
 
 
@@ -85,24 +107,4 @@ for V in Vs_SRM:
 
 
 '''
-
-#********************* WHITOUT NORMALIZING *****************************************
-
-
-# # TOTAL
-# compare_nD_power(datos,plot=True)
-
-# #n estudios 
-# compare_nD_nB_power(datos,name_channel="None")
-
-# #n grupos 
-# info={
-#    'SRM':['SRM'],
-#    'BIOMARCADORES':['G1','G2','CTR','DCL','DTA']
-#    #'CHBMP':['CHBMP']
-# }
-# compare_nD_nG_nB_power(datos,info)
-# # n sessions
-# #compare_1D_nV_nB_power(datos,'BIOMARCADORES')
-# compare_1D_nV_nB_power(datos,'SRM')
 

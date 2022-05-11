@@ -10,6 +10,7 @@ def fig2img(fig):
   buf.seek(0)
   img = Image.open(buf)
   return img
+  
 def getSize(imageList):
     for image in imageList:
         img_width, img_height = image.size
