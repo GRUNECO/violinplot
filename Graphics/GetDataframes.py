@@ -46,11 +46,11 @@ def get_dataframe_powers(Studies,mode=None):
     else:
       list_sessions=[info['session'] for info in list_info]
 
-    list_norm=[1]*len(list_info)
+    list_stage=["Normalized data"]*len(list_info)
     if  Mode == 'norm':
-      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=list_norm))
+      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=list_stage))
     else:
-      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_norm=None))
+      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=None))
             
   dataPowers=pd.concat((dataframesPowers)) 
   return dataPowers
@@ -141,9 +141,7 @@ def get_dataframe_wica(Studies):
   return dataWica 
 
 def get_dataframe_prep(Studies):
-  dataframesPrepOriginal=[]
-  dataframesPrepBefore=[]
-  dataframesPrepAfter=[]
+  dataframes=[]
   for THE_DATASET in Studies:
     layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
     stats_prep = layout.get(extension='.txt', task=task,suffix='stats', return_type='filename')
@@ -159,12 +157,9 @@ def get_dataframe_prep(Studies):
       list_sessions=list_studies
     else:
       list_sessions=[info['session'] for info in list_info]
-    list_Prep=indicesPrep(stats_prep,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions)
-    dataframesPrepOriginal.append(list_Prep[0])
-    dataframesPrepBefore.append(list_Prep[1])
-    dataframesPrepAfter.append(list_Prep[2])
-  dataPrepOriginal=pd.concat((dataframesPrepOriginal))
-  dataPrepBefore=pd.concat((dataframesPrepBefore))
-  dataPrepAfter=pd.concat((dataframesPrepAfter))
-  return dataPrepOriginal,dataPrepBefore,dataPrepAfter
+    data_Prep=indicesPrep(stats_prep,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions)
+    dataframes.append(data_Prep)
+
+  data_Prep=pd.concat(dataframes)
+  return data_Prep 
 

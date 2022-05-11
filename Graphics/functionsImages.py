@@ -45,6 +45,7 @@ def createCollage(imageList, frame_width, images_per_row):
         j+=1
     new_im.show()
     #new_im.save("collage.png", "PNG")
+    return new_im
     
 
 def create_collage(cols,rows,width, height, listofimages):

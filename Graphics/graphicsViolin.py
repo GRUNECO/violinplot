@@ -34,28 +34,36 @@ def indicesPrep(files,list_studies=None,list_subjects=None,list_groups=None,list
     list_groups=["None"]*len(files)
   if list_sessions is None:
     list_sessions=["None"]*len(files)
+  metrics=3*9
+  df_prep={}
+  df_prep['Study']=list_studies*metrics
+  df_prep['Subject']=list_subjects*metrics
+  df_prep['Group']=list_groups*metrics
+  df_prep['Session']=list_sessions*metrics
+  df_prep['Metric']=[]
+  df_prep['Metric_value']=[]
+  df_prep['State']=[]
   
-  list_noisy_channels_original=[]
-  list_noisy_channels_before_interpolation=[]
-  list_noisy_channels_after_interpolation=[]
+
   for file in files:
     dataFile=load_txt(file)
     noisy_channels_original=dataFile['noisy_channels_original']
-    list_noisy_channels_original.append(pd.DataFrame({key:[len(val)] for key,val in noisy_channels_original.items()}))
+    df_prep['Metric']+=[key for key,val in noisy_channels_original.items()]
+    df_prep['Metric_value']+=[len(val) for key,val in noisy_channels_original.items()]
+    df_prep['State']+=['original']*len(dataFile['noisy_channels_original'])
+   
     noisy_channels_before_interpolation=dataFile['noisy_channels_before_interpolation']
-    list_noisy_channels_before_interpolation.append(pd.DataFrame({key:[len(val)] for key,val in noisy_channels_before_interpolation.items()}))
+    df_prep['Metric']+=[key for key,val in noisy_channels_before_interpolation.items()]
+    df_prep['Metric_value']+=[len(val) for key,val in noisy_channels_before_interpolation.items()]
+    df_prep['State']+=['before_interpolation']*len(dataFile['noisy_channels_before_interpolation'])
+    
     noisy_channels_after_interpolation= dataFile['noisy_channels_after_interpolation']
-    list_noisy_channels_after_interpolation.append(pd.DataFrame({key:[len(val)] for key,val in noisy_channels_after_interpolation.items()}))
-  
-  df_noisy_channels_original=pd.concat((list_noisy_channels_original))
-  df_noisy_channels_before_interpolation=pd.concat((list_noisy_channels_before_interpolation))
-  df_noisy_channels_after_interpolation=pd.concat((list_noisy_channels_after_interpolation))
+    df_prep['Metric']+=[key for key,val in noisy_channels_after_interpolation.items()]
+    df_prep['Metric_value']+=[len(val) for key,val in noisy_channels_after_interpolation.items()]
+    df_prep['State']+=['after_interpolation']*len(dataFile['noisy_channels_after_interpolation'])
 
-  df_noisy_channels_original=df_noisy_channels_original.assign(Study=list_studies,Subject=list_subjects,Group=list_groups,Session=list_sessions)
-  df_noisy_channels_before_interpolation=df_noisy_channels_before_interpolation.assign(Study=list_studies,Subject=list_subjects,Group=list_groups,Session=list_sessions)
-  df_noisy_channels_after_interpolation=df_noisy_channels_after_interpolation.assign(Study=list_studies,Subject=list_subjects,Group=list_groups,Session=list_sessions)
-
-  return df_noisy_channels_original,df_noisy_channels_before_interpolation,df_noisy_channels_after_interpolation
+  dataframe=pd.DataFrame((df_prep))
+  return dataframe
 
 def indicesWica(files,list_studies=None,list_subjects=None,list_groups=None,list_sessions=None):
   '''
@@ -86,7 +94,7 @@ def indicesWica(files,list_studies=None,list_subjects=None,list_groups=None,list
   dfstats_wica=pd.DataFrame({'Study':list_studies,'Subject':list_subjects,'Group':list_groups,'Session':list_sessions,'Components':sums})
   return dfstats_wica
 
-def channelsPowers(data,name_study="None",subject="None",group="None",session="None",norm="None"):
+def channelsPowers(data,name_study="None",subject="None",group="None",session="None",stage="None"):
   '''
   Function to return the power bands
 
@@ -106,7 +114,7 @@ def channelsPowers(data,name_study="None",subject="None",group="None",session="N
   df_powers['Session']=[]
   df_powers['Subject']=[]
   df_powers['Group']=[]
-  df_powers['Normalize']=[]
+  df_powers['Stage']=[]
 
   for i,key in enumerate(data['bands']):
     df_powers['Study']+=[name_study]*len(data['channels'])
@@ -116,11 +124,11 @@ def channelsPowers(data,name_study="None",subject="None",group="None",session="N
     df_powers['Powers']+=data['channel_power'][i]
     df_powers['Bands']+=[key]*len(data['channels'])
     df_powers['Channels']+=data['channels']
-    df_powers['Normalize']+=[norm]*len(data['channels'])
+    df_powers['Stage']+=[stage]*len(data['channels'])
   powers=pd.DataFrame(df_powers)
   return powers 
 
-def PowersGraphic(powersFiles,list_studies=None,list_subjects=None,list_groups=None,list_sessions=None,list_norm=None):
+def PowersGraphic(powersFiles,list_studies=None,list_subjects=None,list_groups=None,list_sessions=None,list_stage=None):
   dataframesPowers=[]
   if list_studies is None:
     list_studies=["None"]*len(powersFiles)
@@ -130,11 +138,11 @@ def PowersGraphic(powersFiles,list_studies=None,list_subjects=None,list_groups=N
     list_groups=["None"]*len(powersFiles)
   if list_sessions is None:
     list_sessions=["None"]*len(powersFiles) 
-  if list_norm is None:
-    list_norm=[0]*len(powersFiles)
-  for power,name_study,subject,group,session,norm in zip(powersFiles,list_studies,list_subjects,list_groups,list_sessions,list_norm):
+  if list_stage is None:
+    list_stage=['Preprocessed data']*len(powersFiles)
+  for power,name_study,subject,group,session,stage in zip(powersFiles,list_studies,list_subjects,list_groups,list_sessions,list_stage):
     dataFile=load_txt(power)
-    statsPowers=channelsPowers(dataFile,name_study,subject,group,session,norm)
+    statsPowers=channelsPowers(dataFile,name_study,subject,group,session,stage)
     dataframesPowers.append(statsPowers)
   datosPowers=pd.concat((dataframesPowers))
   return datosPowers 
