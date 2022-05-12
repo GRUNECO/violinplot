@@ -3,8 +3,8 @@
 ## Installation
 
 ```bash
-git clone https://github.com/GRUNECO/eeg-harmonization.git
-cd eeg-harmonization
+git clone https://github.com/GRUNECO/violinplot.git
+cd violinplot
 pip install -r requirements-install.txt
 ```
 
