@@ -11,7 +11,7 @@ import pandas as pd
 def compare_nD_power(data,plot=False):
     """
     data: all dataset in format dataframe
-    plot: False 
+    plot: Boolean  
 
     Return
     Fig 
@@ -179,19 +179,6 @@ def compare_1D_nV_nB_power(data,name_study): #Solo sirve para biomarcadores y SR
 
 
 
-#bands=data['Bands'].unique()
-#figures=[]
-# for num,band in enumerate(bands):
-#     fig, ax = plt.subplots()
-#     filter_group=filter_1D_1V_1B(data,name_study,band)
-#     ax=sns.violinplot(x='Session',y="Powers",data=filter_group,ax=ax)
-#     plt.title(band,fontsize=40)
-#     plt.xticks(fontsize=40)
-#     plt.yticks(fontsize=40)
-#     fig.set_size_inches(15, 15) 
-#     figures.append(fig)
-# createCollage(figures,800,3)    
-
 # **************************** COMPARISON BETWEEN NORMALIZE DATA AND PROCESSING DATA *******************************
 
 def compare_norm_1D_1G_nB_power(data,name_dataset,name_group,save=False):
@@ -206,6 +193,7 @@ def compare_norm_1D_1G_nB_power(data,name_dataset,name_group,save=False):
     plt.yticks(np.arange(0,1,0.1))
     if save==True:
         plt.savefig('Resultados\Graphics_channels\Groups\{name_dataset}_{name_group}_channels.png'.format(name_dataset=name_dataset,name_group=name_group))
+        plt.close()
     return fig
 
 def compare_norm_1D_1G_nB_nV_power(data,name_dataset,name_group,save=False):
@@ -233,3 +221,18 @@ def compare_norm_1D_1G_nB_nV_power(data,name_dataset,name_group,save=False):
     if save==True:
          plt.savefig('Resultados\Graphics_channels\Visits\{name_dataset}_{name_group}_visits_channels.png'.format(name_dataset=name_dataset,name_group=name_group))
     return p
+
+
+# *********************************************************************
+#bands=data['Bands'].unique()
+#figures=[]
+# for num,band in enumerate(bands):
+#     fig, ax = plt.subplots()
+#     filter_group=filter_1D_1V_1B(data,name_study,band)
+#     ax=sns.violinplot(x='Session',y="Powers",data=filter_group,ax=ax)
+#     plt.title(band,fontsize=40)
+#     plt.xticks(fontsize=40)
+#     plt.yticks(fontsize=40)
+#     fig.set_size_inches(15, 15) 
+#     figures.append(fig)
+# createCollage(figures,800,3)    
