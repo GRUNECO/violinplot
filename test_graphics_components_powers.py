@@ -6,8 +6,8 @@ import pandas as pd
 ''' 
 # Just run one time for save the csv and concat the normalize and preprocessing data
 
-get_dataframe_powers_components([BIOMARCADORES], mode=None)
-get_dataframe_powers_components([BIOMARCADORES], mode="norm")
+get_dataframe_powers_components([BIOMARCADORES], stage=None)
+get_dataframe_powers_components([BIOMARCADORES], stage="norm")
 icpowers_long=pd.read_excel(r'Dataframes\longitudinal_data_icpowers_long.xlsx')
 icpowers_norm_long=pd.read_excel(r'Dataframes\longitudinal_data_icpowers_norm_long.xlsx')
 data=pd.concat((icpowers_long,icpowers_norm_long)) # concatenate dataframes 

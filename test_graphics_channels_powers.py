@@ -9,11 +9,21 @@ import numpy as np
 # Just run one time for save the csv and concat the normalize and preprocessing data
 
 Studies=[BIOMARCADORES]
-datos=get_dataframe_powers(Studies,mode="norm") # normalized dataframe 
-datos1=get_dataframe_powers(Studies,mode=None) # whitout normalized dataframe 
-data=pd.concat((datos,datos1)) # concatenate dataframes 
-data.to_csv('dataframe.csv',index=False) # saved dataframe
+channels=get_dataframe_powers(Studies,mode="channels",stage=None,save=True) # whitout normalized dataframe 
+channels_norm=get_dataframe_powers(Studies,mode="channels",stage='norm',save=True) # normalized dataframe 
+components=get_dataframe_powers(Studies,mode="components",stage=None,save=True) # whitout normalized dataframe 
+components_norm=get_dataframe_powers(Studies,mode="components",stage='norm',save=True)# normalized dataframe 
+
+channels_concat=pd.concat((channels,channels_norm)) # concatenate dataframes channels
+components_concat=pd.concat((components,components_norm)) # concatenate dataframes components
+
+channels_concat.to_csv('dataframe.csv',index=False) # saved dataframe
+components_concat.to_csv('dataframe.csv',index=False) # saved dataframe
 ''' 
+Studies=[BIOMARCADORES]
+get_dataframe_powers(Studies,mode="channels",stage='norm',save=True)
+get_dataframe_powers(Studies,mode="components",stage='norm',save=True)
+
 datos=pd.read_csv(r'Dataframes\dataframe_norm_biomarcadores.csv',sep=",")
 
 datos['Session']=datos['Session'].replace({'VO':'V0'})

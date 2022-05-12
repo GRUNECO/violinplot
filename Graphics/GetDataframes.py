@@ -3,7 +3,7 @@ import pandas as pd
 from bids import BIDSLayout
 from bids.layout import parse_file_entities
 from pydantic import NoneBytes
-from Graphics.graphicsViolin import PowersGraphic,rejectGraphic,indicesWica,indicesPrep,PowersComponents
+from Graphics.createDataframes import PowersChannels,rejectGraphic,indicesWica,indicesPrep,PowersComponents
 import pandas as pd
 
 def get_information_data(THE_DATASET):
@@ -18,54 +18,29 @@ def get_information_data(THE_DATASET):
   layout.get(scope='derivatives', return_type='file')
   return layout,task,runlabel,name,group_regex,session_set
    
-def get_dataframe_powers(Studies,mode=None):
+def get_dataframe_powers(Studies,mode="channels",stage=None,save=False):
   dataframesPowers=[]
   for THE_DATASET in Studies:
     layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
-    Mode=mode
-    if Mode == 'norm':
-        # Data with stage of normalized 
+    Stage=stage
+    if Stage == 'norm' and mode== "channels":
+        # Data with stage of normalized for channels
         eegs_powers= layout.get(extension='.txt', task=task,suffix='norm', return_type='filename')
         eegs_powers = [x for x in eegs_powers if f'desc-channel[{runlabel}]' in x]
-    else:
-      # Data without stage of normalized 
+
+    elif Stage== None and mode== "channels":
+      # Data without stage of normalized for channels
       eegs_powers= layout.get(extension='.txt', task=task,suffix='powers', return_type='filename')
       eegs_powers = [x for x in eegs_powers if f'desc-channel[{runlabel}]' in x]
-    
-    list_studies=[name]*len(eegs_powers)
-    list_info=[parse_file_entities(eegs_powers[i]) for i in range(len(eegs_powers))]
-    list_subjects=[info['subject'] for info in list_info]
-    # Grupos
-    if group_regex:
-      list_groups=[re.search('(.+).{3}',group).string[re.search('(.+).{3}',group).regs[-1][0]:re.search('(.+).{3}',group).regs[-1][1]] for group in list_subjects]
-    else:
-      list_groups=list_studies
-    # Visita 
-    if session_set == None:
-      list_sessions=list_studies
-    else:
-      list_sessions=[info['session'] for info in list_info]
 
-    list_stage=["Normalized data"]*len(list_info)
-    if  Mode == 'norm':
-      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=list_stage))
-    else:
-      dataframesPowers.append(PowersGraphic(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=None))
-            
-  dataPowers=pd.concat((dataframesPowers)) 
-  return dataPowers
-
-def get_dataframe_powers_components(Studies,mode=None):
-  dataframesPowers=[]
-  for THE_DATASET in Studies:
-    layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
-    Mode=mode
-    if Mode == 'norm':
-        # Data with stage of normalized 
+    elif Stage == 'norm' and mode == "components":
+        # Data with stage of normalized for components 
         eegs_powers= layout.get(extension='.txt', task=task,suffix='norm', return_type='filename')
         eegs_powers = [x for x in eegs_powers if f'desc-component[{runlabel}]' in x]
-    else:
-      # Data without stage of normalized 
+
+    else: 
+      #Stage== None and mode == "components ":
+      # Data without stage of normalized for components 
       eegs_powers= layout.get(extension='.txt', task=task,suffix='powers', return_type='filename')
       eegs_powers = [x for x in eegs_powers if f'desc-component[{runlabel}]' in x]
     
@@ -84,15 +59,27 @@ def get_dataframe_powers_components(Studies,mode=None):
       list_sessions=[info['session'] for info in list_info]
 
     list_stage=["Normalized data"]*len(list_info)
-    if  Mode == 'norm':
-      dataframesPowers.append(PowersComponents(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=list_stage))
+    if  Stage == 'norm':
+        if mode=='channels':
+          dataframesPowers.append(PowersChannels(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=list_stage))
+        else: 
+          dataframesPowers.append(PowersComponents(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=list_stage))
     else:
-      dataframesPowers.append(PowersComponents(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=None))
-            
-  dataPowers=pd.concat((dataframesPowers)) 
-  dataPowers.to_excel(r'E:\Academico\Universidad\Posgrado\Tesis\Datos\longitudinal_data_icpowers_long.xlsx')
+      if mode=='channels':
+        dataframesPowers.append(PowersChannels(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=None))
+      else:
+        dataframesPowers.append(PowersComponents(eegs_powers,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions,list_stage=None))       
+  dataPowers=pd.concat((dataframesPowers))
+  if save== True:
+    if  mode== 'channels' and stage ==None:
+      dataPowers.to_excel(r'Dataframes\longitudinal_data_powers_long_{mode}.xlsx'.format(mode=mode))
+    if mode == 'components' and stage== None:
+      dataPowers.to_excel(r'Dataframes\longitudinal_data_powers_long_{mode}.xlsx'.format(mode=mode))
+    if mode == 'channels' and stage== 'norm':
+      dataPowers.to_excel(r'Dataframes\longitudinal_data_powers_long_{mode}_{stage}.xlsx'.format(mode=mode,stage=stage))
+    if mode == 'components' and stage== 'norm':
+      dataPowers.to_excel(r'Dataframes\longitudinal_data_powers_long_{mode}_{stage}.xlsx'.format(mode=mode,stage=stage))  
   return dataPowers
-
 
 def get_dataframe_reject(Studies):
   dataframesReject=[]

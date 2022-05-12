@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from Graphics.functionsImages import createCollage
-from Graphics.graphicsViolin import filter_nS_nG_1M
+from functionsImages import createCollage
+from createDataframes import filter_nS_nG_1M
 import numpy as np
 
 # TOTAL
