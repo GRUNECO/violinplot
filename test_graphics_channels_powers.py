@@ -1,4 +1,3 @@
-from datasets import BIOMARCADORESMini
 from datasets import BIOMARCADORES
 from Graphics.GetDataframes import get_dataframe_powers
 from Graphics.functions_postprocessing_channels import compare_1D_nB_0C_power, compare_1D_1V_nB_power,compare_1D_1G_nB_0C_power,compare_1D_nV_nB_power,compare_1D_1B_nC_power, compare_nD_nB_power,compare_nD_nG_nB_power,compare_nD_power,compare_norm_1D_1G_nB_power,compare_norm_1D_1G_nB_nV_power
@@ -6,19 +5,17 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 
+''' 
+# Just run one time for save the csv and concat the normalize and preprocessing data
 
-Studies=[BIOMARCADORESMini]
+Studies=[BIOMARCADORES]
 datos=get_dataframe_powers(Studies,mode="norm") # normalized dataframe 
 datos1=get_dataframe_powers(Studies,mode=None) # whitout normalized dataframe 
 data=pd.concat((datos,datos1)) # concatenate dataframes 
 data.to_csv('dataframe.csv',index=False) # saved dataframe
-Studies=[BIOMARCADORES]
-# datos=get_dataframe_powers(Studies,mode="norm") # normalized dataframe 
-# datos1=get_dataframe_powers(Studies,mode=None) # whitout normalized dataframe 
-# data=pd.concat((datos,datos1)) # concatenate dataframes 
-# data.to_csv('dataframe_norm_biomarcadores.csv',index=False) # saved dataframe
+''' 
+datos=pd.read_csv(r'Dataframes\dataframe_norm_biomarcadores.csv',sep=",")
 
-datos=pd.read_csv(r'C:\Users\valec\Documents\JI\Codigos\violinplot\dataframe_norm_biomarcadores.csv',sep=",")
 datos['Session']=datos['Session'].replace({'VO':'V0'})
 datos['Group']=datos['Group'].replace({'G2':'CTR'})
 
@@ -46,15 +43,13 @@ datos['Group']=datos['Group'].replace({'G2':'CTR'})
 
 #********************* NORMALIZING *****************************************
 
-
-#Graficos por grupo de todas las bandas comparando potencias normalizadas y no normalizadas
-# GB = ['G1','CTR','DCL','DTA']
-# for i in GB:
-#     compare_norm_1D_1G_nB_power(datos,'BIOMARCADORES',i)
-
 GB = ['G1','CTR','DCL','DTA']
-for i in GB:
-    compare_norm_1D_1G_nB_nV_power(datos,'BIOMARCADORES',i)
+#Graficos por grupo de todas las bandas comparando potencias normalizadas y no normalizadas
+
+# for gr in GB:
+#     compare_norm_1D_1G_nB_power(datos,'BIOMARCADORES',gr,save=True)
+for gr in GB:
+    compare_norm_1D_1G_nB_nV_power(datos,'BIOMARCADORES',gr,save=False)
 
 ''' NO SE NECESITA AÚN
 # 1 estudio

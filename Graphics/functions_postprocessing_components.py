@@ -32,7 +32,6 @@ def compare_norm_1D_1G_nB_ncomp_power(data,name_dataset,name_group,save=False):
     p.fig.text(0.01, 0.5,  'Relative powers', ha='center', va='center',rotation='vertical')
     if save==True:
         plt.savefig('Resultados\Graphics_components\Groups\{name_dataset}_{name_group}_components.png'.format(name_dataset=name_dataset,name_group=name_group))
-    plt.show()
     return 
 def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band, save=False):
     '''

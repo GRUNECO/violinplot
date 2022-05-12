@@ -194,27 +194,42 @@ def compare_1D_nV_nB_power(data,name_study): #Solo sirve para biomarcadores y SR
 
 # **************************** COMPARISON BETWEEN NORMALIZE DATA AND PROCESSING DATA *******************************
 
-def compare_norm_1D_1G_nB_power(data,name_dataset,name_group):
+def compare_norm_1D_1G_nB_power(data,name_dataset,name_group,save=False):
 
     filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
     filter_group_dataset=data[filter]
+    fig=plt.Figure()
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
-    sns.boxplot(x='Bands',y="Powers",data=filter_group_dataset,hue="Stage",palette='winter_r',fliersize=1.5,linewidth=0.5)
+    fig=sns.boxplot(x='Bands',y="Powers",data=filter_group_dataset,hue="Stage",palette='winter_r',fliersize=1.5,linewidth=0.5)
     plt.title('Relative power bands of normalized and preprocessed data given by '+name_group)
     plt.yticks(np.arange(0,1,0.1))
-    plt.show()
+    if save==True:
+        plt.savefig('Resultados\Graphics_channels\Groups\{name_dataset}_{name_group}_channels.png'.format(name_dataset=name_dataset,name_group=name_group))
+    return fig
 
-def compare_norm_1D_1G_nB_nV_power(data,name_dataset,name_group):
+def compare_norm_1D_1G_nB_nV_power(data,name_dataset,name_group,save=False):
+    '''
+    Compare normalized and preprocessed data for 1 dataset- 1 group- n bands- n visits
     
+    data:dataset 
+    name_dataset: str
+    name_group: str
+    save: boolean
+    '''
     filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
     filter_group_dataset=data[filter]
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
     p=sns.catplot(x='Session',y="Powers",data=filter_group_dataset,hue="Stage",dodge=True, kind="box",col='Bands',col_wrap=4,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
     plt.yticks(np.arange(0,1,0.1))
-    p.set(xlabel=None)
-    p.fig.subplots_adjust(top=0.925,bottom=0.130, right=0.970,left=0.051) # adjust the Figure in rp
     p.fig.suptitle('Relative power bands of normalized and preprocessed data given by '+name_group+" and all visits")
-    plt.legend(loc='upper right',bbox_to_anchor=(0.95,0.95))
-    plt.show()
+    p.set(xlabel=None)
+    p.set(ylabel=None)
+    p.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=2)
+    p.fig.subplots_adjust(top=0.857,bottom=0.121, right=0.986,left=0.05, hspace=0.138, wspace=0.062) # adjust the Figure in rp
+    p.fig.text(0.5, 0.04, 'Sessions', ha='center', va='center')
+    p.fig.text(0.01, 0.5,  'Relative powers', ha='center', va='center',rotation='vertical')
+    if save==True:
+         plt.savefig('Resultados\Graphics_channels\Visits\{name_dataset}_{name_group}_visits_channels.png'.format(name_dataset=name_dataset,name_group=name_group))
+    return p
