@@ -185,10 +185,10 @@ def compare_norm_1D_1G_nB_power(data,name_dataset,name_group,save=False):
 
     filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
     filter_group_dataset=data[filter]
-    fig=plt.Figure()
+    fig,ax=plt.subplots()
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
-    fig=sns.boxplot(x='Bands',y="Powers",data=filter_group_dataset,hue="Stage",palette='winter_r',fliersize=1.5,linewidth=0.5)
+    ax.sns.boxplot(x='Bands',y="Powers",data=filter_group_dataset,hue="Stage",palette='winter_r',fliersize=1.5,linewidth=0.5)
     plt.title('Relative power bands of normalized and preprocessed data given by '+name_group)
     plt.yticks(np.arange(0,1,0.1))
     if save==True:

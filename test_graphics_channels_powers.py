@@ -57,7 +57,7 @@ GB = ['G1','CTR','DCL','DTA']
 #Graficos por grupo de todas las bandas comparando potencias normalizadas y no normalizadas
 
 for gr in GB:
-    compare_norm_1D_1G_nB_power(datos,'BIOMARCADORES',gr,save=True)
+    compare_norm_1D_1G_nB_power(datos,'BIOMARCADORES',gr,save=False)
 # for gr in GB:
 #     compare_norm_1D_1G_nB_nV_power(datos,'BIOMARCADORES',gr,save=False)
 

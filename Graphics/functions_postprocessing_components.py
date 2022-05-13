@@ -44,7 +44,7 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
     filter_component=filter_group_dataset[filter_group_dataset.Components.isin(components) & filter_group_dataset.Bands.isin([name_band])] 
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
-    p=sns.catplot(x='Session',y="Powers",data=filter_component,hue="Stage",dodge=True, kind="box",col='Components',col_wrap=4,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
+    p=sns.catplot(x='Session',y="Powers",data=filter_component,hue='Stage',dodge=True, kind="box",col='Components',col_wrap=4,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
     plt.yticks(np.arange(0,1,0.1))
     p.set(xlabel=None)
     p.set(ylabel=None)
@@ -55,5 +55,6 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
     p.fig.text(0.01, 0.5,  'Relative powers', ha='center', va='center',rotation='vertical')
     if save==True:
         plt.savefig('Resultados\Graphics_components\Visits\{name_dataset}_{name_group}_{name_band}_components.png'.format(name_dataset=name_dataset,name_group=name_group,name_band=name_band))
+    plt.show()
     return 
 # **************************** PROCESSING DATA WHITOUT NORMALIZING *********************************************
