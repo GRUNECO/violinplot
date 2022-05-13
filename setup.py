@@ -1,7 +1,7 @@
 import setuptools
 import versioneer
 
-REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
+#REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
 
 
 # Give setuptools a hint to complain if it's too old a version
@@ -13,7 +13,5 @@ SETUP_REQUIRES = ["setuptools >= 38.3.0"]
 
 setuptools.setup(
     setup_requires=SETUP_REQUIRES,
-    install_requires = REQUIREMENTS,
     version=versioneer.get_version(),
-    cmdclass=versioneer.get_cmdclass(),
 )

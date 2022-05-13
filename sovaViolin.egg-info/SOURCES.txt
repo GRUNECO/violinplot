@@ -1,0 +1,9 @@
+MANIFEST.in
+README.md
+setup.cfg
+setup.py
+versioneer.py
+sovaViolin.egg-info/PKG-INFO
+sovaViolin.egg-info/SOURCES.txt
+sovaViolin.egg-info/dependency_links.txt
+sovaViolin.egg-info/top_level.txt
