@@ -7,6 +7,39 @@ from Graphics.createDataframes import PowersChannels,rejectGraphic,indicesWica,i
 import pandas as pd
 
 def get_information_data(THE_DATASET):
+  '''
+  Function to extract information about data
+  
+  Parameters:
+  --------------
+    THE_DATASET: dictionary with the following keys:
+    {
+    'name': str, Name of the dataset
+    'input_path': str, Path of the bids input dataset,
+    'layout': dict, Arguments of the filter to apply for querying eegs to be processed. See pybids BIDSLayout arguments.
+    'args': dict, Arguments of the sovaflow.preflow function in dictionary form.
+    'group_regex': str, regex string to obtain the group from the subject id (if applicable) else None
+    'events_to_keep': list, list of events to keep for the analysis
+    'run-label': str, label associated with the run of the algorithm so that the derivatives are not overwritten.
+    'channels': list, channel labels to keep for analysis in the order wanted. Use standard 1005 names in UPPER CASE
+    'spatial_filter': str, spatial filter to be used for component analysis. Should correspond to those in sovaflow. One of '53x53', '58x25', '62x19'
+    }
+     
+  Returns:
+  -------------- 
+    layout:
+    task: string
+      Type of any cognitive task 
+    runlabel: string
+      Name of  any cognitive task in format BIDS
+    name: string
+      Name of dataset 
+    group_regex: string
+      Properties can be inferred from the path of the source files for format BIDS. Refers to groups from the data.
+    session_set: string 
+      Properties can be inferred from the path of the source files for format BIDS. Refers to sessions from the data.
+
+  '''
   input_path = THE_DATASET.get('input_path',None)
   task = THE_DATASET.get('layout',None).get('task',None)
   group_regex = THE_DATASET.get('group_regex',None)
@@ -15,10 +48,28 @@ def get_information_data(THE_DATASET):
   session_set = THE_DATASET.get('session',None)
   data_path = input_path
   layout = BIDSLayout(data_path,derivatives=True)
-  layout.get(scope='derivatives', return_type='file')
   return layout,task,runlabel,name,group_regex,session_set
    
 def get_dataframe_powers(Studies,mode="channels",stage=None,save=False):
+  """
+  Function to read and store the data in the form of a dataframe for powers 
+
+  Parameters:
+  ---------------
+    Studies: dict
+    mode: string
+      Type relative powers in channels o components
+    stage: string
+      Type of processing stage, with or without normalization data
+    save: Boolean
+      Optional for save the dataframe in format 'xlsx'
+
+  Returns:
+  -------------- 
+    dataPowers: dataframe
+
+
+  """
   dataframesPowers=[]
   for THE_DATASET in Studies:
     layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
@@ -81,7 +132,21 @@ def get_dataframe_powers(Studies,mode="channels",stage=None,save=False):
       dataPowers.to_excel(r'Dataframes\longitudinal_data_powers_long_{mode}_{stage}.xlsx'.format(mode=mode,stage=stage))  
   return dataPowers
 
-def get_dataframe_reject(Studies):
+def get_dataframe_reject(Studies,save=False):
+  '''
+  Function to read and store the data in the form of a dataframe for stage the rejects of processing 
+
+  Parameters:
+  ---------------
+    Studies: dict
+    save: Boolean
+      Optional for save the dataframe in format 'xlsx'
+
+  Returns:
+  -------------- 
+    dataReject: dataframe
+
+  '''
   dataframesReject=[]
   for THE_DATASET in Studies:
     layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
@@ -102,9 +167,24 @@ def get_dataframe_reject(Studies):
     dataframesReject.append(rejectGraphic(stats_reject,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
         
   dataReject=pd.concat((dataframesReject))
+  if save== True:
+        dataReject.to_excel(r'Dataframes\data_reject.xlsx')
   return dataReject       
 
-def get_dataframe_wica(Studies):
+def get_dataframe_wica(Studies,save=False):
+  '''
+  Function to read and store the data in the form of a dataframe for stage the wICA of processing
+  
+  Parameters:
+  ---------------
+    Studies: dict
+    save: Boolean
+      Optional for save the dataframe in format 'xlsx'
+
+  Returns:
+  -------------- 
+    dataWica: dataframe
+  '''
   dataframesWica=[]
   for THE_DATASET in Studies:
     layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
@@ -125,9 +205,24 @@ def get_dataframe_wica(Studies):
     dataframesWica.append(indicesWica(stats_wica,list_studies=list_studies,list_subjects=list_subjects,list_groups=list_groups,list_sessions=list_sessions))
         
   dataWica=pd.concat((dataframesWica))
+  if save== True:
+    dataWica.to_excel(r'Dataframes\data_wICA.xlsx')
   return dataWica 
 
-def get_dataframe_prep(Studies):
+def get_dataframe_prep(Studies,save=False):
+  '''
+  Function to read and store the data in the form of a dataframe for stage the PREP of processing
+  
+  Parameters:
+  ---------------
+    Studies: dict
+    save: Boolean
+      Optional for save the dataframe in format 'xlsx'
+
+  Returns:
+  -------------- 
+    data_Prep: dataframe
+  '''
   dataframes=[]
   for THE_DATASET in Studies:
     layout,task,runlabel,name,group_regex,session_set=get_information_data(THE_DATASET)
@@ -148,5 +243,7 @@ def get_dataframe_prep(Studies):
     dataframes.append(data_Prep)
 
   data_Prep=pd.concat(dataframes)
+  if save== True:
+    data_Prep.to_excel(r'Dataframes\data_PREP.xlsx')
   return data_Prep 
 
