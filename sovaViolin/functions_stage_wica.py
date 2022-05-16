@@ -7,7 +7,8 @@ import numpy as np
 #TOTAL
 def compare_all_nD_wica(data,plot=False,encode=False):
     axs=sns.violinplot(y='Components',data=data,palette='winter_r')
-    plt.title("")
+    plt.legend(data['Study'].unique())
+    plt.title("The Wavelet Transform and the Independent Component Analysis (wICA) technique for all datasets")
     if plot:
         plt.show()
     if encode:
@@ -21,6 +22,7 @@ def compare_1D_wica(data,name_study,plot=False,encode=False):
     s=data["Study"]==name_study
     filter_study=data[s]
     axs=sns.violinplot(x='Study',y='Components',data=filter_study,palette='winter_r')
+    plt.title("The Wavelet Transform and the Independent Component Analysis (wICA) technique for "+ name_study)
     if plot:
         plt.show()
     if encode:
@@ -30,6 +32,7 @@ def compare_1D_wica(data,name_study,plot=False,encode=False):
 
 def compare_nD_wica(data,plot=False,encode=False):
     axs=sns.violinplot(x='Study',y='Components',data=data,palette='winter_r')
+    plt.title("Comparison of different datasets in the Wavelet Transform stage and the Independent Component Analysis (wICA) technique ")
     if plot:
         plt.show()
     if encode:
@@ -42,6 +45,7 @@ def compare_1D_nV_wica(data,name_study,plot=False,encode=False):
     s=data["Study"]==name_study
     filter_study=data[s]
     axs=sns.violinplot(x='Session',y='Components',data=filter_study,palette='winter_r')
+    plt.title("Comparison of different session in the Wavelet Transform stage and the Independent Component Analysis (wICA) technique for "+name_study)
     if plot:
         plt.show()
     if encode:
@@ -72,6 +76,7 @@ def compare_nD_nG_wica(data,dict_info,plot=False,encode=False):
     fig, ax = plt.subplots(figsize=(15,10))
     filter_group=filter_nD_nG_1B(data,dict_info)
     axs=sns.violinplot(x='Group',y="Components",data=filter_group,ax=ax,hue='Study',palette='winter_r')
+    plt.title("Comparison of different groups in the Wavelet Transform stage and the Independent Component Analysis (wICA) technique for ")
     if plot:
         plt.show()
     if encode:

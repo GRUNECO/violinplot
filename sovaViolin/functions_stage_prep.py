@@ -29,14 +29,19 @@ def compare_1D_nM_prep(data,name_study,plot=False,encode=False):
         return img_encode 
     return 
 
-def compare_nD_nM_prep(data):
+def compare_nD_nM_prep(data,plot=False,encode=False):
     filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
-    ax=sns.catplot(y='Metric',x="State",data= filter,hue='Study',fontsize=70,palette="winter_r",height=5, aspect=.8,legend=False)
+    axs=sns.catplot(y='Metric',x="State",data= filter,hue='Study',fontsize=70,palette="winter_r",height=5, aspect=.8,legend=False)
+    if plot:
+        plt.show()
+    if encode:
+        img_encode=fig2img_encode(axs)
+        return img_encode 
     return
 
 # GRUPO
 
-def compare_nD_nG_nB_prep(data,dict_info):
+def compare_nD_nG_nB_prep(data,dict_info,plot=False,encode=False):
     figures_i=[]
     figures_f=[]
     filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
@@ -54,7 +59,7 @@ def compare_nD_nG_nB_prep(data,dict_info):
     return 
 
 # VISITA
-def compare_1D_nV_nM_prep(data,name_study):
+def compare_1D_nV_nM_prep(data,name_study,plot=False,encode=False):
     filter_metrics=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
     metrics=filter_metrics.keys() 
     figures=[]
