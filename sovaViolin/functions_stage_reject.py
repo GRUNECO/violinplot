@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from functionsImages import create_collage,createCollage
-from createDataframes import filter_nS_nG_1M
+from sovaharmony.createDataframes import filter_nS_nG_1M
 import numpy as np
 
 # TOTAL
@@ -12,7 +12,7 @@ def compare_nD(data):
     figures_i=[]
     for i,metric in enumerate(metrics[0:5]):
         fig,ax=plt.subplots()
-        ax=sns.violinplot(y=metric,data= data,fontsize=70,ax=ax)
+        ax=sns.violinplot(y=metric,data= data,fontsize=70)
         plt.title(metric,fontsize=35)
         plt.xticks(fontsize=35)
         plt.yticks(fontsize=35)

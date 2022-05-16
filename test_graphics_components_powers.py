@@ -1,6 +1,6 @@
 from datasets import BIOMARCADORES
 #from Graphics.GetDataframes import get_dataframe_powers_components
-from Graphics.functions_postprocessing_components import compare_norm_1D_1G_nB_ncomp_power,compare_norm_1D_1G_1B_nV_ncomp_power
+from sovaViolin.functions_postprocessing_components import compare_norm_1D_1G_nB_ncomp_power,compare_norm_1D_1G_1B_nV_ncomp_power
 import pandas as pd 
 
 ''' 

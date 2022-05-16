@@ -1,6 +1,8 @@
 from PIL import Image
 from numpy import ceil 
 from matplotlib import pyplot as plt
+import io
+import base64
 
 def fig2img(fig):
   """Convert a Matplotlib figure to a PIL Image and return it"""
@@ -10,6 +12,14 @@ def fig2img(fig):
   buf.seek(0)
   img = Image.open(buf)
   return img
+
+def fig2img_encode(fig):
+  """Convert a Matplotlib figure to a PIL Image and return it"""
+  buf = io.BytesIO()
+  fig.savefig(buf ,format='jpg')
+  buf.seek(0)
+  my_base64_jpgData = base64.b64encode(buf.read())
+  return my_base64_jpgData
   
 def getSize(imageList):
     for image in imageList:

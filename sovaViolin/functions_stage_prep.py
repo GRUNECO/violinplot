@@ -1,47 +1,37 @@
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from functionsImages import createCollage
-from createDataframes import filter_nS_nG_1M
+from functionsImages import createCollage,fig2img_encode
+from sovaharmony.createDataframes import filter_nS_nG_1M
 import numpy as np
 
 # TOTAL
-
-def compare_nD(data):
-    sns.catplot(x='State',y='Metric_value',data=data, col='Metric',col_wrap=3,dodge=True, kind="violin",palette="winter_r")   
+def compare_nD(data,plot=False,encode=False):
+    axs=sns.catplot(x='State',y='Metric_value',data=data, col='Metric',col_wrap=3,dodge=True, kind="violin",palette="winter_r")   
     plt.legend(bbox_to_anchor=(1.6, 0.2), loc=4, borderaxespad=0.)
-    plt.show()
+    if plot:
+        plt.show()
+    if encode:
+        img_encode=fig2img_encode(axs)
+        return img_encode 
     return 
-
 
 # ESTUDIO 
-def compare_1D_nM_prep(data,name_study):
+def compare_1D_nM_prep(data,name_study,plot=False,encode=False):
     s=data["Study"]==name_study
     filter=data[s]
-    sns.catplot(x='State',y='Metric_value',data=filter, hue='Study',col='Metric',col_wrap=3,dodge=True, kind="violin",palette="winter_r")   
+    axs=sns.catplot(x='State',y='Metric_value',data=filter, hue='Study',col='Metric',col_wrap=3,dodge=True, kind="violin",palette="winter_r")   
     plt.legend(bbox_to_anchor=(1.6, 0.2), loc=4, borderaxespad=0.)
-    plt.show()
+    if plot:
+        plt.show()
+    if encode:
+        img_encode=fig2img_encode(axs)
+        return img_encode 
     return 
-    
+
 def compare_nD_nM_prep(data):
     filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
-    metrics=filter_study['Metric'].unique()
-    figures=[]
-    for i,metric in enumerate(metrics):
-        fig,axs=plt.subplots()
-        data_filter=data["Metric"]==metric
-        filter=data[data_filter]
-        parameters = {'axes.labelsize': 45,
-          'axes.titlesize': 45}
-        plt.rcParams.update(parameters)
-        ax=sns.violinplot(y='Metric_value',x="State",data= filter,hue='Study',fontsize=70,ax=axs,palette="winter_r",height=5, aspect=.8,legend=False)
-        ax.get_legend().remove()
-        plt.title(metric+' ',fontsize=45)
-        plt.xticks(fontsize=45)
-        plt.yticks(fontsize=45)
-        fig.set_size_inches(30, 15)
-        figures.append(fig)
-    createCollage(figures,3000,3) 
+    ax=sns.catplot(y='Metric',x="State",data= filter,hue='Study',fontsize=70,palette="winter_r",height=5, aspect=.8,legend=False)
     return
 
 # GRUPO

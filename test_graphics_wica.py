@@ -1,33 +1,26 @@
-from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test
-from Graphics.GetDataframes import get_dataframe_wica
-from Graphics.functions_stage_wica import compare_1S_wica,compare_nS_wica,compare_1S_nV_wica,compare_nS_nG_wica,compare_nS_nG_wica
+from sovaViolin.functions_stage_wica import compare_all_nD_wica,compare_nD_wica,compare_1D_wica,compare_1D_nV_wica,compare_nD_nG_wica,compare_nD_nG_wica
+import pandas as pd 
 
-
-Studies=[BIOMARCADORES,SRM]
-Studies_test=[BIOMARCADORES_test,SRM_test]
-datosWica=get_dataframe_wica(Studies)
-
-
-#TOTAL
+datosWica=pd.read_excel(r'D:\WEB\backend\filesSaved\SRMPrueba\derivatives\data_wICA.xlsx')
 
 # 1 estudio
-compare_1S_wica(datosWica,'SRM',True)
+compare_1D_wica(datosWica,'SRM',plot=True)
 # n estudios 
-compare_nS_wica(datosWica)
+compare_nD_wica(datosWica,plot=True)
 # n grupos
 
 # n visitas
-compare_1S_nV_wica(datosWica,'BIOMARCADORES')
+compare_1D_nV_wica(datosWica,'SRM',plot=True)
 
 
 #N GRUPOS
 group_dict1={
-    'BIOMARCADORES':['CTR','DCL','G1','G2'],
+    #'BIOMARCADORES':['CTR','DCL','G1','G2'],
     'SRM':['SRM'] # assume datasets with no groups have Group=Study
 }
-compare_nS_nG_wica(datosWica,group_dict1)
+compare_nD_nG_wica(datosWica,group_dict1,plot=True)
 
-group_dict2={
-    'BIOMARCADORES':['CTR','DCL','G1','G2'],
-}
-compare_nS_nG_wica(datosWica,group_dict2)
+# group_dict2={
+#     #'BIOMARCADORES':['CTR','DCL','G1','G2'],
+# }
+# compare_nD_nG_wica(datosWica,group_dict2)

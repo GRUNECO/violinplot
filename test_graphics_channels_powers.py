@@ -1,6 +1,5 @@
 from datasets import BIOMARCADORES
-from Graphics.GetDataframes import get_dataframe_powers
-from Graphics.functions_postprocessing_channels import compare_1D_nB_0C_power, compare_1D_1V_nB_power,compare_1D_1G_nB_0C_power,compare_1D_nV_nB_power,compare_1D_1B_nC_power, compare_nD_nB_power,compare_nD_nG_nB_power,compare_nD_power,compare_norm_1D_1G_nB_power,compare_norm_1D_1G_nB_nV_power
+from sovaViolin.functions_postprocessing_channels import compare_1D_nB_0C_power, compare_1D_1V_nB_power,compare_1D_1G_nB_0C_power,compare_1D_nV_nB_power,compare_1D_1B_nC_power, compare_nD_nB_power,compare_nD_nG_nB_power,compare_nD_power,compare_norm_1D_1G_nB_power,compare_norm_1D_1G_nB_nV_power
 import pandas as pd
 import seaborn as sns
 import numpy as np
@@ -8,21 +7,9 @@ import numpy as np
 ''' 
 # Just run one time for save the csv and concat the normalize and preprocessing data
 
-Studies=[BIOMARCADORES]
-channels=get_dataframe_powers(Studies,mode="channels",stage=None,save=True) # whitout normalized dataframe 
-channels_norm=get_dataframe_powers(Studies,mode="channels",stage='norm',save=True) # normalized dataframe 
-components=get_dataframe_powers(Studies,mode="components",stage=None,save=True) # whitout normalized dataframe 
-components_norm=get_dataframe_powers(Studies,mode="components",stage='norm',save=True)# normalized dataframe 
-
-channels_concat=pd.concat((channels,channels_norm)) # concatenate dataframes channels
-components_concat=pd.concat((components,components_norm)) # concatenate dataframes components
-
 channels_concat.to_csv('dataframe.csv',index=False) # saved dataframe
 components_concat.to_csv('dataframe.csv',index=False) # saved dataframe
 ''' 
-Studies=[BIOMARCADORES]
-get_dataframe_powers(Studies,mode="channels",stage='norm',save=True)
-get_dataframe_powers(Studies,mode="components",stage='norm',save=True)
 
 datos=pd.read_csv(r'Dataframes\dataframe_norm_biomarcadores.csv',sep=",")
 

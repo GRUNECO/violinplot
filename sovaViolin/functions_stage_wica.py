@@ -1,55 +1,56 @@
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from functionsImages import create_collage,createCollage
+from .functionsImages import fig2img_encode  
 import numpy as np
 
 #TOTAL
-def compare_nD_wica(data,plot=False):
-    figure1=plt.figure(figsize=(30,60), dpi=30)
-    sns.violinplot(y='Components',data=data)
-    plt.xticks(fontsize=40)
-    plt.yticks(fontsize=40)
-    figure1.tight_layout()
+def compare_all_nD_wica(data,plot=False,encode=False):
+    axs=sns.violinplot(y='Components',data=data,palette='winter_r')
+    plt.title("")
     if plot:
         plt.show()
-    return figure1
+    if encode:
+        img_encode=fig2img_encode(axs)
+        return img_encode
+    return 
 
-compare_nD_wica(datosWica,True)
 # ESTUDIO
 
-def compare_1S_wica(data,name_study,plot=False):
+def compare_1D_wica(data,name_study,plot=False,encode=False):
     s=data["Study"]==name_study
     filter_study=data[s]
-    figure1=plt.figure(figsize=(30,60), dpi=30)
-    sns.violinplot(x='Study',y='Components',data=filter_study)
-    plt.xticks(fontsize=70)
-    plt.yticks(fontsize=70)
-    figure1.tight_layout()
+    axs=sns.violinplot(x='Study',y='Components',data=filter_study,palette='winter_r')
     if plot:
         plt.show()
-    return figure1
-
-def compare_nS_wica(data):
-    fig,ax=plt.subplots(figsize=(10,5))
-    sns.violinplot(x='Study',y='Components',data=data)
-    plt.xticks(fontsize=20)
-    plt.yticks(fontsize=20)
-    plt.show()
+    if encode:
+        img_encode=fig2img_encode(axs)
+        return img_encode
     return 
+
+def compare_nD_wica(data,plot=False,encode=False):
+    axs=sns.violinplot(x='Study',y='Components',data=data,palette='winter_r')
+    if plot:
+        plt.show()
+    if encode:
+        img_encode=fig2img_encode(axs)
+        return img_encode
+    return 
+
 # WICA  VISITAS
-def compare_1S_nV_wica(data,name_study):
+def compare_1D_nV_wica(data,name_study,plot=False,encode=False):
     s=data["Study"]==name_study
     filter_study=data[s]
-    fig,ax=plt.subplots(figsize=(10,5))
-    sns.violinplot(x='Session',y='Components',data=filter_study)
-    plt.xticks(fontsize=20)
-    plt.yticks(fontsize=20)
-    plt.show()
+    axs=sns.violinplot(x='Session',y='Components',data=filter_study,palette='winter_r')
+    if plot:
+        plt.show()
+    if encode:
+        img_encode=fig2img_encode(axs)
+        return img_encode
     return 
 
 # GRUPOS
-def filter_nS_nG_1B(superdata,group_dict):
+def filter_nD_nG_1B(superdata,group_dict):
     """
     group_dict={
         'BIOMARCADORES':[CTR,DCL],
@@ -67,12 +68,14 @@ def filter_nS_nG_1B(superdata,group_dict):
     df=pd.concat((list_df))
     return df
 
-def compare_nS_nG_wica(data,dict_info):
+def compare_nD_nG_wica(data,dict_info,plot=False,encode=False):
     fig, ax = plt.subplots(figsize=(15,10))
-    filter_group=filter_nS_nG_1B(data,dict_info)
-    ax=sns.violinplot(x='Group',y="Components",data=filter_group,ax=ax,hue='Study')
-    plt.xticks(fontsize=40)
-    plt.yticks(fontsize=40)
-    plt.show()        
+    filter_group=filter_nD_nG_1B(data,dict_info)
+    axs=sns.violinplot(x='Group',y="Components",data=filter_group,ax=ax,hue='Study',palette='winter_r')
+    if plot:
+        plt.show()
+    if encode:
+        img_encode=fig2img_encode(axs)
+        return img_encode      
     return 
 
