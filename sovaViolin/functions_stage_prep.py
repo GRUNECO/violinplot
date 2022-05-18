@@ -10,18 +10,19 @@ def compare_all_nD_prep(data,plot=False,encode=False):
     '''
     Parameters
     ----------
-    data:
-    plot:
-    encode:
+        data:dataframe
+        plot: Boolean 
+        encode: Boolean 
 
     Returns
     ----------
-
+        img_encode: str
+        
     '''
     axs=sns.catplot(x='State',y='Metric_value',data=data, col='Metric',col_wrap=3,dodge=True, kind="violin",palette="winter_r")   
     plt.title("")
     axs.fig.subplots_adjust(top=0.905,bottom=0.112, right=0.97,left=0.052, hspace=0.202, wspace=0.014) # adjust the Figure in rp
-    plt.legend(data['Study'].unique(),bbox_to_anchor=(1.6, 0.2), loc=4, borderaxespad=0.)
+    plt.legend(data['Study'].unique(),bbox_to_anchor=(1.6, 0.2), loc=4)
     if plot:
         plt.show()
     if encode:
@@ -31,6 +32,19 @@ def compare_all_nD_prep(data,plot=False,encode=False):
 
 # ESTUDIO 
 def compare_1D_nM_prep(data,name_study,plot=False,encode=False):
+    '''
+    Parameters
+    ----------
+        data:dataframe
+        name_study: str
+        plot: Boolean 
+        encode: Boolean 
+
+    Returns
+    ----------
+        img_encode: str
+        
+    '''
     s=data["Study"]==name_study
     filter=data[s]
     axs=sns.catplot(x='State',y='Metric_value',data=filter, hue='Study',col='Metric',col_wrap=3,dodge=True, kind="violin",palette="winter_r")   
@@ -43,7 +57,19 @@ def compare_1D_nM_prep(data,name_study,plot=False,encode=False):
     return 
 
 def compare_nD_nM_prep(data,plot=False,encode=False):
-    filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
+    '''
+    Compare n studies n metrics 
+
+    Parameters
+    ----------
+        data:dataframe
+        plot: Boolean 
+        encode: Boolean 
+
+    Returns
+    ----------
+        img_encode: str
+    '''
     axs=sns.catplot(y='Metric',x="State",data= filter,hue='Study',fontsize=70,palette="winter_r",height=5, aspect=.8,legend=False)
     if plot:
         plt.show()
@@ -54,7 +80,20 @@ def compare_nD_nM_prep(data,plot=False,encode=False):
 
 # GRUPO
 
-def compare_nD_nG_nB_prep(data,dict_info,plot=False,encode=False):
+def compare_nD_nG_prep(data,dict_info,plot=False,encode=False):
+    '''
+    Compare n studies n  groups metrics
+
+    Parameters
+    ----------
+        data:dataframe
+        plot: Boolean 
+        encode: Boolean 
+
+    Returns
+    ----------
+        img_encode: str
+    '''
     figures_i=[]
     figures_f=[]
     filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)

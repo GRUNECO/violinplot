@@ -5,7 +5,9 @@ import io
 import base64
 
 def fig2img(fig):
-  """Convert a Matplotlib figure to a PIL Image and return it"""
+  """
+  Convert a Matplotlib figure to a PIL Image and return it
+  """
   import io
   buf = io.BytesIO()
   fig.savefig(buf)
@@ -14,7 +16,19 @@ def fig2img(fig):
   return img
 
 def fig2img_encode(fig):
-  """Convert a Matplotlib figure to a PIL Image and return it"""
+  """
+  Convert a Matplotlib figure to a PIL Image and return encode 
+
+  Parameters
+  ----------
+    fig: Object to matplolib  
+
+
+  Returns
+  ----------
+    my_base64_jpgData: str
+      encode base64 to image 
+  """
   buf = io.BytesIO()
   fig.savefig(buf ,format='jpg')
   buf.seek(0)

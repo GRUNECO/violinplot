@@ -10,6 +10,7 @@ def compare_all_nD_reject(data):
     filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
     metrics=filter_study.keys()
     figures_i=[]
+    ax=sns.catplot(y=metrics,data= data,fontsize=70)
     for i,metric in enumerate(metrics[0:5]):
         fig,ax=plt.subplots()
         ax=sns.violinplot(y=metric,data= data,fontsize=70)

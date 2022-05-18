@@ -6,20 +6,42 @@ import numpy as np
 
 #TOTAL
 def compare_all_nD_wica(data,plot=False,encode=False):
-    fig,axs=plt.subplots()
-    sns.violinplot(y='Components',data=data,palette='winter_r',ax=axs)
+    '''
+    Parameters
+    ----------
+        data: dataframes
+        plot: Boolean
+        encode: Boolean 
+
+    Returns
+    ----------
+        img_encode:
+    '''
+    axs=sns.catplot(y='Components',data=data,palette='winter_r',kind='violin')
     plt.legend(data['Study'].unique())
     plt.title("The Wavelet Transform and the Independent Component Analysis (wICA) technique for all datasets")
     if plot:
         plt.show()
     if encode:
-        img_encode=fig2img_encode(fig)
+        img_encode=fig2img_encode(axs)
         return img_encode
     return 
 
 # ESTUDIO
 
 def compare_1D_wica(data,name_study,plot=False,encode=False):
+    '''
+    Parameters
+    ----------
+        data: dataframes
+        name_study: str 
+        plot: Boolean
+        encode: Boolean 
+
+    Returns
+    ----------
+        img_encode:
+    '''
     s=data["Study"]==name_study
     filter_study=data[s]
     axs=sns.violinplot(x='Study',y='Components',data=filter_study,palette='winter_r')
@@ -32,6 +54,17 @@ def compare_1D_wica(data,name_study,plot=False,encode=False):
     return 
 
 def compare_nD_wica(data,plot=False,encode=False):
+    '''
+    Parameters
+    ----------
+        data: dataframes
+        plot: Boolean
+        encode: Boolean 
+
+    Returns
+    ----------
+        img_encode:
+    '''
     axs=sns.violinplot(x='Study',y='Components',data=data,palette='winter_r')
     plt.title("Comparison of different datasets in the Wavelet Transform stage and the Independent Component Analysis (wICA) technique ")
     if plot:
@@ -43,9 +76,21 @@ def compare_nD_wica(data,plot=False,encode=False):
 
 # WICA  VISITAS
 def compare_1D_nV_wica(data,name_study,plot=False,encode=False):
+    '''
+    Parameters
+    ----------
+        data: dataframes
+        name_study: str 
+        plot: Boolean
+        encode: Boolean 
+
+    Returns
+    ----------
+        img_encode:
+    '''
     s=data["Study"]==name_study
     filter_study=data[s]
-    axs=sns.violinplot(x='Session',y='Components',data=filter_study,palette='winter_r')
+    axs=sns.catplot(x='Session',y='Components',data=filter_study,palette='winter_r',kind='violin')
     plt.title("Comparison of different session in the Wavelet Transform stage and the Independent Component Analysis (wICA) technique for "+name_study)
     if plot:
         plt.show()
@@ -74,6 +119,18 @@ def filter_nD_nG_1B(superdata,group_dict):
     return df
 
 def compare_nD_nG_wica(data,dict_info,plot=False,encode=False):
+    '''
+    Parameters
+    ----------
+        data: dataframes
+        dict_info: dict 
+        plot: Boolean
+        encode: Boolean 
+
+    Returns
+    ----------
+        img_encode:
+    '''
     fig, ax = plt.subplots(figsize=(15,10))
     filter_group=filter_nD_nG_1B(data,dict_info)
     axs=sns.violinplot(x='Group',y="Components",data=filter_group,ax=ax,hue='Study',palette='winter_r')

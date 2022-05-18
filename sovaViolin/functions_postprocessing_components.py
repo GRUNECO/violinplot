@@ -8,11 +8,60 @@ import pandas as pd
 
 
 # *************************** COMPARISON BETWEEN NORMALIZE DATA AND PROCESSING DATA **************
+def compare_all_nD_ncomp_power(data,plot=False,encode=False):
+    '''
+    Componentes de interés
+    C14, C15, C18, C20, C22, C23, C24, C25 
+
+    Parameters
+    ----------
+        data: dataframe
+        plot: Boolean 
+        encode: Boolean
+
+    Returns 
+    ----------
+        img_encode
+    '''
+    components=['C14', 'C15','C18', 'C20', 'C22','C23', 'C24', 'C25' ]
+    filter=data[data.Components.isin(components)]
+    axs=sns.catplot(x='Bands',y="Powers",data=filter,hue="Stage",dodge=True, kind="box",col='Components',col_wrap=4,palette='winter_r',legend=False)
+    plt.title("")
+    plt.yticks(np.arange(0,1,0.1))
+    axs.set(xlabel=None)
+    axs.set(ylabel=None)
+    axs.fig.suptitle('Relative power bands of normalized and preprocessed data given in components')
+    axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=2)
+    axs.set_xticklabels(rotation=45)
+    axs.fig.subplots_adjust(top=0.857,bottom=0.155, right=0.986,left=0.05, hspace=0.138, wspace=0.062) # adjust the Figure in rp
+    axs.fig.text(0.5, 0.04, 'Frequency bands', ha='center', va='center')
+    axs.fig.text(0.01, 0.5,  'Relative powers', ha='center', va='center',rotation='vertical')
+    if plot:
+        plt.show()
+    if encode:
+        img_encode=fig2img_encode(axs)
+        return img_encode
+    return 
+
+
 
 def compare_norm_1D_1G_nB_ncomp_power(data,name_dataset,name_group,save=False,plot=False,encode=False):
     '''
     Componentes de interés
     C14, C15, C18, C20, C22, C23, C24, C25 
+
+    Parameters
+    ----------
+        data: dataframe
+        name_dataset: str 
+        name_group: str 
+        save: Boolean
+        plot: Boolean 
+        encode: Boolean
+
+    Returns 
+    ----------
+        img_encode
     '''
     filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
     filter_group_dataset=data[filter]
@@ -42,6 +91,20 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
     '''
     Componentes de interés
     C14, C15, C18, C20, C22, C23, C24, C25 
+
+    Parameters
+    ----------
+        data: dataframe
+        name_dataset: str
+        name_group: str
+        name_band: str 
+        save: Boolean 
+        plot: Boolean 
+        encode: Boolean
+
+    Returns 
+    ----------
+        img_encode
     '''
     filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
     filter_group_dataset=data[filter]
@@ -66,4 +129,3 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
         img_encode=fig2img_encode(axs)
         return img_encode
     return 
-# **************************** PROCESSING DATA WHITOUT NORMALIZING *********************************************
