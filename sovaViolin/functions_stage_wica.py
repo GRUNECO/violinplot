@@ -6,13 +6,14 @@ import numpy as np
 
 #TOTAL
 def compare_all_nD_wica(data,plot=False,encode=False):
-    axs=sns.violinplot(y='Components',data=data,palette='winter_r')
+    fig,axs=plt.subplots()
+    sns.violinplot(y='Components',data=data,palette='winter_r',ax=axs)
     plt.legend(data['Study'].unique())
     plt.title("The Wavelet Transform and the Independent Component Analysis (wICA) technique for all datasets")
     if plot:
         plt.show()
     if encode:
-        img_encode=fig2img_encode(axs)
+        img_encode=fig2img_encode(fig)
         return img_encode
     return 
 

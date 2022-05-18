@@ -1,14 +1,27 @@
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from functionsImages import createCollage,fig2img_encode
+from .functionsImages import createCollage,fig2img_encode
 from sovaharmony.createDataframes import filter_nS_nG_1M
 import numpy as np
 
 # TOTAL
-def compare_nD(data,plot=False,encode=False):
+def compare_all_nD_prep(data,plot=False,encode=False):
+    '''
+    Parameters
+    ----------
+    data:
+    plot:
+    encode:
+
+    Returns
+    ----------
+
+    '''
     axs=sns.catplot(x='State',y='Metric_value',data=data, col='Metric',col_wrap=3,dodge=True, kind="violin",palette="winter_r")   
-    plt.legend(bbox_to_anchor=(1.6, 0.2), loc=4, borderaxespad=0.)
+    plt.title("")
+    axs.fig.subplots_adjust(top=0.905,bottom=0.112, right=0.97,left=0.052, hspace=0.202, wspace=0.014) # adjust the Figure in rp
+    plt.legend(data['Study'].unique(),bbox_to_anchor=(1.6, 0.2), loc=4, borderaxespad=0.)
     if plot:
         plt.show()
     if encode:

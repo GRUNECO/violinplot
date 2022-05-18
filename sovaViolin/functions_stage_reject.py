@@ -1,12 +1,12 @@
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from functionsImages import create_collage,createCollage
+from .functionsImages import create_collage,createCollage
 from sovaharmony.createDataframes import filter_nS_nG_1M
 import numpy as np
 
 # TOTAL
-def compare_nD(data):
+def compare_all_nD_reject(data):
     filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
     metrics=filter_study.keys()
     figures_i=[]
