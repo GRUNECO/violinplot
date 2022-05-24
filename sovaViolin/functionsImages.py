@@ -3,6 +3,7 @@ from numpy import ceil
 from matplotlib import pyplot as plt
 import io
 import base64
+import time
 
 def fig2img(fig):
   """
@@ -29,10 +30,15 @@ def fig2img_encode(fig):
     my_base64_jpgData: str
       encode base64 to image 
   """
+  tick=time.perf_counter()  
   buf = io.BytesIO()
   fig.savefig(buf ,format='jpg')
   buf.seek(0)
+  # fig=fig.figure
+  # buf=Image.frombytes('RGB',fig.canvas.get_width_height(),fig.canvas.tostring_rgb())
   my_base64_jpgData = base64.b64encode(buf.read())
+  tock=time.perf_counter()  
+  print('encode::::::::::::::::::::::::::',tock-tick)
   return my_base64_jpgData
   
 def getSize(imageList):

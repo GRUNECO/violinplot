@@ -1,4 +1,6 @@
 from tokenize import group
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
@@ -24,6 +26,8 @@ def compare_all_nD_ch_power(data,plot=False,encode=False):
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.cla()
+        plt.close()
         return img_encode
     return 
 
@@ -58,6 +62,7 @@ def compare_norm_1D_1G_nB_nV_ch_power(data,name_dataset,name_group,save=False,pl
         save: boolean
 
     Returns
+    -------
     '''
     filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
     filter_group_dataset=data[filter]

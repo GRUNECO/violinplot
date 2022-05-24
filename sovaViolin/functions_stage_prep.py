@@ -4,6 +4,7 @@ import pandas as pd
 from .functionsImages import createCollage,fig2img_encode
 from sovaharmony.createDataframes import filter_nS_nG_1M
 import numpy as np
+import time 
 
 # TOTAL
 def compare_all_nD_prep(data,plot=False,encode=False):
@@ -19,14 +20,16 @@ def compare_all_nD_prep(data,plot=False,encode=False):
         img_encode: str
         
     '''
-    axs=sns.catplot(x='State',y='Metric_value',data=data, col='Metric',col_wrap=3,dodge=True, kind="violin",palette="winter_r")   
+    axs=sns.catplot(x='State',y='Metric_value',data=data, col='Metric',col_wrap=3,dodge=True, kind="violin",palette="winter_r") 
     plt.title("")
     axs.fig.subplots_adjust(top=0.905,bottom=0.112, right=0.97,left=0.052, hspace=0.202, wspace=0.014) # adjust the Figure in rp
     plt.legend(data['Study'].unique(),bbox_to_anchor=(1.6, 0.2), loc=4)
+    plt.cla()
     if plot:
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.close()
         return img_encode 
     return 
 

@@ -24,6 +24,8 @@ def compare_all_nD_wica(data,plot=False,encode=False):
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.cla()
+        plt.close()
         return img_encode
     return 
 

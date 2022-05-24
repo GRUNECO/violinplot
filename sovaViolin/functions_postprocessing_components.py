@@ -1,4 +1,6 @@
 from tokenize import group
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
@@ -36,10 +38,12 @@ def compare_all_nD_ncomp_power(data,plot=False,encode=False):
     axs.fig.subplots_adjust(top=0.857,bottom=0.155, right=0.986,left=0.05, hspace=0.138, wspace=0.062) # adjust the Figure in rp
     axs.fig.text(0.5, 0.04, 'Frequency bands', ha='center', va='center')
     axs.fig.text(0.01, 0.5,  'Relative powers', ha='center', va='center',rotation='vertical')
+    plt.cla()
     if plot:
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.close()
         return img_encode
     return 
 

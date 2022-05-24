@@ -1,13 +1,10 @@
-from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test
-from Graphics.GetDataframes import get_dataframe_reject
-from Graphics.functions_stage_reject import compare_nD,compare_1S_0C_nM_reject,compare_nS_0C_nM_reject,compare_nS_nG_nB_reject,compare_1S_nV_nM_reject
+from sovaViolin.functions_stage_reject import compare_all_nD_reject,compare_1S_0C_nM_reject,compare_nS_0C_nM_reject,compare_nS_nG_nB_reject,compare_1S_nV_nM_reject
+import pandas as pd 
 
-Studies=[BIOMARCADORES,SRM]
-Studies_test=[BIOMARCADORES_test,SRM_test]
-datosReject=get_dataframe_reject(Studies)
+datosReject=pd.read_excel(r'D:\WEB\backend\filesSaved\BIOMARCADORES_TEST\derivatives\data_reject.xlsx')
 
 # TOTAL
-compare_nD(datosReject)
+compare_all_nD_reject(datosReject,plot=True,encode=False)
 # 1 estudio
 compare_1S_0C_nM_reject(datosReject,'BIOMARCADORES') 
 #  n estudios 
