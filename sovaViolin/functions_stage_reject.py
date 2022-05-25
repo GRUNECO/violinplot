@@ -8,7 +8,7 @@ import numpy as np
 # TOTAL
 def compare_all_nD_reject(data,plot=False,encode=False):
     axs=sns.catplot(x='Metric',y="Metric_Value",data=data,dodge=True, kind="violin",col_wrap=3,palette='winter_r',legend=False)
-    plt.cla()
+    
     if plot:
         plt.show()
     if encode:
@@ -54,7 +54,7 @@ def compare_nD_reject(data,plot=False,encode=False):
     todos sujetos, n estudio 
     """ 
     axs=sns.catplot(x='Study',y="Metric_Value",data=data,dodge=True, kind="violin",col="Metric",col_wrap=3,palette='winter_r',legend=False)
-    plt.cla()
+    
     if plot:
         plt.show()
     if encode:
@@ -69,7 +69,7 @@ def compare_1D_nG_nM_reject(data,name_study,plot=False,encode=False):
     filt_study=data["Study"]==name_study
     filter=data[filt_study]
     axs=sns.catplot(x='Group',y="Metric_Value",data=filter,dodge=True, kind="violin",col="Metric",col_wrap=3,palette='winter_r',legend=False)
-    plt.cla()
+    
     if plot:
         plt.show()
     if encode:
@@ -84,7 +84,7 @@ def compare_1D_nV_nM_reject(data,name_study,plot=False,encode=False):
     filt_study=data["Study"]==name_study
     filter=data[filt_study]
     axs=sns.catplot(x='Session',y="Metric_Value",data=filter,dodge=True, kind="violin",col="Metric",col_wrap=3,palette='winter_r',legend=False)
-    plt.cla()
+    
     if plot:
         plt.show()
     if encode:

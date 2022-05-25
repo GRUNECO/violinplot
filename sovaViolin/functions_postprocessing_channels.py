@@ -27,14 +27,14 @@ def compare_all_nD_ch_power(data,plot=False,encode=False):
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
-        plt.cla()
+        
         plt.close()
         return img_encode
     return 
 #ESTUDIOS
 def compare_nD_ch_power(data,plot=False,encode=False):
     axs=sns.catplot(x='Study',y="Powers",data=data,hue="Stage",dodge=True, kind="box",col='Bands',col_wrap=3,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
-    plt.cla()
+    
     if plot:
         plt.show()
     if encode:
@@ -55,7 +55,7 @@ def compare_norm_1D_1G_nB_ch_power(data,name_dataset,save=False,plot=False,encod
 
     plt.title('Relative power bands of normalized and preprocessed data given')
     plt.yticks(np.arange(0,1,0.1))
-    plt.cla()
+    
     if save==True:
         plt.savefig('Resultados\Graphics_channels\Groups\{name_dataset}_channels.png'.format(name_dataset=name_dataset))
         plt.close()
@@ -97,7 +97,7 @@ def compare_norm_1D_1G_nB_nV_ch_power(data,name_dataset,name_group,num_columns=4
     axs.fig.subplots_adjust(top=0.857,bottom=0.121, right=0.986,left=0.05, hspace=0.138, wspace=0.062) # adjust the Figure in rp
     axs.fig.text(0.5, 0.04, 'Sessions', ha='center', va='center')
     axs.fig.text(0.01, 0.5,  'Relative powers', ha='center', va='center',rotation='vertical')
-    plt.cla()
+    
     if save:
          plt.savefig('Resultados\Graphics_channels\Visits\{name_dataset}_{name_group}_visits_channels.png'.format(name_dataset=name_dataset,name_group=name_group))
     if plot: 
