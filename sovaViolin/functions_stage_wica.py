@@ -67,17 +67,18 @@ def compare_nD_wica(data,plot=False,encode=False):
     ----------
         img_encode:
     '''
-    axs=sns.violinplot(x='Study',y='Components',data=data,palette='winter_r')
-    plt.title("Comparison of different datasets in the Wavelet Transform stage and the Independent Component Analysis (wICA) technique ")
+    axs=sns.catplot(x='Study',y='Components',data=data,kind='violin',palette='winter_r')
+    plt.cla()
     if plot:
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.close()
         return img_encode
     return 
 
 # WICA  VISITAS
-def compare_1D_nV_wica(data,name_study,plot=False,encode=False):
+def compare_1D_nV_nM_wica(data,name_study,plot=False,encode=False):
     '''
     Parameters
     ----------
@@ -102,7 +103,7 @@ def compare_1D_nV_wica(data,name_study,plot=False,encode=False):
     return 
 
 # GRUPOS
-def filter_nD_nG_1B(superdata,group_dict):
+def filter_nD_nG_wica(superdata,group_dict):
     """
     group_dict={
         'BIOMARCADORES':[CTR,DCL],
@@ -120,27 +121,39 @@ def filter_nD_nG_1B(superdata,group_dict):
     df=pd.concat((list_df))
     return df
 
-def compare_nD_nG_wica(data,dict_info,plot=False,encode=False):
-    '''
-    Parameters
-    ----------
-        data: dataframes
-        dict_info: dict 
-        plot: Boolean
-        encode: Boolean 
-
-    Returns
-    ----------
-        img_encode:
-    '''
-    fig, ax = plt.subplots(figsize=(15,10))
-    filter_group=filter_nD_nG_1B(data,dict_info)
-    axs=sns.violinplot(x='Group',y="Components",data=filter_group,ax=ax,hue='Study',palette='winter_r')
-    plt.title("Comparison of different groups in the Wavelet Transform stage and the Independent Component Analysis (wICA) technique for ")
+def compare_1D_nG_wica(data,name_study,plot=False,encode=False):
+    s=data["Study"]==name_study
+    filter_study=data[s]
+    axs=sns.catplot(x='Group',y='Components',data=filter_study,palette='winter_r',kind='violin')
+    plt.title("Comparison of different session in the Wavelet Transform stage and the Independent Component Analysis (wICA) technique for "+name_study)
     if plot:
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
-        return img_encode      
-    return 
+        return img_encode
+
+
+# def compare_nD_nG_wica(data,dict_info,plot=False,encode=False):
+#     '''
+#     Parameters
+#     ----------
+#         data: dataframes
+#         dict_info: dict 
+#         plot: Boolean
+#         encode: Boolean 
+
+#     Returns
+#     ----------
+#         img_encode:
+#     '''
+#     fig, ax = plt.subplots(figsize=(15,10))
+#     filter_group=filter_nD_nG_wica(data,dict_info)
+#     axs=sns.violinplot(x='Group',y="Components",data=filter_group,ax=ax,hue='Study',palette='winter_r')
+#     plt.title("Comparison of different groups in the Wavelet Transform stage and the Independent Component Analysis (wICA) technique for ")
+#     if plot:
+#         plt.show()
+#     if encode:
+#         img_encode=fig2img_encode(axs)
+#         return img_encode      
+#     return 
 

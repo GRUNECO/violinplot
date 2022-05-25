@@ -59,7 +59,7 @@ def compare_1D_nM_prep(data,name_study,plot=False,encode=False):
         return img_encode 
     return 
 
-def compare_nD_nM_prep(data,plot=False,encode=False):
+def compare_nD_prep(data,plot=False,encode=False):
     '''
     Compare n studies n metrics 
 
@@ -73,17 +73,19 @@ def compare_nD_nM_prep(data,plot=False,encode=False):
     ----------
         img_encode: str
     '''
-    axs=sns.catplot(y='Metric',x="State",data= filter,hue='Study',fontsize=70,palette="winter_r",height=5, aspect=.8,legend=False)
+    axs=sns.catplot(x='State',y="Metric_value",data= data,col='Metric',hue='Study',col_wrap=3,palette="winter_r",height=5, aspect=.8,legend=False,kind="violin")
+    plt.cla()
     if plot:
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.close()
         return img_encode 
     return
 
 # GRUPO
 
-def compare_nD_nG_prep(data,dict_info,plot=False,encode=False):
+def compare_1D_nG_prep(data,name_study,plot=False,encode=False):
     '''
     Compare n studies n  groups metrics
 
@@ -96,40 +98,31 @@ def compare_nD_nG_prep(data,dict_info,plot=False,encode=False):
     Returns
     ----------
         img_encode: str
-    '''
-    figures_i=[]
-    figures_f=[]
-    filter_study=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
-    metrics=filter_study.keys()
-    for i,metric in enumerate(metrics):
-        fig, ax = plt.subplots()
-        filter_group=filter_nS_nG_1M(data,dict_info)
-        ax=sns.violinplot(x='Group',y=metric,data=filter_group,ax=ax,hue='Study')
-        plt.title(metric +' ',fontsize=35)
-        plt.xticks(fontsize=35)
-        plt.yticks(fontsize=35) 
-        fig.set_size_inches(15, 15)  
-        figures_i.append(fig)
-    createCollage(figures_i,3000,3)       
+    '''    
+    filt_study=data["Study"]==name_study
+    filter=data[filt_study]
+    axs=sns.catplot(x='Group',y='Metric_value',data=filter,row='Metric',col='State',dodge=True, kind="violin",palette="winter_r",legend=False) 
+    plt.cla()
+    if plot:
+        plt.show()
+    if encode:
+        img_encode=fig2img_encode(axs)
+        plt.close()
+        return img_encode     
     return 
 
 # VISITA
 def compare_1D_nV_nM_prep(data,name_study,plot=False,encode=False):
-    filter_metrics=data.drop(["Study","Group","Session","Subject"],axis=1,inplace=False)
-    metrics=filter_metrics.keys() 
-    figures=[]
-    for i,metric in enumerate(metrics):
-        fig, ax = plt.subplots()
-        filt_study=data["Study"]==name_study
-        filter=data[filt_study]
-        ax=sns.violinplot(x='Session',y=metric,data=filter,ax=ax,hue='Study')
-        plt.title(metric +' ',fontsize=40)
-        plt.xticks(fontsize=40)
-        plt.yticks(fontsize=40) 
-        fig.set_size_inches(15, 15)
-        figures.append(fig)
-
-    createCollage(figures,3000,3)    
+    filt_study=data["Study"]==name_study
+    filter=data[filt_study]
+    axs=sns.catplot(x='Session',y='Metric_value',data=filter,row='Metric',col='State',dodge=True, kind="violin",palette="winter_r",legend=False) 
+    plt.cla()
+    if plot:
+        plt.show()
+    if encode:
+        img_encode=fig2img_encode(axs)
+        plt.close()
+        return img_encode     
     return
 
 
