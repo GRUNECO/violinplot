@@ -38,4 +38,4 @@ GB = ['G1','CTR','DCL','DTA']
 ## Graphics for groups and all visits in components 
 bands= datos['Bands'].unique()
 for gr in GB:
-    compare_norm_1D_1G_1B_nV_all_comp_power(datos,'BIOMARCADORES',gr,num_columns=4, save=True,plot=Falsee,encode=False)
+    compare_norm_1D_1G_1B_nV_all_comp_power(datos,'BIOMARCADORES',gr,num_columns=4, save=True,plot=False,encode=False)

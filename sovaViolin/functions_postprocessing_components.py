@@ -43,6 +43,7 @@ def compare_all_nD_ncomp_power(data,plot=False,encode=False):
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.cla()
         plt.close()
         return img_encode
     return 
@@ -60,6 +61,7 @@ def compare_nD_ncomp_power(data,name_band,plot=False,encode=False):
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.cla()
         plt.close()
         return img_encode
 
@@ -107,6 +109,7 @@ def compare_norm_1D_1G_nB_ncomp_power(data,name_dataset,name_group,num_columns=4
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.cla()
         plt.close()
         return img_encode
     return 
@@ -139,7 +142,7 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
     filter_component=filter_group_dataset[filter_group_dataset.Components.isin(components) & filter_group_dataset.Bands.isin([name_band])] 
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
-    axs=sns.catplot(x='Session',y="Powers",data=filter_group_dataset,hue='Stage',dodge=True, kind="box",col='Components',col_wrap=num_columns,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
+    axs=sns.catplot(x='Session',y="Powers",data=filter_component,hue='Stage',dodge=True, kind="box",col='Components',col_wrap=num_columns,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
     plt.yticks(np.arange(0,1,0.1))
     axs.set(xlabel=None)
     axs.set(ylabel=None)
@@ -155,6 +158,7 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.cla()
         plt.close()
         return img_encode
     return 
@@ -199,8 +203,8 @@ def compare_norm_1D_1G_1B_nV_all_comp_power(data,name_dataset,name_group,num_col
     if plot: 
         plt.show()
     if encode:
-        
         img_encode=fig2img_encode(axs)
+        plt.cla()
         plt.close()
         return img_encode
     return 

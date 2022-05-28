@@ -27,7 +27,7 @@ def compare_all_nD_ch_power(data,plot=False,encode=False):
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
-        
+        plt.cla()
         plt.close()
         return img_encode
     return 
@@ -39,6 +39,7 @@ def compare_nD_ch_power(data,plot=False,encode=False):
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.cla()
         plt.close()
         return img_encode
 
@@ -52,8 +53,13 @@ def compare_norm_1D_1G_nB_ch_power(data,name_dataset,save=False,plot=False,encod
     filter_group_dataset=data[filter]
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
-
-    plt.title('Relative power bands of normalized and preprocessed data given')
+    axs=sns.catplot(x='Bands',y="Powers",data=filter_group_dataset,hue="Stage",palette='winter_r',kind="box",col='Group',col_wrap=2,legend=False)
+    plt.yticks(np.arange(0,1,0.1))
+    axs.fig.suptitle("Relative power bands of normalized and preprocessed data given")
+    axs.set(xlabel=None)
+    axs.set(ylabel=None)
+    axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=2)
+    axs.fig.subplots_adjust(top=0.857,bottom=0.121, right=0.986,left=0.05, hspace=0.138, wspace=0.062)
     plt.yticks(np.arange(0,1,0.1))
     
     if save==True:
@@ -63,6 +69,7 @@ def compare_norm_1D_1G_nB_ch_power(data,name_dataset,save=False,plot=False,encod
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.cla()
         plt.close()
         return img_encode
     return 
@@ -104,6 +111,7 @@ def compare_norm_1D_1G_nB_nV_ch_power(data,name_dataset,name_group,num_columns=4
         plt.show()
     if encode:
         img_encode=fig2img_encode(axs)
+        plt.cla()
         plt.close()
         return img_encode
     return 
