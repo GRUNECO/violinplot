@@ -67,8 +67,8 @@ def compare_nD_wica(data,plot=False,encode=False):
     ----------
         img_encode:
     '''
-    axs=sns.catplot(x='Study',y='Components',data=data,kind='violin',palette='winter_r')
-    
+    axs=sns.catplot(x='Study',y='Components',data=data,kind='violin',palette='winter_r',legend=True)
+    print(data)
     if plot:
         plt.show()
     if encode:

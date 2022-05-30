@@ -73,8 +73,8 @@ def compare_nD_prep(data,plot=False,encode=False):
     ----------
         img_encode: str
     '''
-    axs=sns.catplot(x='State',y="Metric_value",data= data,col='Metric',hue='Study',col_wrap=3,palette="winter_r",height=5, aspect=.8,legend=False,kind="violin")
-    
+    axs=sns.catplot(x='Study',y="Metric_value",data= data,col='Metric',hue='State',col_wrap=3,palette="winter_r",height=5, aspect=.8,legend=False,kind="violin")
+    axs.add_legend(loc='upper center',bbox_to_anchor=(.4,1.02),ncol=3)
     if plot:
         plt.show()
     if encode:
@@ -99,8 +99,8 @@ def compare_1D_nG_prep(data,name_study,plot=False,encode=False):
     ----------
         img_encode: str
     '''    
-    filt_study=data["Study"]==name_study
-    filter=data[filt_study]
+    filter=data[data["Study"]==name_study]
+    print(filter)
     axs=sns.catplot(x='Group',y='Metric_value',data=filter,row='Metric',col='State',dodge=True, kind="violin",palette="winter_r",legend=False) 
     
     if plot:
@@ -115,8 +115,8 @@ def compare_1D_nG_prep(data,name_study,plot=False,encode=False):
 def compare_1D_nV_nM_prep(data,name_study,plot=False,encode=False):
     filt_study=data["Study"]==name_study
     filter=data[filt_study]
+    print(filter)
     axs=sns.catplot(x='Session',y='Metric_value',data=filter,row='Metric',col='State',dodge=True, kind="violin",palette="winter_r",legend=False) 
-    
     if plot:
         plt.show()
     if encode:

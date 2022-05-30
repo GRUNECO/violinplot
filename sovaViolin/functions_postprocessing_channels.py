@@ -90,12 +90,11 @@ def compare_norm_1D_1G_nB_nV_ch_power(data,name_dataset,name_group,num_columns=4
     -------
     '''
     data['Session']=data['Session'].replace({'VO':'V0'})
-    data['Group']=data['Group'].replace({'G2':'CTR'})
     filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
     filter_group_dataset=data[filter]
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
-    axs=sns.catplot(x='Session',y="Powers",data=filter_group_dataset,hue="Stage",dodge=True, kind="box",col='Bands',col_wrap=num_columns,palette='winter_r',legend=False)
+    axs=sns.catplot(x='Stage',y="Powers",data=filter_group_dataset,hue="Session",dodge=True, kind="box",col='Bands',col_wrap=num_columns,palette='winter_r',legend=False)
     plt.yticks(np.arange(0,1,0.1))
     axs.fig.suptitle('Relative power bands of normalized and preprocessed data given by '+name_group+" and all visits")
     axs.set(xlabel=None)
