@@ -16,8 +16,8 @@ PO = ['P7', 'P5', 'P3', 'P1', 'PZ', 'P2', 'P4', 'P6', 'P8', 'PO7', 'PO5', 'PO3',
 rois = [F,C,PO,T]
 roi_labels = ['F','C','PO','T']
 
-datos1=pd.read_excel(r"violinplot\Dataframes\longitudinal_data_powers_long_channels.xlsx") 
-datos2=pd.read_excel(r"violinplot\Dataframes\longitudinal_data_powers_long_channels_norm.xlsx")
+datos1=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_channels_norm.xlsx") 
+datos2=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_channels.xlsx")
 datos=pd.concat((datos1,datos2))
 
 for i in range(len(rois)):
@@ -68,14 +68,14 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_band, save=False
     ----------
         img_encode
     '''
-    data['Session']=data['Session'].replace({'VO':'V0'})
+    #data['Session']=data['Session'].replace({'VO':'V0'})
     #data['Group']=data['Group'].replace({'G2':'CTR'})
     filter=data["Study"]==name_dataset
     filter_group_dataset=data[filter]
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
     axs=sns.catplot(x='Session',y="Powers",data=filter_group_dataset,hue='Stage',dodge=True, kind="box",col='Roi',row='Group',palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
-    plt.yticks(np.arange(0,1,0.1))
+    #plt.yticks(np.arange(0,1,0.1))
     axs.set(xlabel=None)
     axs.set(ylabel=None)
     axs.fig.suptitle('Relative '+ name_band+ ' power of normalized and preprocessed data in ROI and all visits')
@@ -84,7 +84,7 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_band, save=False
     axs.fig.text(0.5, 0.04, 'Visits', ha='center', va='center')
     axs.fig.text(0.01, 0.5,  'Relative powers', ha='center', va='center',rotation='vertical')
     if save==True:
-        plt.savefig('violinplot\Resultados\Graphics_rois\{name_dataset}_{name_band}_rois.png'.format(name_dataset=name_dataset,name_band=name_band))
+        plt.savefig('Resultados\Graphics_rois\{name_dataset}_{name_band}_rois.png'.format(name_dataset=name_dataset,name_band=name_band))
         plt.close()
     if plot:
         plt.show()
