@@ -3,6 +3,14 @@ README.md
 setup.cfg
 setup.py
 versioneer.py
+sovaViolin/__init__.py
+sovaViolin/functionsImages.py
+sovaViolin/functions_postprocessing_channels.py
+sovaViolin/functions_postprocessing_components.py
+sovaViolin/functions_rois.py
+sovaViolin/functions_stage_prep.py
+sovaViolin/functions_stage_reject.py
+sovaViolin/functions_stage_wica.py
 sovaViolin.egg-info/PKG-INFO
 sovaViolin.egg-info/SOURCES.txt
 sovaViolin.egg-info/dependency_links.txt
