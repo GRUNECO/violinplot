@@ -134,7 +134,7 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
         img_encode
     '''
     data['Session']=data['Session'].replace({'VO':'V0'})
-    data['Group']=data['Group'].replace({'G2':'CTR'})
+    #data['Group']=data['Group'].replace({'G2':'CTR'})
     filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
     filter_group_dataset=data[filter]
     components=['C14', 'C15','C18', 'C20', 'C22','C23', 'C24', 'C25' ]
@@ -184,7 +184,7 @@ def compare_norm_1D_1G_1B_nV_all_comp_power(data,name_dataset,name_group,num_col
         img_encode
     '''
     data['Session']=data['Session'].replace({'VO':'V0'})
-    data['Group']=data['Group'].replace({'G2':'CTR'})
+    #data['Group']=data['Group'].replace({'G2':'CTR'})
     filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
     filter_group_dataset=data[filter]
     sns.set(rc={'figure.figsize':(11.7,8.27)})
