@@ -1,19 +1,26 @@
-from numpy import True_
-from datasets import BIOMARCADORES
-from sovaViolin.functions_postprocessing_components import compare_norm_1D_1G_nB_ncomp_power,compare_norm_1D_1G_1B_nV_ncomp_power,compare_norm_1D_1G_1B_nV_all_comp_power
+import collections
 import pandas as pd 
+from sovaViolin.functions_rois import compare_norm_1D_1G_nB_nV_1ROI_power
 
-datos1=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_components.xlsx") 
-datos2=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_components_norm.xlsx")
+
+
+F = ['FP1', 'FPZ', 'FP2', 'AF3', 'AF4', 'F7', 'F5', 'F3', 'F1', 'FZ', 'F2', 'F4', 'F6', 'F8'] 
+T = ['FT7', 'FC5', 'FC6', 'FT8', 'T7', 'C5', 'C6', 'T8', 'TP7', 'CP5', 'CP6', 'TP8']
+C = ['FC3', 'FC1', 'FCZ', 'FC2', 'FC4', 'C3', 'C1', 'CZ', 'C2', 'C4', 'CP3', 'CP1', 'CPZ', 'CP2', 'CP4'] 
+PO = ['P7', 'P5', 'P3', 'P1', 'PZ', 'P2', 'P4', 'P6', 'P8', 'PO7', 'PO5', 'PO3', 'POZ', 'PO4', 'PO6', 'PO8', 'CB1', 'O1', 'OZ', 'O2', 'CB2']
+rois = [F,C,PO,T]
+roi_labels = ['F','C','PO','T']
+
+
+datos1=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_channels_norm.xlsx") 
+datos2=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_channels.xlsx")
 datos=pd.concat((datos1,datos2))
+for i in range(len(rois)):
+    filas=datos.Channels.isin(rois[i])
+    datos.loc[filas,'Roi']=roi_labels[i]
 
-GB = ['G1','CTR','DCL','DTA']
-## Graphics for groups in components 
-# for gr in GB:
-#     compare_norm_1D_1G_nB_ncomp_power(datos,'BIOMARCADORES',gr,save=False)
+datos=datos.drop(datos[datos['Session']=='V4P'].index)#Borrar datos
 
-
-## Graphics for groups and all visits in components 
 def pair_data(datos):
     datos=datos.drop(datos[datos['Session']=='V4P'].index)#Borrar datos
     datos['Session']=datos['Session'].replace({'VO':'V0','V4P':'V4'})
@@ -42,11 +49,11 @@ def pair_data(datos):
         g=datos[datos['Group']==i]
         print('Cantidad de sujetos al filtrar '+ i+': ',len(g['Subject'].unique()))
     visitas=['V0','V1','V2','V3']
-    datos['Group']=datos['Group'].replace({'CTR':'CTR','G2':'CTR'})
+    datos['Group']=datos['Group'].replace({'CTR':'Control','G2':'Control'})
     return datos
 
+
 datos=pair_data(datos)
-bands= datos['Bands'].unique()
-for band in bands:
-    compare_norm_1D_1G_1B_nV_ncomp_power(datos,'BIOMARCADORES','CTR',band,num_columns=4, save=False,plot=True,encode=False)
-    
+ROIS=datos['Roi'].unique()
+for roi in ROIS:
+    compare_norm_1D_1G_nB_nV_1ROI_power(datos,'BIOMARCADORES',roi,num_col=4, save=False,plot=True)
