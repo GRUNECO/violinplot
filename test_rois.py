@@ -12,8 +12,11 @@ rois = [F,C,PO,T]
 roi_labels = ['F','C','PO','T']
 
 
-datos1=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_channels_norm.xlsx") 
-datos2=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_channels.xlsx")
+# datos1=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_channels_norm.xlsx") 
+# datos2=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_channels.xlsx")
+# datos=pd.concat((datos1,datos2))
+datos2=pd.read_feather(r'F:\BIOMARCADORES\derivatives\longitudinal_data_powers_long_CE_norm_channels.feather')
+datos1=pd.read_feather(r'F:\BIOMARCADORES\derivatives\longitudinal_data_powers_long_CE_channels.feather')
 datos=pd.concat((datos1,datos2))
 for i in range(len(rois)):
     filas=datos.Channels.isin(rois[i])
@@ -55,5 +58,7 @@ def pair_data(datos):
 
 datos=pair_data(datos)
 ROIS=datos['Roi'].unique()
-for roi in ROIS:
-    compare_norm_1D_1G_nB_nV_1ROI_power(datos,'BIOMARCADORES',roi,num_col=4, save=False,plot=True)
+# for roi in ROIS:
+
+   
+compare_norm_1D_1G_nB_nV_1ROI_power(datos,'BIOMARCADORES','central',num_col=4, save=False,plot=True)

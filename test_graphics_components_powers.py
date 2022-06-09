@@ -3,8 +3,11 @@ from datasets import BIOMARCADORES
 from sovaViolin.functions_postprocessing_components import compare_norm_1D_1G_nB_ncomp_power,compare_norm_1D_1G_1B_nV_ncomp_power,compare_norm_1D_1G_1B_nV_all_comp_power
 import pandas as pd 
 
-datos1=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_components.xlsx") 
-datos2=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_components_norm.xlsx")
+# datos1=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_components.xlsx") 
+# datos2=pd.read_excel(r"Dataframes\longitudinal_data_powers_long_components_norm.xlsx")
+# datos=pd.concat((datos1,datos2))
+datos1=pd.read_feather(r'F:\BIOMARCADORES\derivatives\longitudinal_data_powers_long_CE_components.feather')
+datos2=pd.read_feather(r'F:\BIOMARCADORES\derivatives\longitudinal_data_powers_long_CE_norm_components.feather')
 datos=pd.concat((datos1,datos2))
 
 GB = ['G1','CTR','DCL','DTA']

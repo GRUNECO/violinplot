@@ -142,7 +142,7 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
     axs=sns.catplot(x='Session',y="Powers",data=filter_component,hue='Stage',dodge=True, kind="box",col='Components',col_wrap=num_columns,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
-    plt.yticks(np.arange(0,1,0.1))
+    plt.yticks(np.arange(0,0.8,0.01))
     axs.set(xlabel=None)
     axs.set(ylabel=None)
     if name_group=="CTR":
