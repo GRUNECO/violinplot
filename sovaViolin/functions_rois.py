@@ -36,7 +36,7 @@ def compare_norm_1D_1G_nB_nV_1ROI_power(data,name_dataset,name_roi,num_col=4,sav
     sns.set(rc={'figure.figsize':(5,5)})
     sns.set_theme(style="white")
     axs=sns.catplot(x='Session',y="Powers",data=filter_group_dataset,hue='Stage',dodge=True, kind="box",col='Bands',col_wrap=num_col,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
-    #plt.yticks(np.arange(0,0.7,0.1))
+    plt.yticks(np.arange(0,0.8,0.1))
     axs.set(xlabel=None)
     axs.set(ylabel=None)
     if name_roi=='C':
