@@ -10,9 +10,16 @@ from sovaharmony.createDataframes import filter_nS_nG_1M
 import numpy as np
 
 # TOTAL
-def compare_all_nD_reject(data,plot=False,encode=False):
-    axs=sns.catplot(x='Metric',y="Metric_Value",data=data,dodge=True, kind="violin",col_wrap=3,palette='winter_r',legend=False)
-    
+def compare_all_nD_reject(data,color='winter_r',plot=False,encode=False):
+    sns.set_theme(style="darkgrid")
+    axs=sns.catplot(y="Metric_Value",data=data,dodge=True, kind="violin",col='Metric',col_wrap=3,palette=color,legend=False)
+    axs.fig.suptitle('Análisis global para las métricas de calidad de la etapa de rechazo de épocas')
+    axs.set(xlabel=None)
+    axs.set(ylabel=None)
+    axs.fig.subplots_adjust(top=0.855,bottom=0.095, right=0.976,left=0.052, hspace=0.193, wspace=0.036) # adjust the Figure in rp
+    axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=len(data['Group'].unique()))
+    axs.fig.text(0.5, 0.04, 'Métrica', ha='center', va='center')
+    axs.fig.text(0.01, 0.5,  'Valor de la métrica', ha='center', va='center',rotation='vertical')
     if plot:
         plt.show()
     if encode:
@@ -53,12 +60,19 @@ def compare_1S_0C_nM_reject(data,name_study):
     createCollage(figures_f,3000,4) 
     return 
 
-def compare_nD_reject(data,plot=False,encode=False):
+def compare_nD_reject(data,color='winter_r',plot=False,encode=False):
     """
     todos sujetos, n estudio 
     """ 
-    axs=sns.catplot(x='Study',y="Metric_Value",data=data,dodge=True, kind="violin",col="Metric",col_wrap=3,palette='winter_r',legend=False)
-    
+    sns.set_theme(style="darkgrid")
+    axs=sns.catplot(x='Study',y="Metric_Value",data=data,dodge=True, kind="violin",col="Metric",col_wrap=3,palette=color,legend=False)
+    axs.fig.suptitle('Análisis entre estudios para las métricas de calidad de la etapa de rechazo de épocas')
+    axs.set(xlabel=None)
+    axs.set(ylabel=None)
+    axs.fig.subplots_adjust(top=0.855,bottom=0.095, right=0.976,left=0.052, hspace=0.193, wspace=0.036) # adjust the Figure in rp
+    axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=len(data['Group'].unique()))
+    axs.fig.text(0.5, 0.04, 'Estudios', ha='center', va='center')
+    axs.fig.text(0.01, 0.5,  'Valor de la métrica', ha='center', va='center',rotation='vertical')
     if plot:
         plt.show()
     if encode:
@@ -69,10 +83,17 @@ def compare_nD_reject(data,plot=False,encode=False):
 
 # GRUPO
 
-def compare_1D_nG_nM_reject(data,name_study,plot=False,encode=False):
-    filt_study=data["Study"]==name_study
-    filter=data[filt_study]
-    axs=sns.catplot(x='Group',y="Metric_Value",data=filter,dodge=True, kind="violin",col="Metric",col_wrap=3,palette='winter_r',legend=False)
+def compare_1D_nG_nM_reject(data,name_study,color='winter_r',plot=False,encode=False):
+    sns.set_theme(style="darkgrid")
+    filter=data[data["Study"]==name_study]
+    axs=sns.catplot(x='Group',y="Metric_Value",data=filter,dodge=True, kind="violin",col="Metric",hue='Group',col_wrap=3,bw=1,palette=color,legend=False)
+    axs.fig.suptitle('Análisis entre grupos para las métricas de calidad de la etapa de rechazo de épocas en el conjunto de datos de '+ name_study)
+    axs.set(xlabel=None)
+    axs.set(ylabel=None)
+    axs.fig.subplots_adjust(top=0.855,bottom=0.095, right=0.976,left=0.052, hspace=0.193, wspace=0.036) # adjust the Figure in rp
+    axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=len(data['Group'].unique()))
+    axs.fig.text(0.5, 0.04, 'Grupos', ha='center', va='center')
+    axs.fig.text(0.01, 0.5,  'Valor de la métrica', ha='center', va='center',rotation='vertical')
     
     if plot:
         plt.show()
@@ -84,11 +105,18 @@ def compare_1D_nG_nM_reject(data,name_study,plot=False,encode=False):
 
 # VISITAS
     
-def compare_1D_nV_nM_reject(data,name_study,plot=False,encode=False):
-    filt_study=data["Study"]==name_study
-    filter=data[filt_study]
-    axs=sns.catplot(x='Session',y="Metric_Value",data=filter,dodge=True, kind="violin",col="Metric",col_wrap=3,palette='winter_r',legend=False)
-    
+def compare_1D_nV_nM_reject(data,name_study,color='winter_r',plot=False,encode=False):
+    sns.set_theme(style="darkgrid")
+    filter=data[data["Study"]==name_study]
+    axs=sns.catplot(x='Session',y="Metric_Value",data=filter,dodge=True, kind="violin",col="Metric",hue='Session',bw=1,col_wrap=3,palette=color,legend=False)
+    axs.fig.suptitle('Análisis entre sesiones para las métricas de calidad de la etapa del PREP en el conjunto de datos de '+ name_study)
+    axs.set(xlabel=None)
+    axs.set(ylabel=None)
+    sns.set_theme(style="darkgrid")
+    axs.fig.subplots_adjust(top=0.855,bottom=0.095, right=0.976,left=0.052, hspace=0.193, wspace=0.036) # adjust the Figure in rp
+    axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=len(data['Session'].unique()))
+    axs.fig.text(0.5, 0.04, 'Sesiones', ha='center', va='center')
+    axs.fig.text(0.01, 0.5,  'Valor de la métrica', ha='center', va='center',rotation='vertical')
     if plot:
         plt.show()
     if encode:

@@ -1,5 +1,8 @@
 #from datasets import BIOMARCADORES,SRM,BIOMARCADORES_test,SRM_test
-from sovaViolin.functions_stage_prep import compare_all_nD_prep,compare_1D_nV_nM_prep
+from sovaViolin.functions_stage_prep import compare_all_nD_prep
+from sovaViolin.functions_stage_prep import compare_1D_nV_nM_prep
+from sovaViolin.functions_stage_prep import compare_1D_nG_prep
+from sovaViolin.functions_stage_prep import compare_nD_prep
 from sovaViolin.functions_dataframes import concat_df
 import pandas as pd 
 
@@ -26,22 +29,31 @@ data_prep['State'] = data_prep['State'].map(
     'after_interpolation':'Después de interpolar'
     },
     na_action=None)
-'''
-# Total
+
+# Overall
 
 compare_all_nD_prep(data_prep,color="hsv_r",plot=True,encode=False)
-'''
 
-# n visitas 
+# n studies 
+compare_nD_prep(data_prep,color='hsv_r',plot=True,encode=False)
+
+# n sessions 
 
 compare_1D_nV_nM_prep(data_prep,'CHBMP',color='hsv_r',plot=True,encode=False)
 compare_1D_nV_nM_prep(data_prep,'SRM',color='hsv_r',plot=True,encode=False)
+
+
+# n Groups
+compare_1D_nG_prep(data_prep,'Biomarcadores',color='hsv_r',plot=True,encode=False)
+compare_1D_nG_prep(data_prep,'SRM',color='hsv_r',plot=True,encode=False)
+compare_1D_nG_prep(data_prep,'CHBMP',color='hsv_r',plot=True,encode=False)
+
+
+
 '''
 # 1 estudio
 compare_1D_nM_prep(data_prep,'SRM')
 
-# n estudios 
-compare_nD_nM_prep(data_prep)
 
 #n grupos
 group_dict={
