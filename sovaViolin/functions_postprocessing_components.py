@@ -155,7 +155,7 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
     axs.set(ylabel=None)
     if name_group=="CTR":
         name_group="healthy "
-    axs.fig.suptitle('Relative '+r'$\bf{' +name_band+r'}$'+ ' power of normalized and preprocessed data given by '+r'$\bf{' +name_group+ '-control'+r'}$'+' in components and all visits')
+    #axs.fig.suptitle('Relative '+r'$\bf{' +name_band+r'}$'+ ' power of normalized and preprocessed data given by '+r'$\bf{' +name_group+ '-control'+r'}$'+' in components and all visits')
     axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=2)
     axs.fig.subplots_adjust(top=0.857,bottom=0.121, right=0.986,left=0.05, hspace=0.138, wspace=0.062) # adjust the Figure in rp
     axs.fig.text(0.5, 0.04, 'Sessions', ha='center', va='center')
