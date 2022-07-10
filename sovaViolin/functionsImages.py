@@ -1,3 +1,7 @@
+'''
+@autor: Luisa María Zapata Saldarriaga, Universidad de Antioquia, luisazapatasaldarriaga@gmail.com  
+'''
+
 from PIL import Image
 from numpy import ceil 
 from matplotlib import pyplot as plt

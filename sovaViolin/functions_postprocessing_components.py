@@ -1,9 +1,16 @@
+'''
+@autor: Luisa María Zapata Saldarriaga, Universidad de Antioquia, luisazapatasaldarriaga@gmail.com  
+@autor: Valeria Cadavid Castro,  Universidad de Antioquia
+@autor: Veronica Henao Isaza,  Universidad de Antioquia
+
+'''
+
 from tkinter.tix import Control
 from tokenize import group
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from .functionsImages import create_collage,createCollage,fig2img_encode
+from .functionsImages import fig2img_encode
 import numpy as np
 import pandas as pd 
 
@@ -96,7 +103,8 @@ def compare_norm_1D_1G_nB_ncomp_power(data,name_dataset,name_group,num_columns=4
     plt.yticks(np.arange(0,1,0.1))
     axs.set(xlabel=None)
     axs.set(ylabel=None)
-    axs.fig.suptitle('Relative power bands of normalized and preprocessed data given by '+name_group +' in components')
+    #Title:'Relative power bands of normalized and preprocessed data given by '+name_group +' in components'
+    axs.fig.suptitle('Análisis de potencia relativa para datos normalizados y procesados en ' +name_group+ 'en componentes neuronales')
     axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=2)
     axs.set_xticklabels(rotation=45)
     axs.fig.subplots_adjust(top=0.857,bottom=0.155, right=0.986,left=0.05, hspace=0.138, wspace=0.062) # adjust the Figure in rp
@@ -142,7 +150,7 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
     axs=sns.catplot(x='Session',y="Powers",data=filter_component,hue='Stage',dodge=True, kind="box",col='Components',col_wrap=num_columns,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
-    plt.yticks(np.arange(0,0.8,0.01))
+    plt.yticks(np.arange(0,1,0.1))
     axs.set(xlabel=None)
     axs.set(ylabel=None)
     if name_group=="CTR":
@@ -209,3 +217,5 @@ def compare_norm_1D_1G_1B_nV_all_comp_power(data,name_dataset,name_group,num_col
         plt.close()
         return img_encode
     return 
+
+

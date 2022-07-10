@@ -1,10 +1,13 @@
+'''
+@autor: Luisa María Zapata Saldarriaga, Universidad de Antioquia, luisazapatasaldarriaga@gmail.com  
+@autor: Valeria Cadavid Castro,  Universidad de Antioquia
+@autor: Veronica Henao Isaza,  Universidad de Antioquia
+'''
+
 from tokenize import group
-import matplotlib
-#matplotlib.use('Agg')
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-#from .functionsImages import create_collage,createCollage,fig2img_encode
 import numpy as np
 import pandas as pd 
 

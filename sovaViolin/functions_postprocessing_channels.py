@@ -1,28 +1,47 @@
+'''
+@autor: Luisa María Zapata Saldarriaga, Universidad de Antioquia, luisazapatasaldarriaga@gmail.com  
+@autor: Valeria Cadavid Castro,  Universidad de Antioquia
+@autor: Veronica Henao Isaza,  Universidad de Antioquia
+
+
+Análisis de calidad de datos para el post-procesamiento de los datos. In this session founded 
+different functions for analysis relative powers bands in preprocess and normalized data 
+'''
 from tokenize import group
-import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt 
 import seaborn as sns
 import pandas as pd
-from .functionsImages import create_collage,createCollage,fig2img_encode
+from .functionsImages import fig2img_encode
 import numpy as np
 import pandas as pd 
 
 # **************************** COMPARISON BETWEEN NORMALIZE DATA AND PROCESSING DATA *******************************
+
+
 # GLOBAL
 def compare_all_nD_ch_power(data,plot=False,encode=False):
     '''
+    Parameters:
+    ----------
+        data:
+        plot:
+        encode:
+
+    Return:
+    ------
+        img_encode
     '''
     axs=sns.catplot(x='Bands',y="Powers",data=data,hue="Stage",dodge=True, kind="box",palette='winter_r',legend=False)
     plt.title("")
     plt.yticks(np.arange(0,1,0.1))
     axs.set(xlabel=None)
     axs.set(ylabel=None)
-    axs.fig.suptitle('Relative power bands of normalized and preprocessed data given in channels')
+    # Title='Relative power bands of normalized and preprocessed data given in channels'
+    axs.fig.suptitle('Análisis global de potencia relativa para datos procesados y normalizados en canales')
     axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=2)
     axs.fig.subplots_adjust(top=0.857,bottom=0.155, right=0.986,left=0.05, hspace=0.138, wspace=0.062) # adjust the Figure in rp
-    axs.fig.text(0.5, 0.04, 'Frequency bands', ha='center', va='center')
-    axs.fig.text(0.003, 0.5,  'Relative powers', ha='center', va='center',rotation='vertical')
+    axs.fig.text(0.5, 0.04, 'Bandas de frecuencia', ha='center', va='center')
+    axs.fig.text(0.003, 0.5,  'Potencia relativa', ha='center', va='center',rotation='vertical')
     if plot:
         plt.show()
     if encode:
@@ -31,10 +50,11 @@ def compare_all_nD_ch_power(data,plot=False,encode=False):
         plt.close()
         return img_encode
     return 
+
 #ESTUDIOS
 def compare_nD_ch_power(data,plot=False,encode=False):
     axs=sns.catplot(x='Study',y="Powers",data=data,hue="Stage",dodge=True, kind="box",col='Bands',col_wrap=3,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
-    
+    axs.fig.suptitle("Análisis de potencia relativa entre estudios para datos procesados y normalizados en canales")
     if plot:
         plt.show()
     if encode:
@@ -55,13 +75,13 @@ def compare_norm_1D_1G_nB_ch_power(data,name_dataset,save=False,plot=False,encod
     sns.set_theme(style="white")
     axs=sns.catplot(x='Bands',y="Powers",data=filter_group_dataset,hue="Stage",palette='winter_r',kind="box",col='Group',col_wrap=2,legend=False)
     plt.yticks(np.arange(0,1,0.1))
-    axs.fig.suptitle("Relative power bands of normalized and preprocessed data given")
+    # Title: Relative power bands of normalized and preprocessed data given
+    axs.fig.suptitle("Análisis de potencia relativa entre grupos para datos procesados y normalizados en canales")
     axs.set(xlabel=None)
     axs.set(ylabel=None)
     axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=2)
     axs.fig.subplots_adjust(top=0.857,bottom=0.121, right=0.986,left=0.05, hspace=0.138, wspace=0.062)
     plt.yticks(np.arange(0,1,0.1))
-    
     if save==True:
         plt.savefig('Resultados\Graphics_channels\Groups\{name_dataset}_channels.png'.format(name_dataset=name_dataset))
         plt.close()
@@ -96,7 +116,8 @@ def compare_norm_1D_1G_nB_nV_ch_power(data,name_dataset,name_group,num_columns=4
     sns.set_theme(style="white")
     axs=sns.catplot(x='Stage',y="Powers",data=filter_group_dataset,hue="Session",dodge=True, kind="box",col='Bands',col_wrap=num_columns,palette='winter_r',legend=False)
     plt.yticks(np.arange(0,1,0.1))
-    axs.fig.suptitle('Relative power bands of normalized and preprocessed data given by '+name_group+" and all visits")
+    #Title: 'Relative power bands of normalized and preprocessed data given by '+name_group+" and all visits"
+    axs.fig.suptitle('Potencia relativa en bandas para datos procesados y normalizados en el grupo '+name_group+" y todas las sesiones")
     axs.set(xlabel=None)
     axs.set(ylabel=None)
     axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=2)
