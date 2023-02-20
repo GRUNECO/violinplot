@@ -141,15 +141,15 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
     ----------
         img_encode
     '''
-    data['Session']=data['Session'].replace({'VO':'V0'})
+    data['visit']=data['visit'].replace({'VO':'V0'})
     #data['Group']=data['Group'].replace({'G2':'CTR'})
-    filter=np.logical_and(data["Study"]==name_dataset, data["Group"]==name_group)
+    filter=np.logical_and(data["database"]==name_dataset, data["group"]==name_group)
     filter_group_dataset=data[filter]
     components=['C14', 'C15','C18', 'C20', 'C22','C23', 'C24', 'C25' ]
-    filter_component=filter_group_dataset[filter_group_dataset.Components.isin(components) & filter_group_dataset.Bands.isin([name_band])] 
+    filter_component=filter_group_dataset[filter_group_dataset.Component.isin(components) & filter_group_dataset.Band.isin([name_band])] 
     sns.set(rc={'figure.figsize':(11.7,8.27)})
     sns.set_theme(style="white")
-    axs=sns.catplot(x='Session',y="Powers",data=filter_component,hue='Stage',dodge=True, kind="box",col='Components',col_wrap=num_columns,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
+    axs=sns.catplot(x='visit',y="Power",data=filter_component,dodge=True, kind="box",col='Component',col_wrap=num_columns,palette='winter_r',fliersize=1.5,linewidth=0.5,legend=False)
     plt.yticks(np.arange(0,1,0.1))
     axs.set(xlabel=None)
     axs.set(ylabel=None)
@@ -171,6 +171,9 @@ def compare_norm_1D_1G_1B_nV_ncomp_power(data,name_dataset,name_group,name_band,
         plt.close()
         return img_encode
     return 
+
+
+
 
 def compare_norm_1D_1G_1B_nV_all_comp_power(data,name_dataset,name_group,num_columns=4, save=False,plot=False,encode=False):
     '''

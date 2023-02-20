@@ -6,8 +6,10 @@ from sovaViolin.functions_stage_prep import compare_nD_prep
 from sovaViolin.functions_dataframes import concat_df
 import pandas as pd 
 
-save_path='D:/TDG/filesSaved/'
-data_prep=concat_df(save_path+'*/*/*PREP.feather')
+save_path='D:\XIMENA\BIDS\Estudiantes2021\derivatives\Long_format'
+data_prep= pd.read_feather(save_path+ '\data_CE_PREP.feather')
+
+#data_prep=concat_df(save_path+'*/*/*PREP.feather')
 
 # Renombrando del inglés al español 
 data_prep['Metric'] = data_prep['Metric'].map(
@@ -32,21 +34,21 @@ data_prep['State'] = data_prep['State'].map(
 
 # Overall
 
-compare_all_nD_prep(data_prep,color="hsv_r",plot=True,encode=False)
+#compare_all_nD_prep(data_prep,color="hsv_r",plot=True,encode=False)
 
 # n studies 
-compare_nD_prep(data_prep,color='hsv_r',plot=True,encode=False)
+#compare_nD_prep(data_prep,color='hsv_r',plot=True,encode=False)
 
 # n sessions 
 
 compare_1D_nV_nM_prep(data_prep,'CHBMP',color='hsv_r',plot=True,encode=False)
-compare_1D_nV_nM_prep(data_prep,'SRM',color='hsv_r',plot=True,encode=False)
+#compare_1D_nV_nM_prep(data_prep,'SRM',color='hsv_r',plot=True,encode=False)
 
 
 # n Groups
-compare_1D_nG_prep(data_prep,'Biomarcadores',color='hsv_r',plot=True,encode=False)
-compare_1D_nG_prep(data_prep,'SRM',color='hsv_r',plot=True,encode=False)
-compare_1D_nG_prep(data_prep,'CHBMP',color='hsv_r',plot=True,encode=False)
+#compare_1D_nG_prep(data_prep,'Biomarcadores',color='hsv_r',plot=True,encode=False)
+#compare_1D_nG_prep(data_prep,'SRM',color='hsv_r',plot=True,encode=False)
+#compare_1D_nG_prep(data_prep,'CHBMP',color='hsv_r',plot=True,encode=False)
 
 
 

@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from .functionsImages import create_collage,createCollage,fig2img_encode
-from sovaharmony.createDataframes import filter_nS_nG_1M
 import numpy as np
 
 # TOTAL

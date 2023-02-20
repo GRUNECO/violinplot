@@ -49,7 +49,7 @@ def pair_data(datos):
     return datos
 
 datos=pair_data(datos)
-bands= datos['Bands'].unique()
+bands= datos['Band'].unique()
 for band in bands:
     compare_norm_1D_1G_1B_nV_ncomp_power(datos,'BIOMARCADORES','CTR',band,num_columns=4, save=False,plot=True,encode=False)
     
