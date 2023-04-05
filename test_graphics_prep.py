@@ -6,10 +6,22 @@ from sovaViolin.functions_stage_prep import compare_nD_prep
 from sovaViolin.functions_dataframes import concat_df
 import pandas as pd 
 
-save_path='D:\XIMENA\BIDS\Estudiantes2021\derivatives\Long_format'
-data_prep= pd.read_feather(save_path+ '\data_CE_PREP.feather')
 
-#data_prep=concat_df(save_path+'*/*/*PREP.feather')
+save_path=r'D:\XIMENA\BIDS\Estudiantes2021\derivatives'.replace('\\','/')
+# task={
+#     'oe':'\data_OE_PREP.feather',
+#     'ce':'\data_CE_PREP.feather',
+#     't1':'\data_T1_PREP.feather',
+#     't2':'\data_T2_PREP.feather',
+#     't3':'\data_T3_PREP.feather',
+# }
+# data_list=[]
+# for key,value in task:
+#     path=save_path+ value.replace('\\','/')
+#     data_prep= pd.read_feather(path)
+#     data_list.append(data_prep)
+
+data_prep=concat_df(save_path+'/*PREP.feather')
 
 # Renombrando del inglés al español 
 data_prep['Metric'] = data_prep['Metric'].map(

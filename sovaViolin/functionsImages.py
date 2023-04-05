@@ -43,6 +43,7 @@ def fig2img_encode(fig):
   my_base64_jpgData = base64.b64encode(buf.read())
   tock=time.perf_counter()  
   print('encode::::::::::::::::::::::::::',tock-tick)
+  print(type(my_base64_jpgData))
   return my_base64_jpgData
   
 def getSize(imageList):

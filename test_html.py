@@ -11,13 +11,11 @@ from sovaViolin.functions_connectivity import graphics
 import io, base64
 from PIL import Image
 
+DIR_INPUT=r'D:\XIMENA\BIDS\Estudiantes2021'
+input_pdf = DIR_INPUT + r"\reporte_preprocesamiento.html"
+f = open(input_pdf,'w')
 
-
-# DIR_INPUT=r'D:\XIMENA\BIDS\Estudiantes2021'
-# input_pdf = DIR_INPUT + r"\reporte_preprocesamiento.html"
-# f = open(input_pdf,'w')
-
-# prep=compare_1D_nV_nM_prep(DATA['prep'],'Estudiantes2021',color='hsv_r',plot=False,encode=True)
+prep=compare_1D_nV_nM_prep(DATA['prep'],'Estudiantes2021',color='hsv_r',plot=False,encode=True)
 # wica=compare_1D_nV_nM_wica(DATA['Wica'],'Estudiantes2021',color='hsv_r',plot=False,encode=True)
 # reject=compare_1D_nV_nM_reject(DATA['Reject'],'Estudiantes2021',color='hsv_r',plot=False,encode=True)
 
@@ -40,20 +38,20 @@ bands= DATA['component']['Power']['Band'].unique()
 #     img_object.save(r'D:\XIMENA\violinplot\sovaViolin\imgs\report_{name}.jpeg'.format(name=img))
 
 
-# table_prep = DATA['prep'].describe()
-# table_wica = DATA['Wica'].describe()
-# table_reject = DATA['Reject'].describe()
-# table_html_prep = table_prep.to_html(table_id="table")
-# table_html_wica = table_wica.to_html(table_id="table")
-# table_html_reject = table_reject.to_html(table_id="table")
+table_prep = DATA['prep'].describe()
+table_wica = DATA['Wica'].describe()
+table_reject = DATA['Reject'].describe()
+table_html_prep = table_prep.to_html(table_id="table")
+table_html_wica = table_wica.to_html(table_id="table")
+table_html_reject = table_reject.to_html(table_id="table")
 
 
 path='D:\XIMENA\BIDS\Estudiantes2021\derivatives\Long_format'
-for metric in DATA['component'].keys():
-    for band in bands:
-        d_com=DATA['component'][metric]
-        d_banda_com=d_com[d_com['Band']==band]
-        path_com=graphics(d_banda_com,metric,path,band,'IC',num_columns=4,save=True,plot=False,encode=True)
+# for metric in DATA['component'].keys():
+#     for band in bands:
+#         d_com=DATA['component'][metric]
+#         d_banda_com=d_com[d_com['Band']==band]
+#         path_com=graphics(d_banda_com,metric,path,band,'IC',num_columns=4,save=True,plot=False,encode=True)
 
 
 mensaje = f"""<html>
@@ -62,6 +60,7 @@ mensaje = f"""<html>
 </html>
 <h2 style="text-align: center;"> Etapa PREP</h2>
 <p style="text-align:center">{table_html_prep} </p>
+<img src="data:image/jpeg;base64,{prep}/>
 <img  src="D:/XIMENA/violinplot/sovaViolin/imgs/report_prep.jpeg"  width="85%" alt="Red dot" />
 <h2 style="text-align: center;"> Etapa wICA</h2>
 <p style="text-align:center">{table_html_wica}</p>
@@ -86,6 +85,7 @@ mensaje = f"""<html>
 <h2 style="text-align: center;">Potencia en Gamma</h2>
 <img src="D:/XIMENA/violinplot/sovaViolin/imgs/report_power_Gamma.jpeg" width="85%" class="center"/>
 
+
 """
 
 f.write(mensaje)
@@ -94,3 +94,5 @@ f.close()
 
 webbrowser.open_new_tab(input_pdf)
 output_pdf = DIR_INPUT + r"\reporte_preprocesamiento.pdf"
+
+

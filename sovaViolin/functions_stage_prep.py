@@ -164,7 +164,10 @@ def compare_1D_nV_nM_prep(data,name_study,color='winter_r',plot=False,encode=Fal
     if encode:
         img_encode=fig2img_encode(axs)
         plt.close()
-        return img_encode     
+        plt.close()
+        s=img_encode.decode("utf-8").replace("\n", "")  
+        print(s)
+        return '<img align="left" src="data:image/png;base64,%s">' % s     
     return
 
 

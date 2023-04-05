@@ -21,8 +21,10 @@ def load_feather(path):
 
 def concat_df(path):
     path_df=glob.glob(path)
+    print(path_df)
     data=[]
     for df in path_df:
         data.append(load_feather(df))
+    print(data)
     data_concat=pd.concat((data))
     return data_concat
