@@ -64,14 +64,15 @@ def compare_nD_reject(data,color='winter_r',plot=False,encode=False):
     todos sujetos, n estudio 
     """ 
     sns.set_theme(style="darkgrid")
+    data["Study"].replace({'BIOMARCADORES':'UdeA 1','DUQUE':'UdeA 2'}, inplace=True)
     axs=sns.catplot(x='Study',y="Metric_Value",data=data,dodge=True, kind="violin",col="Metric",col_wrap=3,palette=color,legend=False)
-    axs.fig.suptitle('Análisis entre estudios para las métricas de calidad de la etapa de rechazo de épocas')
+    axs.fig.suptitle('Comparative Analysis of Quality Metrics in the Period Rejection Stage Across Cohorts')
     axs.set(xlabel=None)
     axs.set(ylabel=None)
     axs.fig.subplots_adjust(top=0.855,bottom=0.095, right=0.976,left=0.052, hspace=0.193, wspace=0.036) # adjust the Figure in rp
     axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=len(data['Group'].unique()))
-    axs.fig.text(0.5, 0.04, 'Estudios', ha='center', va='center')
-    axs.fig.text(0.01, 0.5,  'Valor de la métrica', ha='center', va='center',rotation='vertical')
+    axs.fig.text(0.5, 0.04, 'Cohorts', ha='center', va='center')
+    axs.fig.text(0.01, 0.5,  'Metric value', ha='center', va='center',rotation='vertical')
     if plot:
         plt.show()
     if encode:

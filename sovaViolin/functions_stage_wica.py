@@ -80,15 +80,16 @@ def compare_nD_wica(data,color='winter_r',plot=False,encode=False):
         img_encode:
     '''
     sns.set_theme(style="darkgrid")
+    data["Study"].replace({'BIOMARCADORES':'UdeA 1','DUQUE':'UdeA 2'}, inplace=True)
     axs=sns.catplot(x='Study',y='Components',data=data,kind='violin',hue='Study',palette=color,legend=True)
-    axs.fig.suptitle('Análisis entre estudios para las métricas de calidad de la etapa del wICA')
+    axs.fig.suptitle('Comparative Analysis of Quality Metrics in the wICA Stage Across Cohorts')
     axs.set(xlabel=None)
     axs.set(ylabel=None)
     sns.set_theme(style="darkgrid")
     axs.fig.subplots_adjust(top=0.88,bottom=0.14, right=0.921,left=0.079, hspace=0.193, wspace=0.036) # adjust the Figure in rp
     axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=len(data['Study'].unique()))
     axs.fig.text(0.5, 0.04, 'Estado', ha='center', va='center')
-    axs.fig.text(0.02, 0.5,  'Valor de la métrica', ha='center', va='center',rotation='vertical')
+    axs.fig.text(0.02, 0.5,  'Metric value', ha='center', va='center',rotation='vertical')
     if plot:
         plt.show()
     if encode:

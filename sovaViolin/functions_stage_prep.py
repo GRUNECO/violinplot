@@ -83,15 +83,16 @@ def compare_nD_prep(data,color="winter_r",plot=False,encode=False):
         img_encode: str
     '''
     sns.set_theme(style="darkgrid")
-    axs=sns.catplot(x='State',y="Metric_value",data= data,col='Metric',col_wrap=3,hue='Study',palette=color,height=5,bw=1, aspect=.8,legend=False,kind="violin")
-    axs.fig.suptitle('Análisis entre estudios para las métricas de calidad de la etapa del PREP')
+    data["Study"].replace({'BIOMARCADORES':'UdeA 1','DUQUE':'UdeA 2'}, inplace=True)
+    axs=sns.catplot(x='State',y="Metric_value",data= data,col='Metric',col_wrap=3,hue='Study',palette=color,height=5, aspect=.8,legend=False,kind="box")
+    axs.fig.suptitle('Comparative Analysis of Quality Metrics in the PREP Stage Across Cohorts')
     axs.set(xlabel=None)
     axs.set(ylabel=None)
     sns.set_theme(style="darkgrid")
     axs.fig.subplots_adjust(top=0.855,bottom=0.095, right=0.976,left=0.052, hspace=0.193, wspace=0.036) # adjust the Figure in rp
     axs.add_legend(loc='upper center',bbox_to_anchor=(.5,.95),ncol=len(data['Study'].unique()))
-    axs.fig.text(0.5, 0.04, 'Estado', ha='center', va='center')
-    axs.fig.text(0.01, 0.5,  'Valor de la métrica', ha='center', va='center',rotation='vertical')
+    axs.fig.text(0.5, 0.04, 'State', ha='center', va='center')
+    axs.fig.text(0.01, 0.5,  'Metric value', ha='center', va='center',rotation='vertical')
     if plot:
         plt.show()
     if encode:
@@ -118,7 +119,8 @@ def compare_1D_nG_prep(data,name_study,color='winter_r',plot=False,encode=False)
     '''    
     sns.set_theme(style="darkgrid")
     filter=data[data["Study"]==name_study]
-    axs=sns.catplot(x='State',y='Metric_value',data=filter,col='Metric',col_wrap=3,hue='Group',dodge=True, kind="violin",bw=1,palette=color,legend=False) 
+
+    axs=sns.catplot(x='State',y='Metric_value',data=filter,col='Metric',col_wrap=3,hue='Group',dodge=True, kind="box",palette=color,legend=False) 
     axs.fig.suptitle('Análisis entre grupos para las métricas de calidad de la etapa del PREP en el conjunto de datos de '+ name_study)
     axs.set(xlabel=None)
     axs.set(ylabel=None)
